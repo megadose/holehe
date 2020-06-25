@@ -4,6 +4,8 @@
 holehe allows you to check if the mail is used on different sites like twitter, instagram and will retrieve information on sites with the forgotten password function.
 
 [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
+### Demo
+![](demo.gif)
 
 ## 💡 Prerequisite
    [Python 2/3](https://www.python.org/downloads/release/python-370/)
@@ -41,10 +43,7 @@ print(apple("test@gmail.com"))
 - spotify
 -firefox
 
-## Rate limit:
-- just change IP
-### Demo
-![](demo.gif)
+## Rate limit, just change IP
 
 ## 📝 License
 [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.fr.html)
