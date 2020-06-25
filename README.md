@@ -5,7 +5,7 @@ holehe allows you to check if the mail is used on different sites like twitter, 
 
 [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
 ### Demo
-[![]()](demo.mp4)
+![](demo.gif)
 ## 💡 Prerequisite
    [Python 2/3](https://www.python.org/downloads/release/python-370/)
 ## 🛠️ Installation
