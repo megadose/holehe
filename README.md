@@ -23,7 +23,7 @@ python3 holehe.py -e test@gmail.com
 ```
 ## 📈 Usage
 ```python
-from quidam import *
+from holehe import *
 print(adobe("test@gmail.com"))
 print(apple("test@gmail.com"))
 ```
