@@ -1,11 +1,11 @@
-# holehe
+# Holehe
 # Educational purposes only
 ### If you have any suggestions, please do not hesitate to contact us. 
 holehe allows you to check if the mail is used on different sites like twitter, instagram and will retrieve information on sites with the forgotten password function.
 
 [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
 ### Demo
-![](demo.gif)
+![](demo.mp4)
 
 ## 💡 Prerequisite
    [Python 2/3](https://www.python.org/downloads/release/python-370/)
