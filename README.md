@@ -40,7 +40,7 @@ print(apple("test@gmail.com"))
 - pinterest
 - lastfm
 - spotify
--firefox
+- firefox
 
 ## Rate limit, just change your IP
 
