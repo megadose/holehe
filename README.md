@@ -41,7 +41,13 @@ print(apple("test@gmail.com"))
 - lastfm
 - spotify
 - firefox
-
+## The output of the modules
+The result of the modules is in this form : `` {"rateLimit":False,"exists":True,"emailrecovery":ex****e@gmail.com,"phoneNumber":'0************78","others":None}``
+- rateLitmit : is to find out if you've been rate-limited
+- exists : know an account is associated with the mail
+- emailrecovery : it's a partial mail that can potentially be extracted from the mail entered on the module.
+- phoneNumber : it's a partial phone number that can potentially be extracted from the mail entered on the module.
+- others : is used for all information other for the moment it is only useful for facebook {"FullName":full_name,"profilePicture":profile_picture} FullName has a lot of false positives, and profilePicture is the url of the profile picture associated with the account.
 ## Rate limit, just change your IP
 ## Thank you to :
 - [Chris to OSINT Through Password Resets & Login Forms](https://docs.google.com/spreadsheets/d/1aD8ue3qTXJsy2ZdRV-ZncefszkT0J3R1fpr5r2TDsl4/edit)
