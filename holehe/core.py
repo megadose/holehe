@@ -207,8 +207,11 @@ def pastebin(email):
     verif = regex.match(req.text)
     if '<font color="red">' in str(verif):
         return({"rateLimit":False,"exists":True,"emailrecovery":None,"phoneNumber":None,"others":None})
-    else:
+    if '<font color="green">' in str(verif):
         return({"rateLimit":False,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+    else:
+        return({"rateLimit":True,"exists":None,"emailrecovery":None,"phoneNumber":None,"others":None})
+
 def github(email):
     ua = UserAgent()
     s = requests.session()
@@ -232,7 +235,7 @@ def twitter(email):
         return({"rateLimit":False,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
 def pinterest(email):
     req = requests.get("https://www.pinterest.com/_ngjs/resource/EmailExistsResource/get/",params={"source_url": "/", "data": '{"options": {"email": "'+email+'"}, "context": {}}'})
-    if str(req.json()["resource_response"]["data"])=="True":
+    if req.json()["resource_response"]["data"]:
         return({"rateLimit":False,"exists":True,"emailrecovery":None,"phoneNumber":None,"others":None})
     else:
         return({"rateLimit":False,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
@@ -247,7 +250,7 @@ def lastfm(email):
         "Cookie": f"csrftoken={token}",
     }
     check = requests.post("https://www.last.fm/join/partial/validate",headers=headers,data=data).json()
-    if str(check["email"]["valid"])=="True":
+    if check["email"]["valid"]:
         return({"rateLimit":False,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
     else:
         return({"rateLimit":False,"exists":True,"emailrecovery":None,"phoneNumber":None,"others":None})
