@@ -53,6 +53,7 @@ The result of the modules is in this form : `` {"rateLimit":False,"exists":True,
 
 ## Rate limit, just change your IP
 ## Thank you to :
+- [Chris](https://twitter.com/chris_kirsch)
 - [socialscan](https://pypi.org/project/socialscan/)
 ## 📝 License
 [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.fr.html)
