@@ -53,7 +53,6 @@ The result of the modules is in this form : `` {"rateLimit":False,"exists":True,
 
 ## Rate limit, just change your IP
 ## Thank you to :
-- [Chris to OSINT Through Password Resets & Login Forms](https://docs.google.com/spreadsheets/d/1aD8ue3qTXJsy2ZdRV-ZncefszkT0J3R1fpr5r2TDsl4/edit)
 - [socialscan](https://pypi.org/project/socialscan/)
 ## 📝 License
 [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.fr.html)
