@@ -146,8 +146,13 @@ def facebook(email):
         phone = req.text.split('</strong><br /><div dir="ltr">+')[1].split("</div>")[0]
     except IndexError:
         phone=None
+    if full_name == None:
+        full_name = ""
+    else:
+        if full_name != email:
+            full_name = full_name.text
 
-    return({"rateLimit":False,"exists":True,"emailrecovery":emailrecovery,"phoneNumber":phone,"others":{"FullName":full_name.text,"profilePicture":profile_picture}})
+    return({"rateLimit":False,"exists":True,"emailrecovery":emailrecovery,"phoneNumber":phone,"others":{"FullName":full_name,"profilePicture":profile_picture}})
 def instagram(email):
     ua = UserAgent()
     s = requests.session()
