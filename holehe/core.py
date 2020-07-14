@@ -2,7 +2,6 @@ import requests
 from fake_useragent import UserAgent
 from bs4 import BeautifulSoup
 import re
-from evolut import *
 
 def adobe(email):
     ua = UserAgent()
@@ -156,9 +155,18 @@ def facebook(email):
 def instagram(email):
     ua = UserAgent()
     s = requests.session()
+    s.headers = {
+        'User-Agent': ua.chrome,
+        'Accept': 'application/json, text/plain, */*',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'Origin': 'https://www.instagram.com',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+    }
+
     try:
-        freq=s.get("https://www.instagram.com/")
-        token= s.cookies["csrftoken"]
+        freq=s.get("https://www.instagram.com/accounts/emailsignup/")
+        token= freq.cookies["csrftoken"]
         check = s.post("https://www.instagram.com/accounts/web_create_ajax/attempt/",data={"email": email},headers={"x-csrftoken": token}).json()
         if check["errors"]["email"][0]["code"]=="email_is_taken":
             return({"rateLimit":False,"exists":True,"emailrecovery":None,"phoneNumber":None,"others":None})
@@ -226,6 +234,8 @@ def github(email):
     data={"value": email, "authenticity_token": token[0]}
     #print(data)
     req = s.post("https://github.com/signup_check/email",data=data)
+    if "Your browser did something unexpected." in req.text:
+        return({"rateLimit":True,"exists":None,"emailrecovery":None,"phoneNumber":None,"others":None})
     if req.status_code==422:
         return({"rateLimit":False,"exists":True,"emailrecovery":None,"phoneNumber":None,"others":None})
     if req.status_code==200:
@@ -261,14 +271,23 @@ def lastfm(email):
         return({"rateLimit":False,"exists":True,"emailrecovery":None,"phoneNumber":None,"others":None})
 def spotify(email):
     ua = UserAgent()
-    s = requests.session()
+    headers = {
+        'User-Agent': ua.chrome,
+        'Accept': 'application/json, text/plain, */*',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+    }
 
-    s.get("https://www.spotify.com/signup/")
-    req = s.get("https://www.spotify.com/sg-en/xhr/json/isEmailAvailable.php",params={"signup_form[email]": email, "email": email})
-    #print(req.text)
-    if str(req.text)=="true":
+    params = (
+        ('validate', '1'),
+        ('email', email),
+    )
+
+    req = requests.get('https://spclient.wg.spotify.com/signup/public/v1/account', headers=headers, params=params)
+    if req.json()["status"] == 1:
         return({"rateLimit":False,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
-    elif str(req.text)=="false":
+    elif req.json()["status"] == 20:
         return({"rateLimit":False,"exists":True,"emailrecovery":None,"phoneNumber":None,"others":None})
     else:
         return({"rateLimit":True,"exists":None,"emailrecovery":None,"phoneNumber":None,"others":None})
@@ -278,5 +297,58 @@ def firefox(email):
         return({"rateLimit":False,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
     elif "true" in req.text:
         return({"rateLimit":False,"exists":True,"emailrecovery":None,"phoneNumber":None,"others":None})
+    else:
+        return({"rateLimit":True,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+def office365(email):
+    user_agent = 'Microsoft Office/16.0 (Windows NT 10.0; Microsoft Outlook 16.0.12026; Pro)'
+    headers = {'User-Agent': user_agent, 'Accept': 'application/json'}
+    r = requests.get('https://outlook.office365.com/autodiscover/autodiscover.json/v1.0/{}?Protocol=Autodiscoverv1'.format(email), headers=headers, allow_redirects=False)
+    if r.status_code == 200:
+         return({"rateLimit":False,"exists":True,"emailrecovery":None,"phoneNumber":None,"others":None})
+    else:
+        return({"rateLimit":False,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+
+def live(email):
+    ua = UserAgent()
+    session= requests.session()
+    session.headers={
+        'User-Agent': ua.firefox,
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Language': 'en,en-US;q=0.5',
+        'Referer': 'https://account.live.com/ResetPassword.aspx',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Origin': 'https://account.live.com',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+        'Upgrade-Insecure-Requests': '1',
+        'TE': 'Trailers',
+    }
+
+    req = session.get('https://account.live.com/password/reset')
+    uaid=req.text.split('"clientTelemetry":{"uaid":"')[1].split('"')[0]
+    amtcxt=req.text.split('<input type="hidden" id="amtcxt" name="amtcxt" value="')[1].split('"')[0]
+    canary=req.text.split('<input type="hidden" id="canary" name="canary" value="')[1].split('"')[0]
+    params = (
+        ('uaid', uaid),
+    )
+
+    data = {
+      'iAction': 'SignInName',
+      'iRU': 'https://account.live.com/SummaryPage.aspx',
+      'amtcxt': amtcxt,
+      'uaid': uaid,
+      'network_type': '',
+      'isSigninNamePhone': 'False',
+      'canary': canary,
+      'PhoneCountry': '',
+      'iSigninName': email
+    }
+
+    response = session.post('https://account.live.com/password/reset', params=params, data=data)
+    if response.status_code==200:
+        if int(str(len(response.text))[:2])<15:
+            return({"rateLimit":False,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+        else:
+            return({"rateLimit":False,"exists":True,"emailrecovery":None,"phoneNumber":None,"others":None})
     else:
         return({"rateLimit":True,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
