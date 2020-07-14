@@ -6,7 +6,7 @@ holehe allows you to check if the mail is used on different sites like twitter, 
 [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
 ## Project example : [Holehe Maltego](https://github.com/megadose/holehe-maltego)
 ### Demo
-![](demo.gif)
+![](https://github.com/megadose/gif-demo/raw/master/demo-holehe.gif)
 ## 💡 Prerequisite
    [Python 2/3](https://www.python.org/downloads/release/python-370/)
 ## 🛠️ Installation
@@ -42,6 +42,8 @@ print(apple("test@gmail.com"))
 - lastfm
 - spotify
 - firefox
+- office365
+- live
 
 ## The output of the modules
 The result of the modules is in this form : `` {"rateLimit":False,"exists":True,"emailrecovery":ex****e@gmail.com,"phoneNumber":'0************78","others":None}``
@@ -56,5 +58,6 @@ The result of the modules is in this form : `` {"rateLimit":False,"exists":True,
 - [ navlys ](https://twitter.com/navlys_/)
 - [Chris](https://twitter.com/chris_kirsch)
 - [socialscan](https://pypi.org/project/socialscan/)
+- [UhOh365](https://github.com/Raikia/UhOh365)
 ## 📝 License
 [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.fr.html)
