@@ -5,7 +5,7 @@ from termcolor import colored
 parser = argparse.ArgumentParser()
 parser.add_argument("-e", "--email", help="Email of the target")
 args = parser.parse_args()
-websites=[adobe,ebay,apple,facebook,instagram,tumblr,pastebin,github,twitter,pinterest,lastfm,spotify,firefox,office365,live]
+websites=[adobe,ebay,facebook,instagram,tumblr,pastebin,github,twitter,pinterest,lastfm,spotify,firefox,office365,live]
 
 infos =[]
 description = colored("Email used","green")+","+colored(" Email not used","magenta")+","+colored(" Rate limit","red")+"\n"
