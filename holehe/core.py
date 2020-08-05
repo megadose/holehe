@@ -1,63 +1,18 @@
-import requests
-from fake_useragent import UserAgent
+import requests,re,mechanize,json
 from bs4 import BeautifulSoup
-import re
-import random
-uaChrome='''Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36
-Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.1 Safari/537.36
-Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.0 Safari/537.36
-Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.0 Safari/537.36
-Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2226.0 Safari/537.36
-Mozilla/5.0 (Windows NT 6.4; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2225.0 Safari/537.36
-Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2225.0 Safari/537.36
-Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2224.3 Safari/537.36
-Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.93 Safari/537.36
-Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36
-Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36
-Mozilla/5.0 (Windows NT 4.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36
-Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.67 Safari/537.36
-Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.67 Safari/537.36
-Mozilla/5.0 (X11; OpenBSD i386) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36
-Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1944.0 Safari/537.36
-Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.3319.102 Safari/537.36
-Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.2309.372 Safari/537.36
-Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.2117.157 Safari/537.36
-Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36
-Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1866.237 Safari/537.36
-Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.137 Safari/4E423F
-Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.116 Safari/537.36 Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B334b Safari/531.21.10
-Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.517 Safari/537.36
-Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1667.0 Safari/537.36
-Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1664.3 Safari/537.36
-Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1664.3 Safari/537.36
-Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.16 Safari/537.36
-Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1623.0 Safari/537.36
-Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.17 Safari/537.36
-Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.62 Safari/537.36
-Mozilla/5.0 (X11; CrOS i686 4319.74.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.57 Safari/537.36
-Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.2 Safari/537.36
-Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1468.0 Safari/537.36
-Mozilla/5.0 (Windows NT 6.2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1467.0 Safari/537.36
-Mozilla/5.0 (Windows NT 6.2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1464.0 Safari/537.36
-Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1500.55 Safari/537.36
-Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.93 Safari/537.36
-Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.93 Safari/537.36
-Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.93 Safari/537.36
-Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.93 Safari/537.36
-Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.93 Safari/537.36
-Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.93 Safari/537.36
-Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.90 Safari/537.36
-Mozilla/5.0 (X11; NetBSD) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36
-Mozilla/5.0 (X11; CrOS i686 3912.101.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36
-Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.60 Safari/537.17
-Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17
-Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.15 (KHTML, like Gecko) Chrome/24.0.1295.0 Safari/537.15
-Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.14 (KHTML, like Gecko) Chrome/24.0.1292.0 Safari/537.14'''
+from mechanize import Browser
+try:
+    import cookielib
+except:
+    import http.cookiejar as cookielib
+
+from fake_useragent import UserAgent
+
+ua = UserAgent(verify_ssl=False)
 
 def adobe(email):
-
     headers = {
-        'User-Agent': random.choice(uaChrome.split('\n')),
+        'User-Agent': ua.chrome,
         'Accept': 'application/json, text/plain, */*',
         'Accept-Language': 'en-US,en;q=0.5',
         'X-IMS-CLIENTID': 'adobedotcom2',
@@ -72,7 +27,7 @@ def adobe(email):
     if "errorCode" in str(r.keys()):
         return({"rateLimit":False,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
     headers = {
-        'User-Agent': random.choice(uaChrome.split('\n')),
+        'User-Agent': ua.chrome,
         'Accept': 'application/json, text/plain, */*',
         'Accept-Language': 'en-US,en;q=0.5',
         'X-IMS-CLIENTID': 'adobedotcom2',
@@ -89,7 +44,7 @@ def ebay(email):
 
     s = requests.session()
     s.headers = {
-        'User-Agent': random.choice(uaChrome.split('\n')),
+        'User-Agent': ua.chrome,
         'Accept': 'application/json, text/plain, */*',
         'Accept-Language': 'en-US,en;q=0.5',
         'Origin': 'https://www.ebay.com',
@@ -166,7 +121,7 @@ def instagram(email):
 
     s = requests.session()
     s.headers = {
-        'User-Agent': random.choice(uaChrome.split('\n')),
+        'User-Agent': ua.chrome,
         'Accept': 'application/json, text/plain, */*',
         'Accept-Language': 'en-US,en;q=0.5',
         'Origin': 'https://www.instagram.com',
@@ -189,7 +144,7 @@ def tumblr(email):
     s = requests.session()
 
     s.headers = {
-        'User-Agent': random.choice(uaChrome.split('\n')),
+        'User-Agent': ua.chrome,
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
         'Accept-Language': 'en,en-US;q=0.5',
         'DNT': '1',
@@ -234,9 +189,7 @@ def pastebin(email):
         return({"rateLimit":False,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
     else:
         return({"rateLimit":True,"exists":None,"emailrecovery":None,"phoneNumber":None,"others":None})
-
 def github(email):
-
     s = requests.session()
     freq = s.get("https://github.com/join")
     token_regex = re.compile(r'<auto-check src="/signup_check/username[\s\S]*value="([\S]*)"[\s\S]*<auto-check src="/signup_check/email[\s\S]*value="([\S]*)"[\s\S]*</auto-check>')
@@ -280,9 +233,8 @@ def lastfm(email):
     else:
         return({"rateLimit":False,"exists":True,"emailrecovery":None,"phoneNumber":None,"others":None})
 def spotify(email):
-
     headers = {
-        'User-Agent': random.choice(uaChrome.split('\n')),
+        'User-Agent': ua.chrome,
         'Accept': 'application/json, text/plain, */*',
         'Accept-Language': 'en-US,en;q=0.5',
         'DNT': '1',
@@ -317,12 +269,31 @@ def office365(email):
          return({"rateLimit":False,"exists":True,"emailrecovery":None,"phoneNumber":None,"others":None})
     else:
         return({"rateLimit":False,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
-
 def live(email):
+    try:
+        brows = Browser()
+        brows.set_handle_robots(False)
+        brows._factory.is_html = True
+        brows.set_cookiejar(cookielib.LWPCookieJar())
+        brows.addheaders = [('User-agent',ua.firefox)]
+        brows.set_handle_refresh(mechanize._http.HTTPRefreshProcessor(),max_time=1)
+        url = "https://account.live.com/password/reset"
+        brows.open(url, timeout=10)
+        brows.select_form(nr=0)
+        brows.form['iSigninName'] = email
+        brows.method = "POST"
+        submit = brows.submit()
+        data = json.loads(str('{"name":"'+str(submit.read().decode("utf-8")).split('"},{"name":"')[1].split('],"showExpirationCheckbox')[0]))
+        if data["type"]=="Email":
+            return({"rateLimit":False,"exists":True,"emailrecovery":data["name"],"phoneNumber":None,"others":None})
+        elif data["type"]=="Sms":
+            return({"rateLimit":False,"exists":True,"emailrecovery":None,"phoneNumber":data["name"],"others":None})
+    except:
+        pass
 
     session= requests.session()
     session.headers={
-        'User-Agent': "Mozilla/5.0 (Windows NT 6.1; U; nl; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6 Opera 11.01",
+        'User-Agent': ua.firefox,
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
         'Accept-Language': 'en,en-US;q=0.5',
         'Referer': 'https://account.live.com/ResetPassword.aspx',
@@ -360,5 +331,41 @@ def live(email):
             return({"rateLimit":False,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
         else:
             return({"rateLimit":False,"exists":True,"emailrecovery":None,"phoneNumber":None,"others":None})
+    else:
+        return({"rateLimit":True,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+def evernote(email):
+
+    ses = requests.session()
+    headers = {
+        'User-Agent': ua.firefox,
+        'Accept': 'application/json, text/javascript, */*; q=0.01',
+        'Accept-Language': 'en,en-US;q=0.5',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'X-Requested-With': 'XMLHttpRequest',
+        'Origin': 'https://www.evernote.com',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+        'Referer': 'https://www.evernote.com/Login.action',
+        'TE': 'Trailers',
+    }
+    ses.headers=headers
+    data = ses.get("https://www.evernote.com/Login.action")
+    data = {
+      'username': email,
+      'evaluateUsername': '',
+      'hpts': data.text.split('document.getElementById("hpts").value = "')[1].split('"')[0],
+      'hptsh': data.text.split('document.getElementById("hptsh").value = "')[1].split('"')[0],
+      'analyticsLoginOrigin': 'login_action',
+      'clipperFlow': 'false',
+      'showSwitchService': 'true',
+      'usernameImmutable': 'false',
+      '_sourcePage': data.text.split('<input type="hidden" name="_sourcePage" value="')[1].split('"')[0],
+      '__fp': data.text.split('<input type="hidden" name="__fp" value="')[1].split('"')[0]
+    }
+    response = ses.post('https://www.evernote.com/Login.action', data=data)
+    if "usePasswordAuth" in response.text:
+        return({"rateLimit":False,"exists":True,"emailrecovery":None,"phoneNumber":None,"others":None})
+    elif "displayMessage" in response.text:
+        return({"rateLimit":False,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
     else:
         return({"rateLimit":True,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
