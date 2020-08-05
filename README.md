@@ -31,7 +31,6 @@ print(apple("test@gmail.com"))
 ## Lists of modules:
 - adobe
 - ebay
-- apple
 - facebook
 - instagram
 - tumblr
@@ -44,6 +43,7 @@ print(apple("test@gmail.com"))
 - firefox
 - office365
 - live
+- evernote
 
 ## The output of the modules
 The result of the modules is in this form : `` {"rateLimit":False,"exists":True,"emailrecovery":ex****e@gmail.com,"phoneNumber":'0************78","others":None}``
