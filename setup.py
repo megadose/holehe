@@ -4,10 +4,10 @@ from setuptools import setup, find_packages
 
 setup(
     name='holehe',
-    version="1.022",
+    version="1.023",
     packages=find_packages(),
     author="megadose",
-    install_requires=["requests","fake_useragent","evolut","argparse","termcolor","tqdm"],
+    install_requires=["requests","evolut","argparse","termcolor","tqdm"],
     description="holehe allows you to check if the mail is used on different sites like twitter, instagram and will retrieve information on sites with the forgotten password function.",
     include_package_data=True,
     url='http://github.com/megadose/holehe',
