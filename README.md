@@ -53,6 +53,8 @@ print(lastpass("test@gmail.com"))
 |  aboutme  |   about.me    |     register      |          ✘          |
 |   adobe   |   adobe.com   | password recovery |          ✘          |
 |  amazon   |  amazon.com   |       login       |          ✘          |
+|  bitmoji  |  bitmoji.com  |       login       |          ✘          |
+| blablacar | blablacar.com |     register      |          ✘          |
 |  discord  |  discord.com  |     register      |          ✘          |
 |   ebay    |   ebay.com    |       login       |          ✔          |
 | evernote  | evernote.com  |       login       |          ✘          |
@@ -65,6 +67,8 @@ print(lastpass("test@gmail.com"))
 |   live    |   live.com    | password recovery |          ✘          |
 | office365 | office365.com |       other       |          ✘          |
 | pinterest | pinterest.com |     register      |          ✘          |
+|  samsung  |  samsung.com  |     register      |          ✘          |
+|  snapchat |  snapchat.com |       login       |          ✘          |
 |  spotify  |  spotify.com  |     register      |          ✔          |
 |  tumblr   |  tumblr.com   |     register      |          ✘          |
 |  twitter  |  twitter.com  |     register      |          ✘          |
