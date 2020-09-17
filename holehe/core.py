@@ -57,7 +57,7 @@ def ebay(email):
     try:
         srt=s.get("https://www.ebay.com/signin/").text.split('"csrfAjaxToken":"')[1].split('"')[0]
     except IndexError as e:
-        return({"rateLimit":True,"exists":None,"emailrecovery":None,"phoneNumber":None,"others":None})
+        return({"rateLimit":True,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
 
     data = {
       'identifier': email,
@@ -124,35 +124,33 @@ def facebook(email):
 
     return({"rateLimit":False,"exists":True,"emailrecovery":emailrecovery,"phoneNumber":phone,"others":{"FullName":full_name,"profilePicture":profile_picture}})
 def instagram(email):
+    s = requests.session()
+    s.headers = {
+        'User-Agent': random.choice(ua["browsers"]["chrome"]),
+        'Accept': 'application/json, text/plain, */*',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'Origin': 'https://www.instagram.com',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+    }
 
-    try:
-        s = requests.session()
-        s.headers = {
-            'User-Agent': random.choice(ua["browsers"]["chrome"]),
-            'Accept': 'application/json, text/plain, */*',
-            'Accept-Language': 'en-US,en;q=0.5',
-            'Origin': 'https://www.instagram.com',
-            'DNT': '1',
-            'Connection': 'keep-alive',
-        }
+    freq=s.get("https://www.instagram.com/accounts/emailsignup/")
+    token= freq.text.split('{"config":{"csrf_token":"')[1].split('"')[0]
+    data = {
+      'email': email,
+      'username': '',
+      'first_name': '',
+      'opt_into_one_tap': 'false'
+    }
 
-        freq=s.get("https://www.instagram.com/accounts/emailsignup/")
-        token= freq.text.split('{"config":{"csrf_token":"')[1].split('"')[0]
-        data = {
-          'email': email,
-          'username': '',
-          'first_name': '',
-          'opt_into_one_tap': 'false'
-        }
-
-        check = s.post("https://www.instagram.com/accounts/web_create_ajax/attempt/",data=data,headers={"x-csrftoken": token}).json()
-        if 'email' in check["errors"].keys():
-            if check["errors"]["email"][0]["code"]=="email_is_taken":
-                return({"rateLimit":False,"exists":True,"emailrecovery":None,"phoneNumber":None,"others":None})
-        else:
-            return({"rateLimit":False,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
-    except:
-        return({"rateLimit":True,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+    check = s.post("https://www.instagram.com/accounts/web_create_ajax/attempt/",data=data,headers={"x-csrftoken": token}).json()
+    if 'email' in check["errors"].keys():
+        if check["errors"]["email"][0]["code"]=="email_is_taken":
+            return({"rateLimit":False,"exists":True,"emailrecovery":None,"phoneNumber":None,"others":None})
+        elif "email_sharing_limit" in str(check["errors"]):
+            return({"rateLimit":False,"exists":True,"emailrecovery":None,"phoneNumber":None,"others":None})
+    else:
+        return({"rateLimit":False,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
 def tumblr(email):
 
     s = requests.session()
@@ -563,6 +561,143 @@ def vrbo(email):
             return({"rateLimit":True,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
     else:
         return({"rateLimit":True,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+
+def samsung(email):
+    req = requests.get("https://account.samsung.com/accounts/v1/Samsung_com_FR/signUp")
+    token =req.text.split("sJSESSIONID")[1].split('"')[1].split('"')[0]
+
+    crsf=req.text.split("{'token' : '")[1].split("'")[0]
+
+    cookies = {
+        'EUAWSIAMSESSIONID': token,
+    }
+
+    headers = {
+        'User-Agent': random.choice(ua["browsers"]["firefox"]),
+        'Accept': 'application/json, text/plain, */*',
+        'Accept-Language': 'en,en-US;q=0.5',
+        'Referer': 'https://account.samsung.com/accounts/v1/Samsung_com_FR/signUp',
+        'Content-Type': 'application/json; charset=UTF-8',
+        'X-CSRF-TOKEN': crsf,
+        'Origin': 'https://account.samsung.com',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+    }
+
+    params = (
+        ('v', '1337'),
+    )
+
+    data = '{"emailID":"'+email+'"}'
+
+    response = requests.post('https://account.samsung.com/accounts/v1/Samsung_com_FR/signUpCheckEmailIDProc', headers=headers, params=params, cookies=cookies, data=data)
+    data=response.json()
+    if response.status_code==200:
+        if "rtnCd" in data.keys():
+            return({"rateLimit":False,"exists":True,"emailrecovery":None,"phoneNumber":None,"others":None})
+        else:
+            return({"rateLimit":False,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+    else:
+        return({"rateLimit":True,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+
+def snapchat(email):
+    req = requests.get("https://accounts.snapchat.com")
+    xsrf=req.text.split('data-xsrf="')[1].split('"')[0]
+    webClientId=req.text.split('ata-web-client-id="')[1].split('"')[0]
+    url = "https://accounts.snapchat.com/accounts/merlin/login"
+    headers = {
+        "Host": "accounts.snapchat.com",
+        "User-Agent": random.choice(ua["browsers"]["firefox"]),
+        "Accept": "*/*",
+        "X-XSRF-TOKEN": xsrf,
+        "Accept-Encoding": "gzip, deflate",
+        "Content-Type": "application/json",
+        "Content-Length": "51",
+        "Connection": "close",
+        "Cookie": "xsrf_token="+xsrf+"; web_client_id="+webClientId
+    }
+    data = '{"email":'+email+',"app":"BITMOJI_APP"}'
+
+    response = requests.post(url, data=data, headers=headers)
+    if response.status_code!=204:
+        data=response.json()
+        return({"rateLimit":False,"exists":data["hasSnapchat"],"emailrecovery":None,"phoneNumber":None,"others":None})
+    return({"rateLimit":False,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+
+def bitmoji(email):
+    req = requests.get("https://accounts.snapchat.com")
+    xsrf=req.text.split('data-xsrf="')[1].split('"')[0]
+    webClientId=req.text.split('ata-web-client-id="')[1].split('"')[0]
+    url = "https://accounts.snapchat.com/accounts/merlin/login"
+    headers = {
+        "Host": "accounts.snapchat.com",
+        "User-Agent": random.choice(ua["browsers"]["firefox"]),
+        "Accept": "*/*",
+        "X-XSRF-TOKEN": xsrf,
+        "Accept-Encoding": "gzip, deflate",
+        "Content-Type": "application/json",
+        "Content-Length": "51",
+        "Connection": "close",
+        "Cookie": "xsrf_token="+xsrf+"; web_client_id="+webClientId
+    }
+    data = '{"email":'+email+',"app":"BITMOJI_APP"}'
+
+    response = requests.post(url, data=data, headers=headers)
+    if response.status_code!=204:
+        data=response.json()
+        return({"rateLimit":False,"exists":data["hasBitmoji"],"emailrecovery":None,"phoneNumber":None,"others":None})
+    return({"rateLimit":False,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+
+def blablacar(email):
+    headers = {
+        'User-Agent': random.choice(ua["browsers"]["firefox"]),
+        'Accept': 'application/json',
+        'Accept-Language': 'fr_FR',
+        'Referer': 'https://www.blablacar.fr/',
+        'Content-Type': 'application/json',
+        'x-locale': 'fr_FR',
+        'x-currency': 'EUR',
+        'x-client': 'SPA|1.0.0',
+        'x-forwarded-proto': 'https',
+        'Origin': 'https://www.blablacar.fr',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+        'TE': 'Trailers',
+    }
+    try:
+        appToken=requests.get("https://www.blablacar.fr/register",headers=headers).text.split(',"appToken":"')[1].split('"')[0]
+    except:
+        return({"rateLimit":True,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+
+    cookies = {
+        'datadome': 'eee',
+    }
+
+    headers = {
+        'User-Agent': random.choice(ua["browsers"]["firefox"]),
+        'Accept': 'application/json',
+        'Accept-Language': 'fr_FR',
+        'Referer': 'https://www.blablacar.fr/',
+        'Content-Type': 'application/json',
+        'x-locale': 'fr_FR',
+        'x-currency': 'EUR',
+        'x-client': 'SPA|1.0.0',
+        'x-forwarded-proto': 'https',
+        'Authorization': 'Bearer '+appToken,
+        'Origin': 'https://www.blablacar.fr',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+        'TE': 'Trailers',
+    }
+
+    response = requests.get('https://edge.blablacar.fr/auth/validation/email/'+email, headers=headers, cookies=cookies)
+    data=response.json()
+    if "url" in data.keys():
+        return({"rateLimit":True,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+    elif "exists" in data.keys():
+        return({"rateLimit":False,"exists":data["exists"],"emailrecovery":None,"phoneNumber":None,"others":None})
+
+
 def main():
     start_time = time.time()
     parser = argparse.ArgumentParser(description="Github : https://github.com/megadose/holehe")
@@ -573,7 +708,7 @@ def main():
     def websiteName(WebsiteFunction,Websitename,email):
         return({Websitename:WebsiteFunction(email)})
 
-    websites=[aboutme,adobe,amazon,discord,ebay,evernote,facebook,firefox,github,instagram,lastfm,lastpass,live,office365,pinterest,spotify,tumblr,twitter,vrbo,yahoo]
+    websites=[blablacar,snapchat,bitmoji,samsung,aboutme,adobe,amazon,discord,ebay,evernote,facebook,firefox,github,instagram,lastfm,lastpass,live,office365,pinterest,spotify,tumblr,twitter,vrbo,yahoo]
 
     que = queue.Queue()
     infos ={}
