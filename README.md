@@ -54,7 +54,7 @@ print(lastpass("test@gmail.com"))
 |   adobe   |   adobe.com   | password recovery |          ✘          |
 |  amazon   |  amazon.com   |       login       |          ✘          |
 |  bitmoji  |  bitmoji.com  |       login       |          ✘          |
-| blablacar | blablacar.com |     register      |          ✘          |
+| blablacar | blablacar.com |     register      |          ✔          |
 |  discord  |  discord.com  |     register      |          ✘          |
 |   ebay    |   ebay.com    |       login       |          ✔          |
 | evernote  | evernote.com  |       login       |          ✘          |
