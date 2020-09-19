@@ -48,32 +48,33 @@ print(lastpass("test@gmail.com"))
 
 ## Modules :
 
-|  Module   |    Website    |      Method       | Frequent rate limit |
-| :-------: | :-----------: | :---------------: | :-----------------: |
-|  aboutme  |   about.me    |     register      |          ✘          |
-|   adobe   |   adobe.com   | password recovery |          ✘          |
-|  amazon   |  amazon.com   |       login       |          ✘          |
-|  bitmoji  |  bitmoji.com  |       login       |          ✘          |
-| blablacar | blablacar.com |     register      |          ✔          |
-|  discord  |  discord.com  |     register      |          ✘          |
-|   ebay    |   ebay.com    |       login       |          ✔          |
-| evernote  | evernote.com  |       login       |          ✘          |
-| facebook  | facebook.com  | password recovery |          ✘          |
-|  firefox  |  firefox.com  |     register      |          ✘          |
-|  github   |  github.com   |     register      |          ✘          |
-| instagram | instagram.com |     register      |          ✔          |
-|  lastfm   |    last.fm    |     register      |          ✘          |
-| lastpass  | lastpass.com  |     register      |          ✘          |
-|   live    |   live.com    | password recovery |          ✘          |
-| office365 | office365.com |       other       |          ✘          |
-| pinterest | pinterest.com |     register      |          ✘          |
-|  samsung  |  samsung.com  |     register      |          ✘          |
-|  snapchat |  snapchat.com |       login       |          ✘          |
-|  spotify  |  spotify.com  |     register      |          ✔          |
-|  tumblr   |  tumblr.com   |     register      |          ✘          |
-|  twitter  |  twitter.com  |     register      |          ✘          |
-|   vrbo    |   vrbo.com    |     register      |          ✘          |
-|   yahoo   |   yahoo.com   |       login       |          ✘          |
+|  Module    |    Website     |      Method       | Frequent rate limit |
+| :-------:  | :-----------:  | :---------------: | :-----------------: |
+|  aboutme   |   about.me     |     register      |          ✘          |
+|   adobe    |   adobe.com    | password recovery |          ✘          |
+|  amazon    |  amazon.com    |       login       |          ✘          |
+|  bitmoji   |  bitmoji.com   |       login       |          ✘          |
+| blablacar  | blablacar.com  |     register      |          ✔          |
+|buymeacoffee|buymeacoffee.com|     register      |          ✔          |
+|  discord   |  discord.com   |     register      |          ✘          |
+|   ebay     |   ebay.com     |       login       |          ✔          |
+| evernote   | evernote.com   |       login       |          ✘          |
+| facebook   | facebook.com   | password recovery |          ✘          |
+|  firefox   |  firefox.com   |     register      |          ✘          |
+|  github    |  github.com    |     register      |          ✘          |
+| instagram  | instagram.com  |     register      |          ✔          |
+|  lastfm    |    last.fm     |     register      |          ✘          |
+| lastpass   | lastpass.com   |     register      |          ✘          |
+|   live     |   live.com     | password recovery |          ✘          |
+| office365  | office365.com  |       other       |          ✘          |
+| pinterest  | pinterest.com  |     register      |          ✘          |
+|  samsung   |  samsung.com   |     register      |          ✘          |
+|  snapchat  |  snapchat.com  |       login       |          ✘          |
+|  spotify   |  spotify.com   |     register      |          ✔          |
+|  tumblr    |  tumblr.com    |     register      |          ✘          |
+|  twitter   |  twitter.com   |     register      |          ✘          |
+|   vrbo     |   vrbo.com     |     register      |          ✘          |
+|   yahoo    |   yahoo.com    |       login       |          ✘          |
 
 ### Rate limit, just change your IP
 
