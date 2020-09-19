@@ -22,7 +22,7 @@ holehe allows you to check if the mail is used on different sites like twitter, 
 
 ### With PyPI
 
-```pip3 install holehe==1.52```
+```pip3 install holehe```
 
 ### With Github
 
