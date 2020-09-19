@@ -43,6 +43,55 @@ def adobe(email):
     )
     response = requests.get('https://auth.services.adobe.com/signin/v2/challenges', headers=headers, params=params).json()
     return({"rateLimit":False,"exists":True,"emailrecovery":response['secondaryEmail'],"phoneNumber":response['securityPhoneNumber'],"others":None})
+
+def buymeacoffe(email):
+    def get_random_string(length):
+        letters = string.ascii_lowercase
+        result_str = ''.join(random.choice(letters) for i in range(length))
+        return(result_str)
+
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.2; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0',
+        'Accept': 'application/json, text/javascript, */*; q=0.01',
+        'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'X-Requested-With': 'XMLHttpRequest',
+        'Origin': 'https://www.buymeacoffee.com',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+        'TE': 'Trailers',
+    }
+    req=requests.get("https://www.buymeacoffee.com/",headers=headers)
+    if req.status_code==200:
+        csrf_token=req.text.split('<input type="hidden" id="csrf" name="bmc_csrf_token" value="')[1].split('"')[0]
+    else:
+        return({"rateLimit":True,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+
+
+    cookies = {
+        'bmccsrftoken': csrf_token,
+    }
+
+
+    data = {
+      'email': email,
+      'password': get_random_string(20),
+      'bmc_csrf_token': csrf_token
+    }
+
+    response = requests.post('https://www.buymeacoffee.com/auth/validate_email_and_password', headers=headers, cookies=cookies, data=data)
+    if response.status_code==200:
+        data=response.json()
+        if data["status"]=="SUCCESS":
+            return({"rateLimit":False,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+        elif data["status"]=="FAIL" and "email" in str(data):
+            return({"rateLimit":False,"exists":True,"emailrecovery":None,"phoneNumber":None,"others":None})
+        else:
+            return({"rateLimit":True,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+    else:
+        return({"rateLimit":True,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+
+
 def ebay(email):
 
     s = requests.session()
@@ -708,7 +757,7 @@ def main():
     def websiteName(WebsiteFunction,Websitename,email):
         return({Websitename:WebsiteFunction(email)})
 
-    websites=[blablacar,snapchat,bitmoji,samsung,aboutme,adobe,amazon,discord,ebay,evernote,facebook,firefox,github,instagram,lastfm,lastpass,live,office365,pinterest,spotify,tumblr,twitter,vrbo,yahoo]
+    websites=[blablacar,buymeacoffe,snapchat,bitmoji,samsung,aboutme,adobe,amazon,discord,ebay,evernote,facebook,firefox,github,instagram,lastfm,lastpass,live,office365,pinterest,spotify,tumblr,twitter,vrbo,yahoo]
 
     que = queue.Queue()
     infos ={}
