@@ -746,6 +746,75 @@ def blablacar(email):
     elif "exists" in data.keys():
         return({"rateLimit":False,"exists":data["exists"],"emailrecovery":None,"phoneNumber":None,"others":None})
 
+def freelancer(email):
+    s=requests.session()
+    s.headers = {
+        'User-Agent': random.choice(ua["browsers"]["firefox"]),
+        'Accept': 'application/json, text/plain, */*',
+        'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
+        'Content-Type': 'application/json',
+        'Origin': 'https://www.freelancer.com',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+        'TE': 'Trailers',
+    }
+
+    params = (
+        ('compact', 'true'),
+        ('new_errors', 'true'),
+    )
+
+    data = '{"user":{"email":"'+email+'"}}'
+    response = s.post('https://www.freelancer.com/api/users/0.1/users/check', params=params, data=data)
+    resData=response.json()
+    if response.status_code==409:
+        if "EMAIL_ALREADY_IN_USE" in response.text:
+            return({"rateLimit":False,"exists":True,"emailrecovery":None,"phoneNumber":None,"others":None})
+
+    elif response.status_code==200:
+        return({"rateLimit":False,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+
+    else:
+        return({"rateLimit":True,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+
+def wordpress(email):
+    cookies = {
+        'G_ENABLED_IDPS': 'google',
+        'ccpa_applies': 'true',
+        'usprivacy': '1YNN',
+        'landingpage_currency': 'EUR',
+        'wordpress_test_cookie': 'WP+Cookie+check',
+    }
+
+    headers = {
+        'User-Agent': random.choice(ua["browsers"]["firefox"]),
+        'Accept': '*/*',
+        'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+        'TE': 'Trailers',
+    }
+
+    params = (
+        ('http_envelope', '1'),
+        ('locale', 'fr'),
+    )
+
+    response = requests.get('https://public-api.wordpress.com/rest/v1.1/users/'+email+'/auth-options', headers=headers, params=params, cookies=cookies)
+    info =response.json()
+    if "email_verified" in info["body"].keys():
+        if info["body"]["email_verified"]==True:
+            return({"rateLimit":False,"exists":True,"emailrecovery":None,"phoneNumber":None,"others":None})
+        else:
+            return({"rateLimit":False,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+    elif "unknown_user" in str(info) or "email_login_not_allowed" in str(info):
+        return({"rateLimit":False,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+    else:
+        return({"rateLimit":True,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+
+
+
+
 
 def main():
     start_time = time.time()
@@ -757,7 +826,7 @@ def main():
     def websiteName(WebsiteFunction,Websitename,email):
         return({Websitename:WebsiteFunction(email)})
 
-    websites=[blablacar,buymeacoffe,snapchat,bitmoji,samsung,aboutme,adobe,amazon,discord,ebay,evernote,facebook,firefox,github,instagram,lastfm,lastpass,live,office365,pinterest,spotify,tumblr,twitter,vrbo,yahoo]
+    websites=[wordpress,freelancer,blablacar,buymeacoffe,snapchat,bitmoji,samsung,aboutme,adobe,amazon,discord,ebay,evernote,facebook,firefox,github,instagram,lastfm,lastpass,live,office365,pinterest,spotify,tumblr,twitter,vrbo,yahoo]
 
     que = queue.Queue()
     infos ={}
