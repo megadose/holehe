@@ -61,7 +61,7 @@ print(lastpass("test@gmail.com"))
 | evernote   | evernote.com   |       login       |          ✘          |
 | facebook   | facebook.com   | password recovery |          ✘          |
 |  firefox   |  firefox.com   |     register      |          ✘          |
-|freelancer |freelancer.com |     register      |          ✘          |
+|freelancer  | freelancer.com |     register      |          ✘          |
 |  github    |  github.com    |     register      |          ✘          |
 | instagram  | instagram.com  |     register      |          ✔          |
 |  lastfm    |    last.fm     |     register      |          ✘          |
@@ -75,8 +75,8 @@ print(lastpass("test@gmail.com"))
 |  tumblr    |  tumblr.com    |     register      |          ✘          |
 |  twitter   |  twitter.com   |     register      |          ✘          |
 |   vrbo     |   vrbo.com     |     register      |          ✘          |
-| wordpress | wordpress.com |       login       |          ✘          |
-|   yahoo    |   yahoo.com    |       login       |          ✘          |
+| wordpress  | wordpress.com  |       login       |          ✘          |
+|   yahoo    |   yahoo.com    |       login       |          ✔          |
 
 ### Rate limit, just change your IP
 
