@@ -1,8 +1,8 @@
 # Holehe
-
+<a href="https://www.buymeacoffee.com/megadose" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 # Educational purposes only
 
-### If you have any suggestions, please do not hesitate to contact us.
+### If you have any suggestions, please do not hesitate to contact us. 
 
 holehe allows you to check if the mail is used on different sites like twitter, instagram and will retrieve information on sites with the forgotten password function.
 
@@ -22,7 +22,7 @@ holehe allows you to check if the mail is used on different sites like twitter, 
 
 ### With PyPI
 
-```pip3 install holehe==1.53```
+```pip3 install holehe```
 
 ### With Github
 
@@ -48,30 +48,33 @@ print(lastpass("test@gmail.com"))
 
 ## Modules :
 
-|  Module   |    Website    |      Method       | Frequent rate limit |
-| :-------: | :-----------: | :---------------: | :-----------------: |
-|  aboutme  |   about.me    |     register      |          ✘          |
-|   adobe   |   adobe.com   | password recovery |          ✘          |
-|  amazon   |  amazon.com   |       login       |          ✘          |
-|  discord  |  discord.com  |     register      |          ✘          |
-|   ebay    |   ebay.com    |       login       |          ✔          |
-| evernote  | evernote.com  |       login       |          ✘          |
-| facebook  | facebook.com  | password recovery |          ✘          |
-|  firefox  |  firefox.com  |     register      |          ✘          |
-|freelancer |freelancer.com |     register      |          ✘          |
-|  github   |  github.com   |     register      |          ✘          |
-| instagram | instagram.com |     register      |          ✔          |
-|  lastfm   |    last.fm    |     register      |          ✘          |
-| lastpass  | lastpass.com  |     register      |          ✘          |
-|   live    |   live.com    | password recovery |          ✘          |
-| office365 | office365.com |       other       |          ✘          |
-| pinterest | pinterest.com |     register      |          ✘          |
-|  spotify  |  spotify.com  |     register      |          ✔          |
-|  tumblr   |  tumblr.com   |     register      |          ✘          |
-|  twitter  |  twitter.com  |     register      |          ✘          |
-|   vrbo    |   vrbo.com    |     register      |          ✘          |
-| wordpress | wordpress.com |       login       |          ✘          |
-|   yahoo   |   yahoo.com   |       login       |          ✘          |
+|  Module    |    Website     |      Method       | Frequent rate limit |
+| :-------:  | :-----------:  | :---------------: | :-----------------: |
+|  aboutme   |   about.me     |     register      |          ✘          |
+|   adobe    |   adobe.com    | password recovery |          ✘          |
+|  amazon    |  amazon.com    |       login       |          ✘          |
+|  bitmoji   |  bitmoji.com   |       login       |          ✘          |
+| blablacar  | blablacar.com  |     register      |          ✔          |
+|buymeacoffee|buymeacoffee.com|     register      |          ✔          |
+|  discord   |  discord.com   |     register      |          ✘          |
+|   ebay     |   ebay.com     |       login       |          ✔          |
+| evernote   | evernote.com   |       login       |          ✘          |
+| facebook   | facebook.com   | password recovery |          ✘          |
+|  firefox   |  firefox.com   |     register      |          ✘          |
+|  github    |  github.com    |     register      |          ✘          |
+| instagram  | instagram.com  |     register      |          ✔          |
+|  lastfm    |    last.fm     |     register      |          ✘          |
+| lastpass   | lastpass.com   |     register      |          ✘          |
+|   live     |   live.com     | password recovery |          ✘          |
+| office365  | office365.com  |       other       |          ✘          |
+| pinterest  | pinterest.com  |     register      |          ✘          |
+|  samsung   |  samsung.com   |     register      |          ✘          |
+|  snapchat  |  snapchat.com  |       login       |          ✘          |
+|  spotify   |  spotify.com   |     register      |          ✔          |
+|  tumblr    |  tumblr.com    |     register      |          ✘          |
+|  twitter   |  twitter.com   |     register      |          ✘          |
+|   vrbo     |   vrbo.com     |     register      |          ✘          |
+|   yahoo    |   yahoo.com    |       login       |          ✘          |
 
 ### Rate limit, just change your IP
 
@@ -95,3 +98,52 @@ The result of the modules is in this form : `` {"rateLimit":False,"exists":True,
 ## 📝 License
 
 [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.fr.html)
+
+|  Module    |    Website     |      Method       | Frequent rate limit |
+| :-------:  | :-----------:  | :---------------: | :-----------------: |
+|  aboutme   |   about.me     |     register      |          ✘          |
+|   adobe    |   adobe.com    | password recovery |          ✘          |
+|  amazon    |  amazon.com    |       login       |          ✘          |
+|  bitmoji   |  bitmoji.com   |       login       |          ✘          |
+| blablacar  | blablacar.com  |     register      |          ✔          |
+|buymeacoffee|buymeacoffee.com|     register      |          ✔          |
+|  discord   |  discord.com   |     register      |          ✘          |
+|   ebay     |   ebay.com     |       login       |          ✔          |
+| evernote   | evernote.com   |       login       |          ✘          |
+| facebook   | facebook.com   | password recovery |          ✘          |
+|  firefox   |  firefox.com   |     register      |          ✘          |
+|freelancer |freelancer.com |     register      |          ✘          |
+|  github    |  github.com    |     register      |          ✘          |
+| instagram  | instagram.com  |     register      |          ✔          |
+|  lastfm    |    last.fm     |     register      |          ✘          |
+| lastpass   | lastpass.com   |     register      |          ✘          |
+|   live     |   live.com     | password recovery |          ✘          |
+| office365  | office365.com  |       other       |          ✘          |
+| pinterest  | pinterest.com  |     register      |          ✘          |
+|  samsung   |  samsung.com   |     register      |          ✘          |
+|  snapchat  |  snapchat.com  |       login       |          ✘          |
+|  spotify   |  spotify.com   |     register      |          ✔          |
+|  tumblr    |  tumblr.com    |     register      |          ✘          |
+|  twitter   |  twitter.com   |     register      |          ✘          |
+|   vrbo     |   vrbo.com     |     register      |          ✘          |
+| wordpress | wordpress.com |       login       |          ✘          |
+|   yahoo    |   yahoo.com    |       login       |          ✘          |
+
+### Rate limit, just change your IP
+
+## The output of the modules
+
+The result of the modules is in this form : `` {"rateLimit":False,"exists":True,"emailrecovery":ex****e@gmail.com,"phoneNumber":'0************78","others":None}``
+
+- rateLitmit : is to find out if you've been rate-limited
+- exists : know an account is associated with the mail
+- emailrecovery : it's a partial mail that can potentially be extracted from the mail entered on the module.
+- phoneNumber : it's a partial phone number that can potentially be extracted from the mail entered on the module.
+- others : is used for all information other for the moment it is only useful for facebook ``{"FullName":full_name,"profilePicture":profile_picture}`` FullName has a lot of false positives, and profilePicture is the url of the profile picture associated with the account.
+
+## Thank you to :
+
+- [ navlys ](https://twitter.com/navlys_/)
+- [Chris](https://twitter.com/chris_kirsch)
+- [socialscan](https://pypi.org/project/socialscan/)
+- [UhOh365](https://github.com/Raikia/UhOh365)
