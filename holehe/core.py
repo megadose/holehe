@@ -776,6 +776,85 @@ def freelancer(email):
 
     else:
         return({"rateLimit":True,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+def google(email):
+    headers = {
+        'User-Agent': random.choice(ua["browsers"]["firefox"]),
+        'Accept': '*/*',
+        'Accept-Language': 'en,en-US;q=0.5',
+        'X-Same-Domain': '1',
+        'Google-Accounts-XSRF': '1',
+        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+        'Origin': 'https://accounts.google.com',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+        'TE': 'Trailers',
+    }
+
+
+    req = requests.get("https://accounts.google.com/signup/v2/webcreateaccount?continue=https%3A%2F%2Faccounts.google.com%2FManageAccount%3Fnc%3D1&gmb=exp&biz=false&flowName=GlifWebSignIn&flowEntry=SignUp",headers=headers)
+    try:
+        freq=req.text.split('quot;,null,null,null,&quot;')[1].split('&quot')[0]
+    except:
+        return({"rateLimit":True,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+
+    params = (
+        ('hl', 'fr'),
+        ('rt', 'j'),
+    )
+
+    data = {
+      'continue': 'https://www.google.com/',
+      'dsh': '',
+      'hl': 'fr',
+      'f.req': '["'+freq+'","","","'+email+'",false]',
+      'azt': '',
+      'cookiesDisabled': 'false',
+      'deviceinfo': '[null,null,null,[],null,null,null,null,[],"GlifWebSignIn",null,[null,null,[],null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,[],null,null,null,[],[]],null,null,null,null,0,null,false]',
+      'gmscoreversion': 'undefined',
+      '': ''
+    }
+    response = requests.post('https://accounts.google.com/_/signup/webusernameavailability', headers=headers, params=params, data=data)
+    if '"gf.wuar",2' in response.text:
+        return({"rateLimit":False,"exists":True,"emailrecovery":None,"phoneNumber":None,"others":None})
+    elif '"gf.wuar",1' in response.text or "EmailInvalid" in response.text:
+        return({"rateLimit":False,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+    else:
+        return({"rateLimit":True,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+def nike(email):
+    headers = {
+        'User-Agent': random.choice(ua["browsers"]["firefox"]),
+        'Accept': '*/*',
+        'Accept-Language': 'en,en-US;q=0.5',
+        'Content-Type': 'text/plain;charset=UTF-8',
+        'Origin': 'https://www.nike.com',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+        'Referer': 'https://www.nike.com/',
+        'TE': 'Trailers',
+    }
+
+    params = (
+        ('appVersion', '831'),
+        ('experienceVersion', '831'),
+        ('uxid', 'com.nike.commerce.nikedotcom.web'),
+        ('locale', 'fr_FR'),
+        ('backendEnvironment', 'identity'),
+        ('browser', ''),
+        ('mobile', 'false'),
+        ('native', 'false'),
+        ('visit', '1'),
+    )
+
+    data = '{"emailAddress":"'+email+'"}'
+
+    response = requests.post('https://unite.nike.com/account/email/v1', headers=headers, params=params, data=data)
+    if response.status_code==409:
+        return({"rateLimit":False,"exists":True,"emailrecovery":None,"phoneNumber":None,"others":None})
+    elif response.status_code==204:
+        return({"rateLimit":False,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+    else:
+        return({"rateLimit":True,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+
 
 def wordpress(email):
     cookies = {
@@ -812,13 +891,65 @@ def wordpress(email):
     else:
         return({"rateLimit":True,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
 
+def eventbrite(email):
+    headers = {
+        'User-Agent': random.choice(ua["browsers"]["firefox"]),
+        'Accept': '*/*',
+        'Accept-Language': 'en,en-US;q=0.5',
+        'Referer': 'https://www.eventbrite.com/',
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+        'Origin': 'https://www.eventbrite.com',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+    }
+
+    req = requests.get("https://www.eventbrite.com/signin/?referrer=%2F",headers=headers)
+    try:
+        csrf_token=req.cookies["csrftoken"]
+
+    except:
+        return({"rateLimit":True,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+
+    cookies = {
+        'csrftoken': csrf_token,
+    }
+
+    headers = {
+        'User-Agent': random.choice(ua["browsers"]["firefox"]),
+        'Accept': '*/*',
+        'Accept-Language': 'en,en-US;q=0.5',
+        'Referer': 'https://www.eventbrite.com/',
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRFToken': csrf_token,
+        'Origin': 'https://www.eventbrite.com',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+    }
+
+    data = '{"email":"'+email+'"}'
+
+    response = requests.post('https://www.eventbrite.com/api/v3/users/lookup/', headers=headers, cookies=cookies, data=data)
+    if response.status_code==200:
+        try:
+            reqd=response.json()
+            if reqd["exists"]==True:
+                return({"rateLimit":False,"exists":True,"emailrecovery":None,"phoneNumber":None,"others":None})
+            else:
+                return({"rateLimit":False,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+        except:
+            return({"rateLimit":True,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
+    else:
+        return({"rateLimit":True,"exists":False,"emailrecovery":None,"phoneNumber":None,"others":None})
 
 
 
 
 def main():
+    print('Github : https://github.com/megadose/holehe')
     start_time = time.time()
-    parser = argparse.ArgumentParser(description="Github : https://github.com/megadose/holehe")
+    parser = argparse.ArgumentParser()
     requiredNamed = parser.add_argument_group('required named arguments')
     parser.add_argument("-e", "--email", help="Email of the target",required=True)
     args = parser.parse_args()
@@ -826,7 +957,7 @@ def main():
     def websiteName(WebsiteFunction,Websitename,email):
         return({Websitename:WebsiteFunction(email)})
 
-    websites=[wordpress,freelancer,blablacar,buymeacoffe,snapchat,bitmoji,samsung,aboutme,adobe,amazon,discord,ebay,evernote,facebook,firefox,github,instagram,lastfm,lastpass,live,office365,pinterest,spotify,tumblr,twitter,vrbo,yahoo]
+    websites=[eventbrite,nike,google,wordpress,freelancer,blablacar,buymeacoffe,snapchat,bitmoji,samsung,aboutme,adobe,amazon,discord,ebay,evernote,facebook,firefox,github,instagram,lastfm,lastpass,live,office365,pinterest,spotify,tumblr,twitter,vrbo,yahoo]
 
     que = queue.Queue()
     infos ={}
