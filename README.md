@@ -59,14 +59,17 @@ print(lastpass("test@gmail.com"))
 |  discord   |  discord.com   |     register      |          ✘          |
 |   ebay     |   ebay.com     |       login       |          ✔          |
 | evernote   | evernote.com   |       login       |          ✘          |
+| eventbrite | eventbrite.com |       login       |          ✘          |
 | facebook   | facebook.com   | password recovery |          ✘          |
 |  firefox   |  firefox.com   |     register      |          ✘          |
 |freelancer  | freelancer.com |     register      |          ✘          |
 |  github    |  github.com    |     register      |          ✘          |
+| google     |   google.com   |     register      |          ✘          |
 | instagram  | instagram.com  |     register      |          ✔          |
 |  lastfm    |    last.fm     |     register      |          ✘          |
 | lastpass   | lastpass.com   |     register      |          ✘          |
 |   live     |   live.com     | password recovery |          ✘          |
+|   nike     |     nike.com   |     register      |          ✘          |
 | office365  | office365.com  |       other       |          ✘          |
 | pinterest  | pinterest.com  |     register      |          ✘          |
 |  samsung   |  samsung.com   |     register      |          ✘          |
