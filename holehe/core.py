@@ -178,12 +178,12 @@ def facebook(email):
     soup = BeautifulSoup(req.content, features="lxml")
     full_name = soup.find('div', attrs={'class': 'fsl fwb fcb'})
     try:
-        profile_picture = soup.find('img', attrs={'class': 'img'}).get("src")
+        profile_picture = soup.find('img', attrs={'class': 'img'}).get('src')
     except BaseException:
         profile_picture = ""
     try:
         emailrecovery = req.text.split(
-            '</strong><br /><div>')[1].split("</div>")[0].replace("&#064;", "@").replace('<div class="_2pic">','')
+            '</strong><br /><div>')[1].split("</div>")[0].replace("&#064;", "@").replace('<div class="_2pic">',"")
         if emailrecovery == email:
             emailrecovery = None
 
