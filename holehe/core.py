@@ -1,4 +1,4 @@
-import requests,re,mechanize,json,random,string
+import requests,re,mechanize,json,random,string,queue,time
 from bs4 import BeautifulSoup
 from mechanize import Browser
 try:
@@ -10,7 +10,6 @@ from tqdm import tqdm
 import argparse
 from termcolor import colored
 from threading import Thread
-import queue,time
 from holehe.localuseragent import *
 
 def adobe(email):
