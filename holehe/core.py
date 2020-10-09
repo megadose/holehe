@@ -6,17 +6,16 @@ import random
 import string
 import queue
 import time
+import argparse
+from tqdm import tqdm
+from termcolor import colored
+from threading import Thread
 from bs4 import BeautifulSoup
 from mechanize import Browser
 try:
     import cookielib
 except BaseException:
     import http.cookiejar as cookielib
-
-from tqdm import tqdm
-import argparse
-from termcolor import colored
-from threading import Thread
 from holehe.localuseragent import *
 
 
@@ -39,15 +38,7 @@ def adobe(email):
         data=data).json()
     if "errorCode" in str(r.keys()):
         return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-    headers = {
-        'User-Agent': random.choice(ua["browsers"]["chrome"]),
-        'Accept': 'application/json, text/plain, */*',
-        'Accept-Language': 'en-US,en;q=0.5',
-        'X-IMS-CLIENTID': 'adobedotcom2',
-        'X-IMS-Authentication-State': r['id'],
-        'DNT': '1',
-        'Connection': 'keep-alive',
-    }
+    headers['X-IMS-Authentication-State'] = r['id']
     params = (
         ('purpose', 'passwordRecovery'),
     )
@@ -63,36 +54,32 @@ def buymeacoffe(email):
         letters = string.ascii_lowercase
         result_str = ''.join(random.choice(letters) for i in range(length))
         return(result_str)
-
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 6.2; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0',
+        'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': 'application/json, text/javascript, */*; q=0.01',
-        'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
         'X-Requested-With': 'XMLHttpRequest',
         'Origin': 'https://www.buymeacoffee.com',
         'DNT': '1',
-        'Connection': 'keep-alive',
         'TE': 'Trailers',
     }
-    req = requests.get("https://www.buymeacoffee.com/", headers=headers)
-    if req.status_code == 200:
-        csrf_token = req.text.split(
-            '<input type="hidden" id="csrf" name="bmc_csrf_token" value="')[1].split('"')[0]
+    r = requests.get("https://www.buymeacoffee.com/", headers=headers)
+    if r.status_code == 200:
+        soup = BeautifulSoup(req.content, features="lxml")
+        csrf_token = soup.find(attrs={'name': 'bmc_csrf_token'}).get("value")
     else:
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
 
     cookies = {
         'bmccsrftoken': csrf_token,
     }
-
     data = {
         'email': email,
         'password': get_random_string(20),
         'bmc_csrf_token': csrf_token
     }
 
-    response = requests.post(
+    r = requests.post(
         'https://www.buymeacoffee.com/auth/validate_email_and_password',
         headers=headers,
         cookies=cookies,
@@ -183,7 +170,7 @@ def facebook(email):
         profile_picture = ""
     try:
         emailrecovery = req.text.split(
-            '</strong><br /><div>')[1].split("</div>")[0].replace("&#064;", "@").replace('<div class="_2pic">',"")
+            '</strong><br /><div>')[1].split("</div>")[0].replace("&#064;", "@").replace('<div class="_2pic">', "")
         if emailrecovery == email:
             emailrecovery = None
 
@@ -305,7 +292,7 @@ def twitter(email):
         "https://api.twitter.com/i/users/email_available.json",
         params={
             "email": email})
-    if str(req.json()["taken"]) == "True":
+    if req.json()["taken"] == True:
         return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
         return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
@@ -474,7 +461,7 @@ def live(email):
 
 def evernote(email):
 
-    ses = requests.session()
+    s = requests.session()
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': 'application/json, text/javascript, */*; q=0.01',
@@ -487,8 +474,8 @@ def evernote(email):
         'Referer': 'https://www.evernote.com/Login.action',
         'TE': 'Trailers',
     }
-    ses.headers = headers
-    data = ses.get("https://www.evernote.com/Login.action")
+    s.headers = headers
+    data = s.get("https://www.evernote.com/Login.action")
     data = {
         'username': email,
         'evaluateUsername': '',
@@ -501,7 +488,7 @@ def evernote(email):
         '_sourcePage': data.text.split('<input type="hidden" name="_sourcePage" value="')[1].split('"')[0],
         '__fp': data.text.split('<input type="hidden" name="__fp" value="')[1].split('"')[0]
     }
-    response = ses.post('https://www.evernote.com/Login.action', data=data)
+    response = s.post('https://www.evernote.com/Login.action', data=data)
     if "usePasswordAuth" in response.text:
         return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     elif "displayMessage" in response.text:
@@ -851,25 +838,10 @@ def blablacar(email):
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
 
     cookies = {
-        'datadome': 'eee',
+        'datadome': '',
     }
 
-    headers = {
-        'User-Agent': random.choice(ua["browsers"]["firefox"]),
-        'Accept': 'application/json',
-        'Accept-Language': 'fr_FR',
-        'Referer': 'https://www.blablacar.fr/',
-        'Content-Type': 'application/json',
-        'x-locale': 'fr_FR',
-        'x-currency': 'EUR',
-        'x-client': 'SPA|1.0.0',
-        'x-forwarded-proto': 'https',
-        'Authorization': 'Bearer ' + appToken,
-        'Origin': 'https://www.blablacar.fr',
-        'DNT': '1',
-        'Connection': 'keep-alive',
-        'TE': 'Trailers',
-    }
+    headers["Authorization"] = 'Bearer ' + appToken
 
     response = requests.get(
         'https://edge.blablacar.fr/auth/validation/email/' +
@@ -1078,19 +1050,7 @@ def eventbrite(email):
         'csrftoken': csrf_token,
     }
 
-    headers = {
-        'User-Agent': random.choice(ua["browsers"]["firefox"]),
-        'Accept': '*/*',
-        'Accept-Language': 'en,en-US;q=0.5',
-        'Referer': 'https://www.eventbrite.com/',
-        'Content-Type': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest',
-        'X-CSRFToken': csrf_token,
-        'Origin': 'https://www.eventbrite.com',
-        'DNT': '1',
-        'Connection': 'keep-alive',
-    }
-
+    headers["X-CSRFToken"] = csrf_token
     data = '{"email":"' + email + '"}'
 
     response = requests.post(
