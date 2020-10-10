@@ -48,6 +48,7 @@ def adobe(email):
         params=params).json()
     return({"rateLimit": False, "exists": True, "emailrecovery": response['secondaryEmail'], "phoneNumber": response['securityPhoneNumber'], "others": None})
 
+
 def pornhub(email):
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
@@ -59,30 +60,34 @@ def pornhub(email):
     }
 
     s = requests.session()
-    req = s.get("https://www.pornhub.com/signup",headers=headers)
-    soup = BeautifulSoup(req.content,features="lxml")
-    toe=soup.find(attrs={"name":"token"}).get("value")
+    req = s.get("https://www.pornhub.com/signup", headers=headers)
+    soup = BeautifulSoup(req.content, features="lxml")
+    toe = soup.find(attrs={"name": "token"}).get("value")
     params = (
         ('token', toe),
     )
 
     data = {
-      'check_what': 'email',
-      'email': email
+        'check_what': 'email',
+        'email': email
     }
 
-    response = s.post('https://www.pornhub.com/user/create_account_check', headers=headers, params=params, data=data)
+    response = s.post(
+        'https://www.pornhub.com/user/create_account_check',
+        headers=headers,
+        params=params,
+        data=data)
     try:
-        if response.json()["error_message"]=="Email has been taken.":
+        if response.json()["error_message"] == "Email has been taken.":
             return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
         else:
             return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-    except:
-            return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    except BaseException:
+        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
 
 
 def _7cups(email):
-    headers={
+    headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]), 'DNT': '1',
         'Connection': 'keep-alive', 'Accept': 'application/json, text/javascript, */*; q=0.01',
         'Host': 'www.7cups.com', 'X-Requested-With': 'XMLHttpRequest',
@@ -93,50 +98,19 @@ def _7cups(email):
 
     }
 
-    data='-----------------------------\r\nContent-Disposition: form-data; name="email"\r\n\r\n'+email+'\r\n-----------------------------\r\nContent-Disposition: form-data; name="passwd"\r\n\r\n\r\n-----------------------------\r\nContent-Disposition: form-data; name="dobMonth"\r\n\r\n12\r\n-----------------------------\r\nContent-Disposition: form-data; name="dobDay"\r\n\r\n11\r\n-----------------------------\r\nContent-Disposition: form-data; name="dobYear"\r\n\r\n2010\r\n-----------------------------\r\nContent-Disposition: form-data; name="orgPass"\r\n\r\n\r\n-----------------------------\r\nContent-Disposition: form-data; name="data-request-datatype"\r\n\r\njson\r\n-----------------------------\r\nContent-Disposition: form-data; name="submit-value"\r\n\r\nnull\r\n-------------------------------\r\n'
+    data = '-----------------------------\r\nContent-Disposition: form-data; name="email"\r\n\r\n' + email + '\r\n-----------------------------\r\nContent-Disposition: form-data; name="passwd"\r\n\r\n\r\n-----------------------------\r\nContent-Disposition: form-data; name="dobMonth"\r\n\r\n12\r\n-----------------------------\r\nContent-Disposition: form-data; name="dobDay"\r\n\r\n11\r\n-----------------------------\r\nContent-Disposition: form-data; name="dobYear"\r\n\r\n2010\r\n-----------------------------\r\nContent-Disposition: form-data; name="orgPass"\r\n\r\n\r\n-----------------------------\r\nContent-Disposition: form-data; name="data-request-datatype"\r\n\r\njson\r\n-----------------------------\r\nContent-Disposition: form-data; name="submit-value"\r\n\r\nnull\r\n-------------------------------\r\n'
 
-    response = requests.post('https://www.7cups.com/listener/CreateAccount.php',data=data,headers=headers)
-    if response.status_code==200:
+    response = requests.post(
+        'https://www.7cups.com/listener/CreateAccount.php',
+        data=data,
+        headers=headers)
+    if response.status_code == 200:
         if "Account already exists with this email address" in response.text:
             return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
         else:
             return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-
-def envato(email):
-    headers = {
-        'User-Agent': random.choice(ua["browsers"]["chrome"]),
-        'Accept': 'application/json, text/javascript, */*; q=0.01',
-        'Accept-Language': 'en,en-US;q=0.5',
-        'Referer': 'https://account.envato.com/sign_up',
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        'X-Requested-With': 'XMLHttpRequest',
-        'Origin': 'https://account.envato.com',
-        'DNT': '1',
-        'Connection': 'keep-alive',
-        'TE': 'Trailers',
-    }
-    try:
-        req=requests.get("https://account.envato.com/sign_up")
-        soup = BeautifulSoup(req.content, features="lxml")
-        csrf_token = soup.find(attrs={'name': 'csrf-token'}).get("content")
-    except:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-    headers["X-CSRF-Token"]=csrf_token
-
-
-    data = {
-      'user[email]': email,
-      'email': email,
-      'language_code': 'en'
-    }
-
-    response = requests.post('https://account.envato.com/api/validate_email', headers=headers, data=data)
-    if response.json()["valid"]==True:
-        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-    elif "Email is already in use" in response.text:
-        return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
 
 
 def codepen(email):
@@ -154,25 +128,29 @@ def codepen(email):
     }
     try:
         s = requests.session()
-        req=s.get("https://codepen.io/accounts/signup/user/free",headers=headers)
-        soup=BeautifulSoup(req.content,features="lxml")
-        token=soup.find(attrs={"name":"csrf-token"}).get("content")
-        headers["X-CSRF-Token"]=token
-    except :
+        req = s.get(
+            "https://codepen.io/accounts/signup/user/free",
+            headers=headers)
+        soup = BeautifulSoup(req.content, features="lxml")
+        token = soup.find(attrs={"name": "csrf-token"}).get("content")
+        headers["X-CSRF-Token"] = token
+    except BaseException:
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
 
     data = {
-      'attribute': 'email',
-      'value': email,
-      'context': 'user'
+        'attribute': 'email',
+        'value': email,
+        'context': 'user'
     }
 
-    response = s.post('https://codepen.io/accounts/duplicate_check', headers=headers, data=data)
+    response = s.post(
+        'https://codepen.io/accounts/duplicate_check',
+        headers=headers,
+        data=data)
     if "That Email is already taken." in response.text:
         return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
         return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-
 
 
 def buymeacoffe(email):
@@ -212,7 +190,7 @@ def buymeacoffe(email):
         data=data)
     if response.status_code == 200:
         data = response.json()
-        if data["status"] =="SUCCESS":
+        if data["status"] == "SUCCESS":
             return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
         elif data["status"] == "FAIL" and "email" in str(data):
             return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
@@ -220,8 +198,10 @@ def buymeacoffe(email):
             return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+
+
 def codecademy(email):
-    s=requests.session()
+    s = requests.session()
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': 'application/json',
@@ -233,16 +213,22 @@ def codecademy(email):
         'Connection': 'keep-alive',
         'TE': 'Trailers',
     }
-    req=s.get("https://www.codecademy.com/register?redirect=%2F",headers=headers)
-    soup=BeautifulSoup(req.content,features="lxml")
+    req = s.get(
+        "https://www.codecademy.com/register?redirect=%2F",
+        headers=headers)
+    soup = BeautifulSoup(req.content, features="lxml")
     try:
-        headers["X-CSRF-Token"]=soup.find(attrs={"name":"csrf-token"}).get("content")
-    except:
+        headers["X-CSRF-Token"] = soup.find(
+            attrs={"name": "csrf-token"}).get("content")
+    except BaseException:
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
 
-    data = '{"user":{"email":"'+email+'"}}'
+    data = '{"user":{"email":"' + email + '"}}'
 
-    response = s.post('https://www.codecademy.com/register/validate', headers=headers, data=data)
+    response = s.post(
+        'https://www.codecademy.com/register/validate',
+        headers=headers,
+        data=data)
     if 'is already taken' in response.text:
         return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
@@ -482,38 +468,6 @@ def lastfm(email):
     else:
         return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
 
-def teamtreehouse(email):
-    s=requests.Session()
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101 Firefox/78.0',
-        'Accept': 'application/json, text/javascript, */*; q=0.01',
-        'Accept-Language': 'en,en-US;q=0.5',
-        'Referer': 'https://teamtreehouse.com/subscribe/new?trial=yes',
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        'X-Requested-With': 'XMLHttpRequest',
-        'Origin': 'https://teamtreehouse.com',
-        'DNT': '1',
-        'Connection': 'keep-alive',
-        'TE': 'Trailers',
-    }
-
-
-    req=s.get("https://teamtreehouse.com/subscribe/new?trial=yes",headers=headers)
-    soup=BeautifulSoup(req.content,features="lxml")
-    token=soup.find(attrs={"name":"csrf-token"}).get("content")
-    headers['X-CSRF-Token']=token
-
-    data = {
-      'email': email
-    }
-
-    response = s.post('https://teamtreehouse.com/account/email_address', headers=headers, data=data)
-    if 'that email address is taken.' in response.text:
-        return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
-    elif response.text=='{"success":true}':
-        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-    else:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
 
 def coroflot(email):
     headers = {
@@ -530,16 +484,20 @@ def coroflot(email):
     }
 
     data = {
-      'email': email
+        'email': email
     }
-    response = requests.post('https://www.coroflot.com/home/signup_email_check', headers=headers, data=data)
+    response = requests.post(
+        'https://www.coroflot.com/home/signup_email_check',
+        headers=headers,
+        data=data)
     try:
-        if response.json()["data"]==-2:
+        if response.json()["data"] == -2:
             return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
         else:
             return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-    except:
+    except BaseException:
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+
 
 def spotify(email):
     headers = {
@@ -669,6 +627,7 @@ def live(email):
     else:
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
 
+
 def rambler(email):
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
@@ -681,19 +640,23 @@ def rambler(email):
         'Connection': 'keep-alive',
     }
 
-    data = '{"method":"Rambler::Id::get_email_account_info","params":[{"email":"'+email+'"}],"rpc":"2.0"}'
+    data = '{"method":"Rambler::Id::get_email_account_info","params":[{"email":"' + email + '"}],"rpc":"2.0"}'
 
-    response = requests.post('https://id.rambler.ru/jsonrpc', headers=headers, data=data)
+    response = requests.post(
+        'https://id.rambler.ru/jsonrpc',
+        headers=headers,
+        data=data)
     try:
-        if response.json()["result"]["exists"]==0:
+        if response.json()["result"]["exists"] == 0:
             return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
         else:
             return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
-    except:
+    except BaseException:
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
 
+
 def teamtreehouse(email):
-    s=requests.Session()
+    s = requests.Session()
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': 'application/json, text/javascript, */*; q=0.01',
@@ -707,20 +670,24 @@ def teamtreehouse(email):
         'TE': 'Trailers',
     }
 
-
-    req=s.get("https://teamtreehouse.com/subscribe/new?trial=yes",headers=headers)
-    soup=BeautifulSoup(req.content,features="lxml")
-    token=soup.find(attrs={"name":"csrf-token"}).get("content")
-    headers['X-CSRF-Token']=token
+    req = s.get(
+        "https://teamtreehouse.com/subscribe/new?trial=yes",
+        headers=headers)
+    soup = BeautifulSoup(req.content, features="lxml")
+    token = soup.find(attrs={"name": "csrf-token"}).get("content")
+    headers['X-CSRF-Token'] = token
 
     data = {
-      'email': email
+        'email': email
     }
 
-    response = s.post('https://teamtreehouse.com/account/email_address', headers=headers, data=data)
+    response = s.post(
+        'https://teamtreehouse.com/account/email_address',
+        headers=headers,
+        data=data)
     if 'that email address is taken.' in response.text:
         return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
-    elif response.text=='{"success":true}':
+    elif response.text == '{"success":true}':
         return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
@@ -1290,6 +1257,7 @@ def wordpress(email):
     else:
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
 
+
 def ello(email):
 
     headers = {
@@ -1304,15 +1272,19 @@ def ello(email):
         'TE': 'Trailers',
     }
 
-    data = '{"email":"'+email+'"}'
-    response = requests.post('https://ello.co/api/v2/availability', headers=headers, data=data)
+    data = '{"email":"' + email + '"}'
+    response = requests.post(
+        'https://ello.co/api/v2/availability',
+        headers=headers,
+        data=data)
     try:
-        if response.json()["availability"]["email"]==True:
+        if response.json()["availability"]["email"] == True:
             return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
         else:
             return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
-    except:
-            return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    except BaseException:
+        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+
 
 def issuu(email):
 
@@ -1328,14 +1300,18 @@ def issuu(email):
         'TE': 'Trailers',
     }
 
-    response = requests.get('https://issuu.com/call/signup/check-email/'+email, headers=headers)
+    response = requests.get(
+        'https://issuu.com/call/signup/check-email/' +
+        email,
+        headers=headers)
     try:
-        if response.json()["status"]=="unavailable":
+        if response.json()["status"] == "unavailable":
             return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
         else:
             return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-    except :
+    except BaseException:
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+
 
 def envato(email):
     headers = {
@@ -1351,16 +1327,18 @@ def envato(email):
     }
 
     data = {
-      'email': email
+        'email': email
     }
-    response = requests.post('https://account.envato.com/api/validate_email', headers=headers, data=data)
+    response = requests.post(
+        'https://account.envato.com/api/validate_email',
+        headers=headers,
+        data=data)
     if 'Email is already in use' in response.text:
         return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     elif "Page designed by Kotulsky" in response.text:
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
         return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-
 
 
 def eventbrite(email):
@@ -1410,8 +1388,6 @@ def eventbrite(email):
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
 
 
-
-
 def main():
     print('Github : https://github.com/megadose/holehe')
     start_time = time.time()
@@ -1428,46 +1404,46 @@ def main():
         return({Websitename: WebsiteFunction(email)})
 
     websites = [
-    _7cups,
-    aboutme,
-    adobe,
-    amazon,
-    bitmoji,
-    blablacar,
-    buymeacoffe,
-    codecademy,
-    codepen,
-    coroflot,
-    discord,
-    ebay,
-    ello,
-    envato,
-    eventbrite,
-    evernote,
-    facebook,
-    firefox,
-    freelancer,
-    github,
-    google,
-    instagram,
-    issuu,
-    lastfm,
-    lastpass,
-    live,
-    nike,
-    office365,
-    pinterest,
-    pornhub,
-    rambler,
-    samsung,
-    snapchat,
-    spotify,
-    teamtreehouse,
-    tumblr,
-    twitter,
-    vrbo,
-    wordpress,
-    yahoo]
+        _7cups,
+        aboutme,
+        adobe,
+        amazon,
+        bitmoji,
+        blablacar,
+        buymeacoffe,
+        codecademy,
+        codepen,
+        coroflot,
+        discord,
+        ebay,
+        ello,
+        envato,
+        eventbrite,
+        evernote,
+        facebook,
+        firefox,
+        freelancer,
+        github,
+        google,
+        instagram,
+        issuu,
+        lastfm,
+        lastpass,
+        live,
+        nike,
+        office365,
+        pinterest,
+        pornhub,
+        rambler,
+        samsung,
+        snapchat,
+        spotify,
+        teamtreehouse,
+        tumblr,
+        twitter,
+        vrbo,
+        wordpress,
+        yahoo]
 
     que = queue.Queue()
     infos = {}
