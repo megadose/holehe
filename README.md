@@ -2,7 +2,7 @@
 <a href="https://www.buymeacoffee.com/megadose" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 # Educational purposes only
 
-### If you have any suggestions, please do not hesitate to contact us. 
+### If you have any suggestions, please do not hesitate to contact us.
 
 holehe allows you to check if the mail is used on different sites like twitter, instagram and will retrieve information on sites with the forgotten password function.
 
@@ -47,39 +47,48 @@ print(lastpass("test@gmail.com"))
 ```
 
 ## Modules :
-
-|  Module    |    Website     |      Method       | Frequent rate limit |
-| :-------:  | :-----------:  | :---------------: | :-----------------: |
-|  aboutme   |   about.me     |     register      |          ✘          |
-|   adobe    |   adobe.com    | password recovery |          ✘          |
-|  amazon    |  amazon.com    |       login       |          ✘          |
-|  bitmoji   |  bitmoji.com   |       login       |          ✘          |
-| blablacar  | blablacar.com  |     register      |          ✔          |
-|buymeacoffee|buymeacoffee.com|     register      |          ✔          |
-|  discord   |  discord.com   |     register      |          ✘          |
-|   ebay     |   ebay.com     |       login       |          ✔          |
-| evernote   | evernote.com   |       login       |          ✘          |
-| eventbrite | eventbrite.com |       login       |          ✘          |
-| facebook   | facebook.com   | password recovery |          ✘          |
-|  firefox   |  firefox.com   |     register      |          ✘          |
-|freelancer  | freelancer.com |     register      |          ✘          |
-|  github    |  github.com    |     register      |          ✘          |
-| google     |   google.com   |     register      |          ✘          |
-| instagram  | instagram.com  |     register      |          ✔          |
-|  lastfm    |    last.fm     |     register      |          ✘          |
-| lastpass   | lastpass.com   |     register      |          ✘          |
-|   live     |   live.com     | password recovery |          ✘          |
-|   nike     |     nike.com   |     register      |          ✘          |
-| office365  | office365.com  |       other       |          ✘          |
-| pinterest  | pinterest.com  |     register      |          ✘          |
-|  samsung   |  samsung.com   |     register      |          ✘          |
-|  snapchat  |  snapchat.com  |       login       |          ✘          |
-|  spotify   |  spotify.com   |     register      |          ✔          |
-|  tumblr    |  tumblr.com    |     register      |          ✘          |
-|  twitter   |  twitter.com   |     register      |          ✘          |
-|   vrbo     |   vrbo.com     |     register      |          ✘          |
-| wordpress  | wordpress.com  |       login       |          ✘          |
-|   yahoo    |   yahoo.com    |       login       |          ✔          |
+|  Module     |    Website     |      Method       | Frequent rate limit |
+| :-------:   | :-----------:  | :---------------: | :-----------------: |
+|  _7cups     |   7cups.com    |     register      |          ✔          |
+|  aboutme    |   about.me     |     register      |          ✘          |
+|   adobe     |   adobe.com    | password recovery |          ✘          |
+|  amazon     |  amazon.com    |       login       |          ✘          |
+|  bitmoji    |  bitmoji.com   |       login       |          ✘          |
+| blablacar   | blablacar.com  |     register      |          ✔          |
+|buymeacoffee |buymeacoffee.com|     register      |          ✔          |
+| codecademy  | codecademy.com |     register      |          ✔          |
+|  codepen    |   codepen.io   |     register      |          ✘          |
+|  coroflot   |  coroflot.com  |     register      |          ✘          |
+|  discord    |  discord.com   |     register      |          ✘          |
+|   ebay      |   ebay.com     |       login       |          ✔          |
+|   ello      |    ello.co     |     register      |          ✘          |
+|  envato     |   envato.com   |     register      |          ✘          |
+| eventbrite  | eventbrite.com |       login       |          ✘          |
+| evernote    | evernote.com   |       login       |          ✘          |
+| facebook    | facebook.com   | password recovery |          ✘          |
+|  firefox    |  firefox.com   |     register      |          ✘          |
+|freelancer   | freelancer.com |     register      |          ✘          |
+|  github     |  github.com    |     register      |          ✘          |
+| google      |   google.com   |     register      |          ✘          |
+| instagram   | instagram.com  |     register      |          ✔          |
+|  issuu      |   issuu.com    |     register      |          ✘          |
+|  lastfm     |    last.fm     |     register      |          ✘          |
+| lastpass    | lastpass.com   |     register      |          ✘          |
+|   live      |   live.com     | password recovery |          ✘          |
+|   nike      |     nike.com   |     register      |          ✘          |
+| office365   | office365.com  |       other       |          ✘          |
+| pinterest   | pinterest.com  |     register      |          ✘          |
+|  pornhub    |   pornhub.com  |     register      |          ✘          |
+|  rambler    |   rambler.ru   |     register      |          ✘          |
+|  samsung    |  samsung.com   |     register      |          ✘          |
+|  snapchat   |  snapchat.com  |       login       |          ✘          |
+|   spotify   |  spotify.com   |     register      |          ✔          |
+|teamtreehouse|teamtreehouse.com|     register      |          ✘          |
+|  tumblr     |  tumblr.com    |     register      |          ✘          |
+|  twitter    |  twitter.com   |     register      |          ✘          |
+|   vrbo      |   vrbo.com     |     register      |          ✘          |
+| wordpress   | wordpress.com  |       login       |          ✘          |
+|   yahoo     |   yahoo.com    |       login       |          ✔          |
 
 ### Rate limit, just change your IP
 
