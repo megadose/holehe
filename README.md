@@ -55,6 +55,7 @@ print(lastpass("test@gmail.com"))
 |  amazon     |  amazon.com    |       login       |          ✘          |
 |  bitmoji    |  bitmoji.com   |       login       |          ✘          |
 | blablacar   | blablacar.com  |     register      |          ✔          |
+|    blip     |     blip.fm    |     register      |          ✔          |
 |buymeacoffee |buymeacoffee.com|     register      |          ✔          |
 | codecademy  | codecademy.com |     register      |          ✔          |
 |  codepen    |   codepen.io   |     register      |          ✘          |
@@ -77,7 +78,7 @@ print(lastpass("test@gmail.com"))
 |   live      |   live.com     | password recovery |          ✘          |
 |   mail.ru   |    mail.ru     | password recovery |          ✘          |
 |   nike      |     nike.com   |     register      |          ✘          |
-| odnoklassniki|    ok.ru       | password recovery |          ✘          |
+|odnoklassniki|    ok.ru       | password recovery |          ✘          |
 | office365   | office365.com  |       other       |          ✘          |
 | pinterest   | pinterest.com  |     register      |          ✘          |
 |  pornhub    |   pornhub.com  |     register      |          ✘          |

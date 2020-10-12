@@ -111,6 +111,36 @@ def _7cups(email):
             return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+def blip(email):
+
+    headers = {
+        'User-Agent': random.choice(ua["browsers"]["chrome"]),
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Language': 'en,en-US;q=0.5',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Origin': 'https://blip.fm',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+        'Referer': 'https://blip.fm/',
+        'Upgrade-Insecure-Requests': '1',
+    }
+
+    data = {
+      'referringUrl': '',
+      'genpass': '1',
+      'signup[urlName]': '',
+      'signup[emailAddress]': email,
+      'g-recaptcha-response': '',
+      'tos': '1'
+    }
+
+    response = requests.post('https://blip.fm/signup/save', headers=headers, data=data)
+    if 'That email address is already in use.' in response.text:
+        return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+    elif 'cloudfront.net/images/blip/spinner.gif" alt="loading..."' in response.text:
+        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    else:
+        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
 
 
 def codepen(email):
@@ -206,7 +236,7 @@ def codecademy(email):
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': 'application/json',
         'Accept-Language': 'en,en-US;q=0.5',
-        'Referer': 'https://www.codecademy.com/register?redirect=%2F',
+        'Referer': 'https://www.codecademy.com/register?redirect=%2',
         'Content-Type': 'application/json',
         'Origin': 'https://www.codecademy.com',
         'DNT': '1',
@@ -1130,7 +1160,7 @@ def google(email):
         'Accept': '*/*',
         'Accept-Language': 'en,en-US;q=0.5',
         'X-Same-Domain': '1',
-        'Google-Accounts-XSRF': '1',
+        'Google-Accounts-XSR': '1',
         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
         'Origin': 'https://accounts.google.com',
         'DNT': '1',
@@ -1399,14 +1429,12 @@ def odnoklassniki(email):
         'Connection': 'keep-alive',
     }
 
-    OK_LOGIN_URL = \
-        'https://www.ok.ru/dk?st.cmd=anonymMain&st.accRecovery=on&st.error=errors.password.wrong'
-    OK_RECOVER_URL = \
-        'https://www.ok.ru/dk?st.cmd=anonymRecoveryAfterFailedLogin&st._aid=LeftColumn_Login_ForgotPassword'
+    OK_LOGIN_URL = 'https://www.ok.ru/dk?st.cmd=anonymMain&st.accRecovery=on&st.error=errors.password.wrong'
+    OK_RECOVER_URL = 'https://www.ok.ru/dk?st.cmd=anonymRecoveryAfterFailedLogin&st._aid=LeftColumn_Login_ForgotPassword'
 
     session = requests.Session()
     session.headers.update(headers)
-    session.get(f'{OK_LOGIN_URL}&st.email={email}')
+    session.get('{OK_LOGIN_URL}&st.email={email}')
     request = session.get(OK_RECOVER_URL)
     root_soup = BeautifulSoup(request.content, 'html.parser')
     soup = root_soup.find('div', {'data-l': 'registrationContainer,offer_contact_rest'})
@@ -1453,12 +1481,12 @@ def mail_ru(email):
         'sec-fetch-site': 'same-origin',
         'sec-fetch-mode': 'cors',
         'sec-fetch-dest': 'empty',
-        f'referer': 'https://account.mail.ru/recovery?email={email}',
+        'referer': 'https://account.mail.ru/recovery?email={email}',
         'user-agent': random.choice(ua["browsers"]["chrome"]),
         'accept-language': 'ru',
     }
 
-    data = f'email={email}&htmlencoded=false'.replace('@', '%40')
+    data = 'email={email}&htmlencoded=false'.replace('@', '%40')
 
     response = requests.post(
         'https://account.mail.ru/api/v1/user/password/restore',
@@ -1504,6 +1532,7 @@ def main():
         amazon,
         bitmoji,
         blablacar,
+        blip,
         buymeacoffe,
         codecademy,
         codepen,
