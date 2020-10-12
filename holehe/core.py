@@ -115,31 +115,30 @@ def blip(email):
 
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
         'Accept-Language': 'en,en-US;q=0.5',
-        'Content-Type': 'application/x-www-form-urlencoded',
         'Origin': 'https://blip.fm',
         'DNT': '1',
         'Connection': 'keep-alive',
         'Referer': 'https://blip.fm/',
-        'Upgrade-Insecure-Requests': '1',
     }
 
     data = {
       'referringUrl': '',
       'genpass': '1',
-      'signup[urlName]': '',
+      'signup[urlName]': 'test',
       'signup[emailAddress]': email,
       'g-recaptcha-response': '',
-      'tos': '1'
+      'tos': '0'
     }
-
-    response = requests.post('https://blip.fm/signup/save', headers=headers, data=data)
-    if 'That email address is already in use.' in response.text:
-        return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
-    elif 'cloudfront.net/images/blip/spinner.gif" alt="loading..."' in response.text:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-    else:
+    try:
+        response = requests.post('https://blip.fm/signup/save', headers=headers, data=data)
+        if 'That email address is already in use.' in response.text:
+            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        elif 'cloudfront.net/images/blip/spinner.gif" alt="loading..."' in response.text:
+            return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        else:
+            return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    except:
         return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
 
 
@@ -481,7 +480,11 @@ def pinterest(email):
 
 def lastfm(email):
     req = requests.get("https://www.last.fm/join")
-    token = req.cookies["csrftoken"]
+    try:
+        token = req.cookies["csrftoken"]
+    except:
+        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+
     data = {"csrfmiddlewaretoken": token, "userName": "", "email": email}
     headers = {
         "Accept": "*/*",
@@ -1303,16 +1306,13 @@ def ello(email):
     }
 
     data = '{"email":"' + email + '"}'
-    response = requests.post(
-        'https://ello.co/api/v2/availability',
-        headers=headers,
-        data=data)
     try:
+        response = requests.post('https://ello.co/api/v2/availability',headers=headers,data=data)
         if response.json()["availability"]["email"] == True:
             return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
         else:
             return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
-    except BaseException:
+    except:
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
 
 
@@ -1417,6 +1417,35 @@ def eventbrite(email):
     else:
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
 
+def venmo(email):
+    s = requests.Session()
+    headers = {
+        'User-Agent': random.choice(ua["browsers"]["firefox"]),
+        'Accept': 'application/json',
+        'Accept-Language': 'en,en-US;q=0.5',
+        'Referer': 'https://venmo.com/',
+        'Content-Type': 'application/json',
+        'Origin': 'https://venmo.com',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+        'TE': 'Trailers',
+    }
+    s.get("https://venmo.com/signup/email",headers=headers)
+    try:
+        headers["device-id"]=s.cookies["v_id"]
+    except :
+        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+
+    data = '{"last_name":"e","first_name":"z","email":"'+email+'","password":"","phone":"1","client_id":10}'
+
+    response = s.post('https://venmo.com/api/v5/users', headers=headers, data=data)
+    if "Not acceptable" not in response.text:
+        if "That email is already registered in our system." in response.text:
+            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        else:
+            return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    else:
+            return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
 
 def odnoklassniki(email):
     # credits: https://github.com/shllwrld/ok_checker/
@@ -1434,7 +1463,7 @@ def odnoklassniki(email):
 
     session = requests.Session()
     session.headers.update(headers)
-    session.get('{OK_LOGIN_URL}&st.email={email}')
+    session.get(OK_LOGIN_URL+'&st.email='+email)
     request = session.get(OK_RECOVER_URL)
     root_soup = BeautifulSoup(request.content, 'html.parser')
     soup = root_soup.find('div', {'data-l': 'registrationContainer,offer_contact_rest'})
@@ -1566,6 +1595,7 @@ def main():
         teamtreehouse,
         tumblr,
         twitter,
+        venmo,
         vrbo,
         wordpress,
         yahoo]

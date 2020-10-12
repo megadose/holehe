@@ -89,6 +89,7 @@ print(lastpass("test@gmail.com"))
 |teamtreehouse|teamtreehouse.com|     register      |          ✘          |
 |  tumblr     |  tumblr.com    |     register      |          ✘          |
 |  twitter    |  twitter.com   |     register      |          ✘          |
+|   venmo     |   venmo.com    |    register       |          ✔          |
 |   vrbo      |   vrbo.com     |     register      |          ✘          |
 | wordpress   | wordpress.com  |       login       |          ✘          |
 |   yahoo     |   yahoo.com    |       login       |          ✔          |
