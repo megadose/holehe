@@ -86,6 +86,7 @@ print(lastpass("test@gmail.com"))
 |  samsung    |  samsung.com   |     register      |          ✘          |
 |  snapchat   |  snapchat.com  |       login       |          ✘          |
 |   spotify   |  spotify.com   |     register      |          ✔          |
+|  taringa    |  taringa.net   |     register      |          ✔          |
 |teamtreehouse|teamtreehouse.com|     register      |          ✘          |
 |  tumblr     |  tumblr.com    |     register      |          ✘          |
 |  twitter    |  twitter.com   |     register      |          ✘          |
