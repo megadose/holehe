@@ -82,17 +82,19 @@ print(lastpass("test@gmail.com"))
 | office365   | office365.com  |       other       |          ✘          |
 | pinterest   | pinterest.com  |     register      |          ✘          |
 |  pornhub    |   pornhub.com  |     register      |          ✘          |
+|  quizlet    |   quizlet.com  |     register      |          ✘          |
 |  rambler    |   rambler.ru   |     register      |          ✘          |
 |  samsung    |  samsung.com   |     register      |          ✘          |
 |  snapchat   |  snapchat.com  |       login       |          ✘          |
 |   spotify   |  spotify.com   |     register      |          ✔          |
 |  taringa    |  taringa.net   |     register      |          ✔          |
-|teamtreehouse|teamtreehouse.com|     register      |          ✘          |
+|teamtreehouse|teamtreehouse.com|     register     |          ✘          |
 |  tumblr     |  tumblr.com    |     register      |          ✘          |
 |  twitter    |  twitter.com   |     register      |          ✘          |
 |   venmo     |   venmo.com    |    register       |          ✔          |
 |   vrbo      |   vrbo.com     |     register      |          ✘          |
 | wordpress   | wordpress.com  |       login       |          ✘          |
+|   xing      |   xing.com     |     register      |          ✘          |
 |   yahoo     |   yahoo.com    |       login       |          ✔          |
 
 ### Rate limit, just change your IP
