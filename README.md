@@ -92,6 +92,7 @@ print(lastpass("test@gmail.com"))
 |  tumblr     |  tumblr.com    |     register      |          ✘          |
 |  twitter    |  twitter.com   |     register      |          ✘          |
 |   venmo     |   venmo.com    |    register       |          ✔          |
+|  voxmedia   | voxmedia.com   |     register      |          ✘          |
 |   vrbo      |   vrbo.com     |     register      |          ✘          |
 | wordpress   | wordpress.com  |       login       |          ✘          |
 |   xing      |   xing.com     |     register      |          ✘          |
