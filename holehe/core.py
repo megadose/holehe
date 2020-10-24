@@ -512,6 +512,43 @@ def github(email):
     else:
         return({"rateLimit": True, "exists": None, "emailrecovery": None, "phoneNumber": None, "others": None})
 
+def redtube(email):
+    s=requests.session()
+    headers = {
+        'User-Agent': random.choice(ua["browsers"]["chrome"]),
+        'Accept': '*/*',
+        'Accept-Language': 'en-US;q=0.5,en;q=0.3',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'Origin': 'https://redtube.com',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+    }
+
+    r=s.get("https://redtube.com/register",headers=headers)
+    soup=BeautifulSoup(r.text,features="lxml")
+    token=soup.find(attrs={"id":"token"}).get("value")
+    if token==None:
+        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    headers['X-Requested-With']= 'XMLHttpRequest'
+
+
+    params = (
+        ('token', token),
+    )
+
+    data = {
+      'token': token,
+      'redirect': '',
+      'check_what': 'email',
+      'email': email
+    }
+
+    response = s.post('https://www.redtube.com/user/create_account_check', headers=headers, params=params, data=data)
+
+    if "Email has been taken." in response.text:
+        return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+    else:
+        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
 
 def twitter(email):
     req = requests.get(
@@ -1400,6 +1437,31 @@ def issuu(email):
     except BaseException:
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
 
+def plurk(email):
+    headers = {
+        'User-Agent': random.choice(ua["browsers"]["firefox"]),
+        'Accept': '*/*',
+        'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'X-Requested-With': 'XMLHttpRequest',
+        'Origin': 'https://www.plurk.com',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+    }
+
+    data = {
+      'email': email
+    }
+
+    response = requests.post('https://www.plurk.com/Users/isEmailFound', headers=headers, data=data)
+    if response.text=="True":
+        return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+    elif response.text=="False":
+        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    else:
+        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+
+
 
 def envato(email):
     headers = {
@@ -1693,9 +1755,11 @@ def main():
         odnoklassniki,
         office365,
         pinterest,
+        plurk,
         pornhub,
         quizlet,
         rambler,
+        redtube,
         samsung,
         snapchat,
         spotify,

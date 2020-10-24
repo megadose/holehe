@@ -81,9 +81,11 @@ print(lastpass("test@gmail.com"))
 |odnoklassniki|    ok.ru       | password recovery |          ✘          |
 | office365   | office365.com  |       other       |          ✘          |
 | pinterest   | pinterest.com  |     register      |          ✘          |
+|   plurk     |    plurk.com   |     register      |          ✘          |
 |  pornhub    |   pornhub.com  |     register      |          ✘          |
 |  quizlet    |   quizlet.com  |     register      |          ✘          |
 |  rambler    |   rambler.ru   |     register      |          ✘          |
+|   redtube   |   redtube.com  |     register      |          ✘          |
 |  samsung    |  samsung.com   |     register      |          ✘          |
 |  snapchat   |  snapchat.com  |       login       |          ✘          |
 |   spotify   |  spotify.com   |     register      |          ✔          |
