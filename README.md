@@ -49,7 +49,7 @@ print(lastpass("test@gmail.com"))
 ## Modules :
 |  Module     |    Website     |      Method       | Frequent rate limit |
 | :-------:   | :-----------:  | :---------------: | :-----------------: |
-|  _7cups     |   7cups.com    |     register      |          ✔          |
+|  sevencups  |   7cups.com    |     register      |          ✔          |
 |  aboutme    |   about.me     |     register      |          ✘          |
 |   adobe     |   adobe.com    | password recovery |          ✘          |
 |  amazon     |  amazon.com    |       login       |          ✘          |

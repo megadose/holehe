@@ -86,7 +86,7 @@ def pornhub(email):
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
 
 
-def _7cups(email):
+def sevencups(email):
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]), 'DNT': '1',
         'Connection': 'keep-alive', 'Accept': 'application/json, text/javascript, */*; q=0.01',
@@ -1723,7 +1723,7 @@ def main():
         return({Websitename: WebsiteFunction(email)})
 
     websites = [
-        _7cups,
+        sevencups,
         aboutme,
         adobe,
         amazon,
