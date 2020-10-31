@@ -704,8 +704,12 @@ def live(email):
     if "},{" in datatext:
         data1=json.loads(datatext.split("},{")[0]+"}")
         data2=json.loads("{"+datatext.split("},{")[1])
-        return({"rateLimit": False, "exists": True, "emailrecovery": data1["name"], "phoneNumber": data2["name"], "others": None})
-
+        if "@" in data1["name"]:
+            return({"rateLimit": False, "exists": True, "emailrecovery": data1["name"], "phoneNumber": data2["name"], "others": None})
+        elif "@" in data2["name"]:
+            return({"rateLimit": False, "exists": True, "emailrecovery": data2["name"], "phoneNumber": data1["name"], "others": None})
+        else:
+            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": data1["name"], "others": None})
     data = json.loads(datatext)
     if data["type"] == "Email":
         return({"rateLimit": False, "exists": True, "emailrecovery": data["name"], "phoneNumber": None, "others": None})
