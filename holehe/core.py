@@ -62,7 +62,11 @@ def pornhub(email):
     s = requests.session()
     req = s.get("https://www.pornhub.com/signup", headers=headers)
     soup = BeautifulSoup(req.content, features="lxml")
-    toe = soup.find(attrs={"name": "token"}).get("value")
+    try:
+        toe = soup.find(attrs={"name": "token"}).get("value")
+    except:
+        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+
     params = (
         ('token', toe),
     )
@@ -1656,6 +1660,61 @@ def xing(email):
     except BaseException:
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
 
+def deliveroo(email):
+
+    headers = {
+        'User-Agent': random.choice(ua["browsers"]["chrome"]),
+        'Accept': 'application/json, application/vnd.api+json',
+        'Accept-Language': 'en-US;q=0.5,en;q=0.3',
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-Roo-Client': 'orderweb-client',
+        'X-Roo-Country': 'fr',
+        'Content-Type': 'application/json;charset=UTF-8',
+        'Origin': 'https://deliveroo.com',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+        'TE': 'Trailers',
+    }
+
+    data = '{"email_address":"tazeest@gmail.com"}'
+
+    response = requests.post('https://consumer-ow-api.deliveroo.com/orderapp/v1/check-email', headers=headers, data=data)
+    if response.status_code==200:
+        data=response.json()
+        if data["registered"]==True:
+            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        else:
+            return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    else:
+            return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+def dominosfr(email):
+    s = requests.session()
+    headers = {
+        'User-Agent': random.choice(ua["browsers"]["chrome"]),
+        'Accept': 'text/html, */*; q=0.01',
+        'Accept-Language': 'en,en-US;q=0.5',
+        'X-Requested-With': 'XMLHttpRequest',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+        'Referer': 'https://commande.dominos.fr/eStore/fr/Signup',
+    }
+
+    s.get("https://commande.dominos.fr/eStore/fr/Signup",headers=headers)
+    headers['X-Requested-With'] = 'XMLHttpRequest'
+
+    params = (
+        ('email', email),
+    )
+
+    response = requests.get('https://commande.dominos.fr/eStore/fr/Signup/IsEmailAvailable', headers=headers, params=params)
+    if response.status_code==200:
+        if response.text=="false":
+            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        else:
+            return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    else:
+        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+
 
 def quizlet(email):
     headers = {
@@ -1697,7 +1756,9 @@ def main():
         codecademy,
         codepen,
         coroflot,
+        deliveroo,
         discord,
+        dominosfr,
         ebay,
         ello,
         envato,

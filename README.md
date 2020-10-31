@@ -60,6 +60,8 @@ print(lastpass("test@gmail.com"))
 | codecademy  | codecademy.com |     register      |          ✔          |
 |  codepen    |   codepen.io   |     register      |          ✘          |
 |  coroflot   |  coroflot.com  |     register      |          ✘          |
+|  deliveroo  | deliveroo.com  |     register      |          ✔          |
+|  dominosfr  |   dominos.fr   |     register      |          ✔          |
 |  discord    |  discord.com   |     register      |          ✘          |
 |   ebay      |   ebay.com     |       login       |          ✔          |
 |   ello      |    ello.co     |     register      |          ✘          |
