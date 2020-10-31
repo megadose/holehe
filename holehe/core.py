@@ -681,79 +681,38 @@ def office365(email):
 
 
 def live(email):
+    brows = Browser()
+    brows.set_handle_robots(False)
+    brows._factory.is_html = True
+    brows.set_cookiejar(cookielib.LWPCookieJar())
+    brows.addheaders = [
+        ('User-agent',
+         random.choice(
+             ua["browsers"]["firefox"]))]
+    brows.set_handle_refresh(
+        mechanize._http.HTTPRefreshProcessor(), max_time=1)
+    url = "https://account.live.com/password/reset"
+    brows.open(url, timeout=10)
+    brows.select_form(nr=0)
+    brows.form['iSigninName'] = email
+    brows.method = "POST"
+    submit = brows.submit()
     try:
-        brows = Browser()
-        brows.set_handle_robots(False)
-        brows._factory.is_html = True
-        brows.set_cookiejar(cookielib.LWPCookieJar())
-        brows.addheaders = [
-            ('User-agent',
-             random.choice(
-                 ua["browsers"]["firefox"]))]
-        brows.set_handle_refresh(
-            mechanize._http.HTTPRefreshProcessor(), max_time=1)
-        url = "https://account.live.com/password/reset"
-        brows.open(url, timeout=10)
-        brows.select_form(nr=0)
-        brows.form['iSigninName'] = email
-        brows.method = "POST"
-        submit = brows.submit()
-        data = json.loads(str('{"name":"' + str(submit.read().decode("utf-8")).split(
-            '"},{"name":"')[1].split('],"showExpirationCheckbox')[0]))
-        if data["type"] == "Email":
-            return({"rateLimit": False, "exists": True, "emailrecovery": data["name"], "phoneNumber": None, "others": None})
-        elif data["type"] == "Sms":
-            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": data["name"], "others": None})
-    except BaseException:
-        pass
+        datatext=str('{"name":"' + str(submit.read().decode("utf-8")).split('"},{"name":"')[1].split('],"showExpirationCheckbox')[0])
+    except IndexError:
+        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    if "},{" in datatext:
+        data1=json.loads(datatext.split("},{")[0]+"}")
+        data2=json.loads("{"+datatext.split("},{")[1])
+        return({"rateLimit": False, "exists": True, "emailrecovery": data1["name"], "phoneNumber": data2["name"], "others": None})
 
-    session = requests.session()
-    session.headers = {
-        'User-Agent': random.choice(ua["browsers"]["firefox"]),
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-        'Accept-Language': 'en,en-US;q=0.5',
-        'Referer': 'https://account.live.com/ResetPassword.aspx',
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Origin': 'https://account.live.com',
-        'DNT': '1',
-        'Connection': 'keep-alive',
-        'Upgrade-Insecure-Requests': '1',
-        'TE': 'Trailers',
-    }
-
-    req = session.get('https://account.live.com/password/reset')
-    uaid = req.text.split('"clientTelemetry":{"uaid":"')[1].split('"')[0]
-    amtcxt = req.text.split(
-        '<input type="hidden" id="amtcxt" name="amtcxt" value="')[1].split('"')[0]
-    canary = req.text.split(
-        '<input type="hidden" id="canary" name="canary" value="')[1].split('"')[0]
-    params = (
-        ('uaid', uaid),
-    )
-
-    data = {
-        'iAction': 'SignInName',
-        'iRU': 'https://account.live.com/SummaryPage.aspx',
-        'amtcxt': amtcxt,
-        'uaid': uaid,
-        'network_type': '',
-        'isSigninNamePhone': 'False',
-        'canary': canary,
-        'PhoneCountry': '',
-        'iSigninName': email
-    }
-
-    response = session.post(
-        'https://account.live.com/password/reset',
-        params=params,
-        data=data)
-    if response.status_code == 200:
-        if int(str(len(response.text))[:2]) < 15:
-            return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        else:
-            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+    data = json.loads(datatext)
+    if data["type"] == "Email":
+        return({"rateLimit": False, "exists": True, "emailrecovery": data["name"], "phoneNumber": None, "others": None})
+    elif data["type"] == "Sms":
+        return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": data["name"], "others": None})
     else:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": data2["name"], "others": None})
 
 
 def rambler(email):
