@@ -74,6 +74,7 @@ print(lastpass("test@gmail.com"))
 | google      |   google.com   |     register      |          ✘          |
 | instagram   | instagram.com  |     register      |          ✔          |
 |  issuu      |   issuu.com    |     register      |          ✘          |
+|  laposte    |    laposte.fr  | password recovery |          ✘          |
 |  lastfm     |    last.fm     |     register      |          ✘          |
 | lastpass    | lastpass.com   |     register      |          ✘          |
 |   live      |   live.com     | password recovery |          ✘          |

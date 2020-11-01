@@ -560,6 +560,34 @@ def twitter(email):
     else:
         return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
 
+def laposte(email):
+    site = 'www.laposte.fr'
+    
+    headers = {
+            'Host': site,
+            'cache-control': 'max-age=0',
+            'upgrade-insecure-requests': '1',
+            'origin': site,
+            'content-type': 'application/x-www-form-urlencoded',
+            'user-agent': random.choice(ua["browsers"]["chrome"]),
+            'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+            'sec-fetch-site': 'same-origin',
+            'sec-fetch-mode': 'navigate',
+            'sec-fetch-user': '?1',
+            'sec-fetch-dest': 'document',
+            'referer': 'https://{0}/mot-de-passe-oublie-email'.format(site),
+            'accept-language': 'fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7',
+        }
+    post_url = 'https://www.laposte.fr/mot-de-passe-oublie-email'
+    
+    session = requests.Session()
+    data = 'email='+email
+    response = session.post(post_url, headers=headers, data=data)
+    html = response.text
+    soup = BeautifulSoup(html, 'lxml')
+    l = soup.find_all('label', class_="error")
+    return({"rateLimit": None, "exists": l == [], "emailrecovery": None, "phoneNumber": None, "others": None})
+
 def copaindavant(email):
     site = "https://copainsdavant.linternaute.com"
     headers = {
@@ -1777,6 +1805,7 @@ def main():
         google,
         instagram,
         issuu,
+        laposte,
         lastfm,
         lastpass,
         live,
