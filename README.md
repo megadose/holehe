@@ -59,6 +59,7 @@ print(lastpass("test@gmail.com"))
 |buymeacoffee |buymeacoffee.com|     register      |          ✔          |
 | codecademy  | codecademy.com |     register      |          ✔          |
 |  codepen    |   codepen.io   |     register      |          ✘          |
+|copaindavant |linternaute.com | password recovery |          ✘          |
 |  coroflot   |  coroflot.com  |     register      |          ✘          |
 |  discord    |  discord.com   |     register      |          ✘          |
 |   ebay      |   ebay.com     |       login       |          ✔          |

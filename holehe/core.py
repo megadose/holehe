@@ -560,6 +560,35 @@ def twitter(email):
     else:
         return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
 
+def copaindavant(email):
+    site = "https://copainsdavant.linternaute.com"
+    headers = {
+        'Host': 'copainsdavant.linternaute.com',
+        'Cache-Control': 'max-age=0',
+        'Upgrade-Insecure-Requests': '1',
+        'Origin': site,
+        'User-Agent': random.choice(ua["browsers"]["chrome"]),
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+        'Sec-Fetch-Site': 'same-origin',
+        'Sec-Fetch-Mode': 'navigate',
+        'Sec-Fetch-User': '?1',
+        'Sec-Fetch-Dest': 'document',
+        'Referer': '{0}/p/forgot_password'.format(site),
+        'Accept-Language': 'fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7'
+    }
+    post_url = "https://copainsdavant.linternaute.com/p/forgot_password"
+    login_data = {
+        'email': email,
+        'login': ''
+    }
+    response = requests.post(post_url, 
+                            headers=headers, 
+                            data=login_data)
+    soup = BeautifulSoup(response.content, features="html.parser")
+    alert_class = soup.find("div", {"class": "jMsg"})
+    return({"rateLimit": False, "exists": alert_class is None, "emailrecovery": None, "phoneNumber": None, "others": None})
+
+
 
 def pinterest(email):
     req = requests.get(
@@ -1733,6 +1762,7 @@ def main():
         buymeacoffe,
         codecademy,
         codepen,
+        copaindavant,
         coroflot,
         discord,
         ebay,
