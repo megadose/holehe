@@ -74,6 +74,7 @@ print(lastpass("test@gmail.com"))
 |freelancer   | freelancer.com |     register      |          ✘          |
 |  github     |  github.com    |     register      |          ✘          |
 | google      |   google.com   |     register      |          ✘          |
+| gravatar    |  gravatar.com  |     other         |          ✘          |
 | instagram   | instagram.com  |     register      |          ✔          |
 |  issuu      |   issuu.com    |     register      |          ✘          |
 |  lastfm     |    last.fm     |     register      |          ✘          |
