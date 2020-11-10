@@ -55,6 +55,7 @@ print(lastpass("test@gmail.com"))
 |   adobe     |   adobe.com    | password recovery |          ✘          |
 |  amazon     |  amazon.com    |       login       |          ✘          |
 |    anydo    |    any.do      |       login       |          ✔          |
+|  atlassian  |  atlassian.com |     register      |          ✘          |
 |  bitmoji    |  bitmoji.com   |       login       |          ✘          |
 | blablacar   | blablacar.com  |     register      |          ✔          |
 |    blip     |     blip.fm    |     register      |          ✔          |
@@ -98,6 +99,7 @@ print(lastpass("test@gmail.com"))
 |  samsung    |  samsung.com   |     register      |          ✘          |
 |  snapchat   |  snapchat.com  |       login       |          ✘          |
 |   spotify   |  spotify.com   |     register      |          ✔          |
+|   strava    |   strava.com   |     register      |          ✘          |
 |  taringa    |  taringa.net   |     register      |          ✔          |
 |teamtreehouse|teamtreehouse.com|     register     |          ✘          |
 |  tumblr     |  tumblr.com    |     register      |          ✘          |

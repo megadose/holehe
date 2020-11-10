@@ -936,6 +936,39 @@ def aboutme(email):
     else:
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
 
+def strava(email):
+    headers = {
+        'User-Agent': random.choice(ua["browsers"]["chrome"]),
+        'Accept-Language': 'en,en-US;q=0.5',
+        'Referer': 'https://www.strava.com/register/free?cta=sign-up&element=button&source=website_show',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+        'TE': 'Trailers',
+    }
+
+    s=requests.session()
+    r=s.get("https://www.strava.com/register/free?cta=sign-up&element=button&source=website_show",headers=headers)
+    try:
+        headers['X-CSRF-Token']= r.text.split('<meta name="csrf-token" content="')[1].split('"')[0]
+    except:
+            return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    headers['X-Requested-With']= 'XMLHttpRequest'
+
+    params = (
+        ('email', email),
+    )
+
+    response = s.get('https://www.strava.com/athletes/email_unique', headers=headers, params=params)
+
+    if response.text=="false":
+            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+    elif response.text=="true":
+            return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    else:
+        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+
+
+
 def demonforums(email):
     s=requests.session()
     headers = {
@@ -959,12 +992,13 @@ def demonforums(email):
     params = (
         ('action', 'email_availability'),
     )
-
-    data = {
-      'email': email,
-      'my_post_key':r.text.split('var my_post_key = "')[1].split('"')[0]
-    }
-
+    try:
+        data = {
+          'email': email,
+          'my_post_key':r.text.split('var my_post_key = "')[1].split('"')[0]
+        }
+    except:
+        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     response = s.post('https://demonforums.net/xmlhttp.php', headers=headers, params=params, data=data)
     if "Your request was blocked" not in response.text and response.status_code==200:
         if "email address that is already in use by another member." in response.text:
@@ -1814,6 +1848,33 @@ def cracked_to(email):
             return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+def atlassian(email):
+
+    s = requests.session()
+    headers = {
+        'User-Agent': random.choice(ua["browsers"]["chrome"]),
+        'Accept': '*/*',
+        'Accept-Language': 'en,en-US;q=0.5',
+        'Referer': 'https://id.atlassian.com/',
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        'Origin': 'https://id.atlassian.com',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+    }
+    r=s.get("https://id.atlassian.com/login",headers=headers)
+    try:
+        data = {
+          'csrfToken': r.text.split('{&quot;csrfToken&quot;:&quot;')[1].split('&quot')[0],
+          'username': email
+        }
+    except :
+        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+
+    response = requests.post('https://id.atlassian.com/rest/check-username', headers=headers, data=data)
+    if response.json()["action"]=="signup":
+        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    else:
+        return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
 
 
 def imgur(email):
@@ -1944,6 +2005,7 @@ def main():
         adobe,
         amazon,
         anydo,
+        atlassian,
         bitmoji,
         blablacar,
         blip,
@@ -1987,6 +2049,7 @@ def main():
         samsung,
         snapchat,
         spotify,
+        strava,
         taringa,
         teamtreehouse,
         tumblr,
