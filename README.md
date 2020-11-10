@@ -60,7 +60,9 @@ print(lastpass("test@gmail.com"))
 | codecademy  | codecademy.com |     register      |          ✔          |
 |  codepen    |   codepen.io   |     register      |          ✘          |
 |  coroflot   |  coroflot.com  |     register      |          ✘          |
+|  cracked_to |  cracked.to    |     register      |          ✔          |
 |  deliveroo  | deliveroo.com  |     register      |          ✔          |
+|demonforums  |demonforums.com |     register      |          ✔          |
 |  dominosfr  |   dominos.fr   |     register      |          ✔          |
 |  discord    |  discord.com   |     register      |          ✘          |
 |   ebay      |   ebay.com     |       login       |          ✔          |
@@ -86,6 +88,7 @@ print(lastpass("test@gmail.com"))
 |   plurk     |    plurk.com   |     register      |          ✘          |
 |  pornhub    |   pornhub.com  |     register      |          ✘          |
 |  quizlet    |   quizlet.com  |     register      |          ✘          |
+|  raidforums | raidforums.com |     register      |          ✔          |
 |  rambler    |   rambler.ru   |     register      |          ✘          |
 |   redtube   |   redtube.com  |     register      |          ✘          |
 |  samsung    |  samsung.com   |     register      |          ✘          |
