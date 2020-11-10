@@ -48,6 +48,30 @@ def adobe(email):
         headers=headers,
         params=params).json()
     return({"rateLimit": False, "exists": True, "emailrecovery": response['secondaryEmail'], "phoneNumber": response['securityPhoneNumber'], "others": None})
+def anydo(email):
+    headers = {
+        'User-Agent': random.choice(ua["browsers"]["chrome"]),
+        'Accept': '*/*',
+        'Accept-Language': 'en,en-US;q=0.5',
+        'Referer': 'https://desktop.any.do/',
+        'Content-Type': 'application/json; charset=UTF-8',
+        'X-Platform': '3',
+        'Origin': 'https://desktop.any.do',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+        'TE': 'Trailers',
+    }
+
+    data = '{"email":"'+email+'"}'
+
+    response = requests.post('https://sm-prod2.any.do/check_email', headers=headers, data=data)
+    if response.status_code==200:
+        if response.json()["user_exists"]==True:
+            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        else:
+            return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    else:
+        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
 
 
 def pornhub(email):
@@ -1792,6 +1816,42 @@ def cracked_to(email):
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
 
 
+def imgur(email):
+    s=requests.session()
+
+    headers = {
+        'User-Agent': random.choice(ua["browsers"]["chrome"]),
+        'Accept': '*/*',
+        'Accept-Language': 'en,en-US;q=0.5',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'Origin': 'https://imgur.com',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+        'TE': 'Trailers',
+    }
+
+
+    r=requests.get("https://imgur.com/register?redirect=%2Fuser",headers=headers)
+
+
+    headers["X-Requested-With"]="XMLHttpRequest"
+
+    data = {
+      'email': email
+    }
+
+    response = s.post('https://imgur.com/signin/ajax_email_available', headers=headers, data=data)
+    if response.status_code==200:
+        if response.json()["data"]["available"]==True:
+            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        else:
+            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+    else:
+        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+
+
+
+
 def raidforums(email):
     s=requests.session()
     headers = {
@@ -1883,6 +1943,7 @@ def main():
         aboutme,
         adobe,
         amazon,
+        anydo,
         bitmoji,
         blablacar,
         blip,
@@ -1907,6 +1968,7 @@ def main():
         google,
         gravatar,
         instagram,
+        imgur,
         issuu,
         lastfm,
         lastpass,
