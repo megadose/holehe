@@ -55,6 +55,7 @@ print(lastpass("test@gmail.com"))
 |   adobe     |   adobe.com    | password recovery |          ✘          |
 |  amazon     |  amazon.com    |       login       |          ✘          |
 |    anydo    |    any.do      |       login       |          ✔          |
+|armurerieauxerre|armurerie-auxerre.com|register   |          ✘          |
 |  atlassian  |  atlassian.com |     register      |          ✘          |
 |  bitmoji    |  bitmoji.com   |       login       |          ✘          |
 | blablacar   | blablacar.com  |     register      |          ✔          |
@@ -87,6 +88,7 @@ print(lastpass("test@gmail.com"))
 |   live      |   live.com     | password recovery |          ✘          |
 |   mail.ru   |    mail.ru     | password recovery |          ✘          |
 |  myspace    |  myspace.com   |     register      |          ✘          |
+| naturabuy   |  naturabuy.fr  |     register      |          ✘          |
 |   nike      |     nike.com   |     register      |          ✘          |
 |odnoklassniki|    ok.ru       | password recovery |          ✘          |
 | office365   | office365.com  |       other       |          ✘          |

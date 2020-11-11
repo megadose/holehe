@@ -140,6 +140,63 @@ def sevencups(email):
             return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+
+
+def armurerieauxerre(email):
+    headers = {
+        'User-Agent': random.choice(ua["browsers"]["chrome"]),
+        'Accept': '*/*',
+        'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'X-Requested-With': 'XMLHttpRequest',
+        'Origin': 'https://www.armurerie-auxerre.com',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+        'TE': 'Trailers',
+    }
+
+    data = {
+      'mail': email
+    }
+
+    response = requests.post('https://www.armurerie-auxerre.com/customer/Email/email/', headers=headers, data=data)
+    if response.text=="exist":
+        return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+    else:
+        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+
+
+def naturabuy(email):
+    def get_random_string(length):
+        letters = string.digits
+        result_str = ''.join(random.choice(letters) for i in range(length))
+        return(result_str)
+
+    randomChar=str(get_random_string(30))
+    headers = {
+        'User-Agent': random.choice(ua["browsers"]["chrome"]),
+        'Accept': '*/*',
+        'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
+        'X-Requested-With': 'XMLHttpRequest',
+        'Content-Type': 'multipart/form-data; boundary=---------------------------',
+        'Origin': 'https://www.naturabuy.fr',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+    }
+
+    data = '-----------------------------\r\nContent-Disposition: form-data; name="jsref"\r\n\r\nemail\r\n-----------------------------\r\nContent-Disposition: form-data; name="jsvalue"\r\n\r\n'+email+'\r\n-----------------------------\r\nContent-Disposition: form-data; name="registerMode"\r\n\r\nfull\r\n-------------------------------\r\n'
+
+    response = requests.post('https://www.naturabuy.fr/includes/ajax/register.php', headers=headers, data=data)
+    try:
+        if response.json()["free"]==False:
+            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        else:
+            return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    except:
+            return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+
+
+
 def blip(email):
 
     headers = {
@@ -2040,6 +2097,7 @@ def main():
         adobe,
         amazon,
         anydo,
+        armurerieauxerre,
         atlassian,
         bitmoji,
         blablacar,
@@ -2072,6 +2130,7 @@ def main():
         live,
         mail_ru,
         myspace,
+        naturabuy,
         nike,
         odnoklassniki,
         office365,
