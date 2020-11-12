@@ -1996,7 +1996,7 @@ def imgur(email):
     response = s.post('https://imgur.com/signin/ajax_email_available', headers=headers, data=data)
     if response.status_code==200:
         if response.json()["data"]["available"]==True:
-            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+            return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
         else:
             return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
@@ -2065,13 +2065,13 @@ def laposte(email):
         'Referer': 'https://www.laposte.fr/authentification',
         'Accept-Language': 'fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7',
     }
-    
+
     data = {
         'email': email,
         'customerId': '',
         'tunnelSteps': ''
         }
-    
+
     response = requests.post('https://www.laposte.fr/authentification', headers=headers, data=data)
     post_soup = BeautifulSoup(response.content , 'lxml')
     l = post_soup.find_all('span', id="wrongEmail")
