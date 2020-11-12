@@ -2059,16 +2059,9 @@ def quizlet(email):
 
 def laposte(email):
     headers = {
-        'Host': 'www.laposte.fr',
-        'Cache-Control': 'max-age=0',
-        'Upgrade-Insecure-Requests': '1',
         'Origin': 'https://www.laposte.fr',
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-        'Sec-Fetch-Site': 'same-origin',
-        'Sec-Fetch-Mode': 'navigate',
-        'Sec-Fetch-User': '?1',
-        'Sec-Fetch-Dest': 'document',
         'Referer': 'https://www.laposte.fr/authentification',
         'Accept-Language': 'fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7',
     }
