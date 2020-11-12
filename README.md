@@ -83,6 +83,7 @@ print(lastpass("test@gmail.com"))
 | instagram   | instagram.com  |     register      |          ✔          |
 |  issuu      |   issuu.com    |     register      |          ✘          |
 |  imgur      |   imgur.com    |     register      |          ✔          |
+|  laposte    |    laposte.fr  |     register      |          ✘          |
 |  lastfm     |    last.fm     |     register      |          ✘          |
 | lastpass    | lastpass.com   |     register      |          ✘          |
 |   live      |   live.com     | password recovery |          ✘          |
