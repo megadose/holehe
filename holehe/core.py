@@ -1439,11 +1439,6 @@ def google(email):
     ('rt', 'j'),
     )
 
-
-    params = (
-    ('hl', 'fr'),
-    ('rt', 'j'),
-    )
     data = {
     'continue': 'https://accounts.google.com/',
     'dsh': '',
@@ -1457,7 +1452,6 @@ def google(email):
 
     }
     response = s.post('https://accounts.google.com/_/signup/webusernameavailability', headers=headers, params=params, data=data)
-    print(response.text)
     if '"gf.wuar",2' in response.text:
         return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     elif '"gf.wuar",1' in response.text or "EmailInvalid" in response.text:
