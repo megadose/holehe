@@ -1410,19 +1410,21 @@ def freelancer(email):
 
 def google(email):
     headers = {
-        'User-Agent': random.choice(ua["browsers"]["firefox"]),
-        'Accept': '*/*',
-        'Accept-Language': 'en,en-US;q=0.5',
-        'X-Same-Domain': '1',
-        'Google-Accounts-XSR': '1',
-        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-        'Origin': 'https://accounts.google.com',
-        'DNT': '1',
-        'Connection': 'keep-alive',
-        'TE': 'Trailers',
+    'User-Agent': random.choice(ua["browsers"]["firefox"]),
+    'Accept': '*/*',
+    'Accept-Language': 'en,en-US;q=0.5',
+    'X-Same-Domain': '1',
+    'Google-Accounts-XSRF': '1',
+    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+    'Origin': 'https://accounts.google.com',
+    'DNT': '1',
+    'Connection': 'keep-alive',
+    'Referer': 'https://accounts.google.com/signup/v2/webcreateaccount?continue=https%3A%2F%2Faccounts.google.com%2F&gmb=exp&biz=false&flowName=GlifWebSignIn&flowEntry=SignUp',
+    'TE': 'Trailers',
     }
 
-    req = requests.get(
+    s=requests.session()
+    req = s.get(
         "https://accounts.google.com/signup/v2/webcreateaccount?continue=https%3A%2F%2Faccounts.google.com%2FManageAccount%3Fnc%3D1&gmb=exp&biz=false&flowName=GlifWebSignIn&flowEntry=SignUp",
         headers=headers)
     try:
@@ -1431,27 +1433,31 @@ def google(email):
     except BaseException:
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
 
+
     params = (
-        ('hl', 'fr'),
-        ('rt', 'j'),
+    ('hl', 'fr'),
+    ('rt', 'j'),
     )
 
+
+    params = (
+    ('hl', 'fr'),
+    ('rt', 'j'),
+    )
     data = {
-        'continue': 'https://www.google.com/',
-        'dsh': '',
-        'hl': 'fr',
-        'f.req': '["' + freq + '","","","' + email + '",false]',
-        'azt': '',
-        'cookiesDisabled': 'false',
-        'deviceinfo': '[null,null,null,[],null,null,null,null,[],"GlifWebSignIn",null,[null,null,[],null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,[],null,null,null,[],[]],null,null,null,null,0,null,false]',
-        'gmscoreversion': 'undefined',
-        '': ''
+    'continue': 'https://accounts.google.com/',
+    'dsh': '',
+    'hl': 'fr',
+    'f.req': '["' + freq + '","","","' + email + '",false]',
+    'azt': '',
+    'cookiesDisabled': 'false',
+    'deviceinfo': '[null,null,null,[],null,"FR",null,null,[],"GlifWebSignIn",null,[null,null,[],null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,[],null,null,null,[],[]],null,null,null,null,0,null,false]',
+    'gmscoreversion': 'undefined',
+    '': ''
+
     }
-    response = requests.post(
-        'https://accounts.google.com/_/signup/webusernameavailability',
-        headers=headers,
-        params=params,
-        data=data)
+    response = s.post('https://accounts.google.com/_/signup/webusernameavailability', headers=headers, params=params, data=data)
+    print(response.text)
     if '"gf.wuar",2' in response.text:
         return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     elif '"gf.wuar",1' in response.text or "EmailInvalid" in response.text:
