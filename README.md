@@ -135,6 +135,7 @@ The result of the modules is in this form : `` {"rateLimit":False,"exists":True,
 - [Chris](https://twitter.com/chris_kirsch)
 - [socialscan](https://pypi.org/project/socialscan/)
 - [UhOh365](https://github.com/Raikia/UhOh365)
+- [soxoj](https://github.com/soxoj)
 
 ## 📝 License
 
