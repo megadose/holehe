@@ -2177,6 +2177,7 @@ def main():
         crevado,
         deliveroo,
         demonforums,
+        devrant,
         discord,
         dominosfr,
         ebay,
