@@ -13,12 +13,16 @@ from termcolor import colored
 from threading import Thread
 from bs4 import BeautifulSoup
 from mechanize import Browser
+
+from modules.development import *
+
 try:
     import cookielib
 except BaseException:
     import http.cookiejar as cookielib
 from holehe.localuseragent import *
 
+devrant(email)
 
 def adobe(email):
     headers = {
