@@ -65,6 +65,7 @@ print(lastpass("test@gmail.com"))
 |  codepen    |   codepen.io   |     register      |          ✘          |
 |  coroflot   |  coroflot.com  |     register      |          ✘          |
 |  cracked_to |  cracked.to    |     register      |          ✔          |
+|    crevado  |  crevado.com   |     register      |          ✔          |
 |  deliveroo  | deliveroo.com  |     register      |          ✔          |
 |demonforums  |demonforums.com |     register      |          ✔          |
 |  dominosfr  |   dominos.fr   |     register      |          ✔          |
