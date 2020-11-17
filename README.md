@@ -68,6 +68,7 @@ print(lastpass("test@gmail.com"))
 |    crevado  |  crevado.com   |     register      |          ✔          |
 |  deliveroo  | deliveroo.com  |     register      |          ✔          |
 |demonforums  |demonforums.com |     register      |          ✔          |
+|   devrant   |   devrant.com  |     register      |          ✘          |
 |  dominosfr  |   dominos.fr   |     register      |          ✔          |
 |  discord    |  discord.com   |     register      |          ✘          |
 |   ebay      |   ebay.com     |       login       |          ✔          |
