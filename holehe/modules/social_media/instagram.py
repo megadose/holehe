@@ -2,6 +2,8 @@ import requests
 import random
 import json
 
+import string
+
 from holehe.localuseragent import ua
 
 

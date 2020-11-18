@@ -1,28 +1,33 @@
 import requests
 import random
-import json
-from holehe import *
+from bs4 import BeautifulSoup
+
+from holehe.localuseragent import ua
 
 
-def anydo(email):
+
+def dominosfr(email):
+    s = requests.session()
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
-        'Accept': '*/*',
+        'Accept': 'text/html, */*; q=0.01',
         'Accept-Language': 'en,en-US;q=0.5',
-        'Referer': 'https://desktop.any.do/',
-        'Content-Type': 'application/json; charset=UTF-8',
-        'X-Platform': '3',
-        'Origin': 'https://desktop.any.do',
+        'X-Requested-With': 'XMLHttpRequest',
         'DNT': '1',
         'Connection': 'keep-alive',
-        'TE': 'Trailers',
+        'Referer': 'https://commande.dominos.fr/eStore/fr/Signup',
     }
 
-    data = '{"email":"'+email+'"}'
+    s.get("https://commande.dominos.fr/eStore/fr/Signup",headers=headers)
+    headers['X-Requested-With'] = 'XMLHttpRequest'
 
-    response = requests.post('https://sm-prod2.any.do/check_email', headers=headers, data=data)
+    params = (
+        ('email', email),
+    )
+
+    response = requests.get('https://commande.dominos.fr/eStore/fr/Signup/IsEmailAvailable', headers=headers, params=params)
     if response.status_code==200:
-        if response.json()["user_exists"]==True:
+        if response.text=="false":
             return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
         else:
             return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
