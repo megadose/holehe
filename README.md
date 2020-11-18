@@ -68,6 +68,7 @@ print(lastpass("test@gmail.com"))
 |    crevado  |  crevado.com   |     register      |          ✔          |
 |  deliveroo  | deliveroo.com  |     register      |          ✔          |
 |demonforums  |demonforums.com |     register      |          ✔          |
+|   devrant   |   devrant.com  |     register      |          ✘          |
 |  dominosfr  |   dominos.fr   |     register      |          ✔          |
 |  discord    |  discord.com   |     register      |          ✘          |
 |   ebay      |   ebay.com     |       login       |          ✔          |
@@ -76,6 +77,7 @@ print(lastpass("test@gmail.com"))
 | eventbrite  | eventbrite.com |       login       |          ✘          |
 | evernote    | evernote.com   |       login       |          ✘          |
 | facebook    | facebook.com   | password recovery |          ✘          |
+| fanpop      | fanpop.com     |     register      |          ✘          |
 |  firefox    |  firefox.com   |     register      |          ✘          |
 |freelancer   | freelancer.com |     register      |          ✘          |
 |  github     |  github.com    |     register      |          ✘          |
