@@ -1,4 +1,10 @@
 import requests
+import random
+from holehe.localuseragent import ua
+from bs4 import BeautifulSoup
+
+
+
 
 def devrant(email):
 
@@ -29,6 +35,6 @@ def devrant(email):
     response = s.post('https://devrant.com/api/users', headers=headers, data=data)
     result = response.json()['error']
     if result == 'The email specified is already registered to an account.':
-        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-    else:
         return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+    else:
+        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
