@@ -77,6 +77,7 @@ print(lastpass("test@gmail.com"))
 | eventbrite  | eventbrite.com |       login       |          ✘          |
 | evernote    | evernote.com   |       login       |          ✘          |
 | facebook    | facebook.com   | password recovery |          ✘          |
+| fanpop      | fanpop.com     |     register      |          ✘          |
 |  firefox    |  firefox.com   |     register      |          ✘          |
 |freelancer   | freelancer.com |     register      |          ✘          |
 |  github     |  github.com    |     register      |          ✘          |
