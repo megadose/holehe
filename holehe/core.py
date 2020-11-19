@@ -16,45 +16,6 @@ try:
 except BaseException:
     import http.cookiejar as cookielib
 
-from holehe.localuseragent import *
-
-
-def import_submodules(package, recursive=True):
-    if isinstance(package, str):
-        package = importlib.import_module(package)
-    results = {}
-    for loader, name, is_pkg in pkgutil.walk_packages(package.__path__):
-        full_name = package.__name__ + '.' + name
-        results[full_name] = importlib.import_module(full_name)
-        if recursive and is_pkg:
-            results.update(import_submodules(full_name))
-    return results
-
-modules = import_submodules("modules")
-
-websites = list()
-
-for module in modules:
-    if len(module.split(".")) > 2:
-        modu = modules[module]
-        site = module.split(".")[-1]
-        websites.append(modu.__dict__[site])
-
-def main():
-    print('Github : https://github.com/megadose/holehe')
-    start_time = time.time()
-    parser = argparse.ArgumentParser()
-    requiredNamed = parser.add_argument_group('required named arguments')
-    parser.add_argument(
-        "-e",
-        "--email",
-        help="Email of the target",
-        required=True)
-    args = parser.parse_args()
-
-    def websiteName(WebsiteFunction, Websitename, email):
-        return({Websitename: WebsiteFunction(email)})
-
     que = queue.Queue()
     infos = {}
     threads_list = []
