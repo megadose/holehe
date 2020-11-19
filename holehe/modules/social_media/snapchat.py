@@ -1,14 +1,6 @@
-<<<<<<< HEAD
 from holehe.core import *
 from holehe.localuseragent import *
 
-=======
-import requests
-import json
-import random
-
-from holehe import *
->>>>>>> d81c58f236f6aa0a3078a1d0d810a62f91060beb
 
 def snapchat(email):
     req = requests.get("https://accounts.snapchat.com")

@@ -2,35 +2,23 @@ import time
 import argparse
 import queue
 import requests
-<<<<<<< HEAD
 import random
 import importlib
 import pkgutil
 import string
-=======
-
-import importlib
-import pkgutil
-
->>>>>>> d81c58f236f6aa0a3078a1d0d810a62f91060beb
 from tqdm import tqdm
 from termcolor import colored
 from threading import Thread
 from mechanize import Browser
-<<<<<<< HEAD
 from bs4 import BeautifulSoup
 import hashlib
 import re
 import mechanize
-=======
-
->>>>>>> d81c58f236f6aa0a3078a1d0d810a62f91060beb
 try:
     import cookielib
 except BaseException:
     import http.cookiejar as cookielib
 
-<<<<<<< HEAD
 from holehe.localuseragent import ua
 
 def import_submodules(package, recursive=True):
@@ -70,8 +58,6 @@ def main():
     def websiteName(WebsiteFunction, Websitename, email):
         return({Websitename: WebsiteFunction(email)})
 
-=======
->>>>>>> d81c58f236f6aa0a3078a1d0d810a62f91060beb
     que = queue.Queue()
     infos = {}
     threads_list = []
@@ -123,5 +109,3 @@ def main():
     print("\n" + description)
     print(str(len(websites)) + " websites checked in " +
           str(round(time.time() - start_time, 2)) + " seconds")
-
-main()

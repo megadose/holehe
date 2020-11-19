@@ -1,16 +1,8 @@
-<<<<<<< HEAD
 from holehe.core import *
 from holehe.localuseragent import *
 from bs4 import BeautifulSoup
 
 from holehe.core import *
-=======
-import requests
-import random
-from bs4 import BeautifulSoup
-
-from holehe.localuseragent import ua
->>>>>>> d81c58f236f6aa0a3078a1d0d810a62f91060beb
 
 def atlassian(email):
 

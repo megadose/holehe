@@ -1,27 +1,7 @@
-<<<<<<< HEAD
 from holehe.core import *
 from holehe.localuseragent import *
 
 
-=======
-from mechanize import Browser
-import requests
-import random
-import json
-
-from holehe import *
-
-
-try:
-    import cookielib
-except BaseException:
-    import http.cookiejar as cookielib
-
-from holehe.localuseragent import *
-
-
-
->>>>>>> d81c58f236f6aa0a3078a1d0d810a62f91060beb
 def live(email):
     brows = Browser()
     brows.set_handle_robots(False)
