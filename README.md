@@ -77,6 +77,7 @@ print(lastpass("test@gmail.com"))
 | eventbrite  | eventbrite.com |       login       |          ✘          |
 | evernote    | evernote.com   |       login       |          ✘          |
 | facebook    | facebook.com   | password recovery |          ✘          |
+| fanpop      | fanpop.com     |     register      |          ✘          |
 |  firefox    |  firefox.com   |     register      |          ✘          |
 |freelancer   | freelancer.com |     register      |          ✘          |
 |  github     |  github.com    |     register      |          ✘          |
@@ -135,7 +136,6 @@ The result of the modules is in this form : `` {"rateLimit":False,"exists":True,
 - [Chris](https://twitter.com/chris_kirsch)
 - [socialscan](https://pypi.org/project/socialscan/)
 - [UhOh365](https://github.com/Raikia/UhOh365)
-- [soxoj](https://github.com/soxoj)
 
 ## 📝 License
 

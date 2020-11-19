@@ -1,3 +1,4 @@
-
+*.pyc
 test.py
 todolist
+__pycache__
