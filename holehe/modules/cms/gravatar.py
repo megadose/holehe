@@ -1,5 +1,14 @@
+<<<<<<< HEAD
 from holehe.core import *
 from holehe.localuseragent import *
+=======
+import requests
+import random
+from bs4 import BeautifulSoup
+import hashlib
+
+from holehe.localuseragent import ua
+>>>>>>> d81c58f236f6aa0a3078a1d0d810a62f91060beb
 
 def gravatar(email):
     hashed_name =  hashlib.md5(email.encode()).hexdigest()

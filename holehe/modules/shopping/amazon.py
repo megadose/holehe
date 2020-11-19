@@ -1,5 +1,20 @@
+<<<<<<< HEAD
 from holehe.core import *
 from holehe.localuseragent import *
+=======
+import requests
+import random
+
+from bs4 import BeautifulSoup
+from mechanize import Browser
+from holehe import *
+
+
+try:
+    import cookielib
+except BaseException:
+    import http.cookiejar as cookielib
+>>>>>>> d81c58f236f6aa0a3078a1d0d810a62f91060beb
 
 
 def amazon(email):

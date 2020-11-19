@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 from holehe.core import *
 from holehe.localuseragent import *
 
+=======
+import requests
+import random
+from holehe import *
+>>>>>>> d81c58f236f6aa0a3078a1d0d810a62f91060beb
 
 def naturabuy(email):
     def get_random_string(length):
