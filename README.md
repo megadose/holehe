@@ -115,6 +115,7 @@ print(lastpass("test@gmail.com"))
 |  voxmedia   | voxmedia.com   |     register      |          ✘          |
 |   vrbo      |   vrbo.com     |     register      |          ✘          |
 | wordpress   | wordpress.com  |       login       |          ✘          |
+|  xhamster   |   xvideos.com  |     register      |          ✘          | 
 |   xing      |   xing.com     |     register      |          ✘          |
 |   yahoo     |   yahoo.com    |       login       |          ✔          |
 
