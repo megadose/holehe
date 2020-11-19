@@ -103,7 +103,7 @@ def main():
             if i["others"] is not None:
                 toprint += " / FullName " + i["others"]["FullName"]
 
-            websiteprint = colored("[+]"+str(key) + toprint, "green")
+            websiteprint = colored("[+] "+str(key) + toprint, "green")
         print(websiteprint)
 
     print("\n" + description)
