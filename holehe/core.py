@@ -21,15 +21,16 @@ except BaseException:
 from holehe.localuseragent import ua
 from subprocess import Popen, PIPE
 import os
-__version__="1.55.4.9.1"
+import time
+__version__="1.55.4.9.2"
 checkVersion=requests.get("https://pypi.org/pypi/holehe/json")
 if checkVersion.json()["info"]["version"]!=__version__:
     if os.name != 'nt':
-        Popen(["pip3","install","--upgrade","git+git://github.com/megadose/holehe@master"],stdout=PIPE, stderr=PIPE)
-        print("Holehe has just been updated, you can restart it. ")
+        p=Popen(["pip3","install","--upgrade","git+git://github.com/megadose/holehe@master"],stdout=PIPE, shell=True)
     else:
-        Popen(["pip","install","--upgrade","git+git://github.com/megadose/holehe@master"],stdout=PIPE, stderr=PIPE)
-        print("Holehe has just been updated, you can restart it. ")
+        p=Popen(["pip","install","--upgrade","git+git://github.com/megadose/holehe@master"],stdout=PIPE, shell=True)
+    (output, err) = p.communicate()
+    p_status = p.wait()
     exit()
 
 def import_submodules(package, recursive=True):
