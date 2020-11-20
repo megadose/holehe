@@ -28,10 +28,13 @@ def instagram(email):
         data=data,
         headers={
             "x-csrftoken": token}).json()
-    if 'email' in check["errors"].keys():
-        if check["errors"]["email"][0]["code"] == "email_is_taken":
-            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
-        elif "email_sharing_limit" in str(check["errors"]):
-            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+    if check["status"]!="fail":
+        if 'email' in check["errors"].keys():
+            if check["errors"]["email"][0]["code"] == "email_is_taken":
+                return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+            elif "email_sharing_limit" in str(check["errors"]):
+                return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        else:
+            return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
