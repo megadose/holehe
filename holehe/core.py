@@ -31,6 +31,7 @@ if checkVersion.json()["info"]["version"]!=__version__:
         p=Popen(["pip","install","--upgrade","git+git://github.com/megadose/holehe@master"],stdout=PIPE, shell=True)
     (output, err) = p.communicate()
     p_status = p.wait()
+    print(output)
     print("Holehe has just been updated, you can restart it. ")
     exit()
 
