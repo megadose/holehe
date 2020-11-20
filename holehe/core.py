@@ -1,5 +1,4 @@
 import time
-import argparse
 import queue
 import requests
 import random
@@ -13,6 +12,7 @@ from mechanize import Browser
 from bs4 import BeautifulSoup
 import hashlib
 import re
+import sys
 import mechanize
 try:
     import cookielib
@@ -22,7 +22,7 @@ from holehe.localuseragent import ua
 from subprocess import Popen, PIPE
 import os
 import time
-__version__="1.55.5.3.3"
+__version__="1.55.6.0"
 checkVersion=requests.get("https://pypi.org/pypi/holehe/json")
 if checkVersion.json()["info"]["version"]!=__version__:
     if os.name != 'nt':
@@ -59,15 +59,9 @@ for module in modules:
 def main():
     print('Github : https://github.com/megadose/holehe')
     start_time = time.time()
-    parser = argparse.ArgumentParser()
-    requiredNamed = parser.add_argument_group('required named arguments')
-    parser.add_argument(
-        "-e",
-        "--email",
-        help="Email of the target",
-        required=True)
-    args = parser.parse_args()
-
+    email=sys.argv[1]
+    if len(email)<5:
+        print("Please enter a target email ! \nholehe email@example.com")
     def websiteName(WebsiteFunction, Websitename, email):
         return({Websitename: WebsiteFunction(email)})
 
@@ -79,7 +73,7 @@ def main():
         t = Thread(
             target=lambda q, arg1: q.put(
                 websiteName(
-                    website, website.__name__, args.email)), args=(
+                    website, website.__name__, email)), args=(
                 que, website))
         t.start()
         threads_list.append(t)
@@ -98,7 +92,7 @@ def main():
                                                                               "red")
     print("\033[H\033[J")
     print("*" * 25)
-    print(args.email)
+    print(email)
     print("*" * 25)
     for i in sorted(infos):
         key, value = i, infos[i]
