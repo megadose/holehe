@@ -118,7 +118,6 @@ print(lastpass("test@gmail.com"))
 | wattpad     |   wattpad.com  |     register      |          ✔          |
 | wordpress   | wordpress.com  |       login       |          ✘          |
 |  xvideos    |   xvideos.com  |     register      |          ✘          |
-|  xhamster   |  xhamster.com  |     register      |          ✔          |
 |   xing      |   xing.com     |     register      |          ✘          |
 |   yahoo     |   yahoo.com    |       login       |          ✔          |
 
