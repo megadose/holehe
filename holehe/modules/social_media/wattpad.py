@@ -16,7 +16,6 @@ def wattpad(email):
 
     s.get("https://www.wattpad.com", headers=headers)
     headers["X-Requested-With"]='XMLHttpRequest'
-    print("????")
     params = (
         ('email', email),
     )
