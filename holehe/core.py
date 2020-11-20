@@ -22,7 +22,7 @@ from holehe.localuseragent import ua
 from subprocess import Popen, PIPE
 import os
 import time
-__version__="1.55.4.9.3"
+__version__="1.55.4.9.4"
 checkVersion=requests.get("https://pypi.org/pypi/holehe/json")
 if checkVersion.json()["info"]["version"]!=__version__:
     if os.name != 'nt':
@@ -31,6 +31,7 @@ if checkVersion.json()["info"]["version"]!=__version__:
         p=Popen(["pip","install","--upgrade","git+git://github.com/megadose/holehe@master"],stdout=PIPE, shell=True)
     (output, err) = p.communicate()
     p_status = p.wait()
+    print("Holehe has just been updated, you can restart it. ")
     exit()
 
 def import_submodules(package, recursive=True):
