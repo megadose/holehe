@@ -10,7 +10,7 @@ def caringbridge(email):
     }
 
     headers = {
-        'User-Agent': random.choice(ua["browsers"]["chrome"])',
+        'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
         'Accept-Language': 'en,en-US;q=0.5',
         'Content-Type': 'application/x-www-form-urlencoded',
