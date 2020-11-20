@@ -21,19 +21,15 @@ except BaseException:
 from holehe.localuseragent import ua
 from subprocess import Popen, PIPE
 import os
-__version__="1.55.4.3"
-try:
-    checkVersion=requests.get("https://pypi.org/pypi/holehe/json")
-    if checkVersion.json()["info"]["version"]!=__version__:
-        if os.name != 'nt':
-            Popen(["pip3","install","--upgrade","git+git://github.com/megadose/holehe@master"],stdout=PIPE, stderr=PIPE, shell=True)
-            print("Holehe has just been updated, you can restart it. ")
-        else:
-            Popen(["pip","install","--upgrade","git+git://github.com/megadose/holehe@master"],stdout=PIPE, stderr=PIPE, shell=True)
-            print("Holehe has just been updated, you can restart it. ")
-    exit()
-except :
-    print("Are you sure you have access to the internet? ")
+__version__="1.55.4.6"
+checkVersion=requests.get("https://pypi.org/pypi/holehe/json")
+if checkVersion.json()["info"]["version"]!=__version__:
+    if os.name != 'nt':
+        Popen(["pip3","install","--upgrade","git+git://github.com/megadose/holehe@master"],stdout=PIPE, stderr=PIPE, shell=True)
+        print("Holehe has just been updated, you can restart it. ")
+    else:
+        Popen(["pip","install","--upgrade","git+git://github.com/megadose/holehe@master"],stdout=PIPE, stderr=PIPE, shell=True)
+        print("Holehe has just been updated, you can restart it. ")
     exit()
 
 def import_submodules(package, recursive=True):
