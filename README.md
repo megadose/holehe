@@ -50,7 +50,6 @@ print(lastpass("test@gmail.com"))
 ## Modules :
 |  Module     |    Website     |      Method       | Frequent rate limit |
 | :-------:   | :-----------:  | :---------------: | :-----------------: |
-|  sevencups  |   7cups.com    |     register      |          ✔          |
 |  aboutme    |   about.me     |     register      |          ✘          |
 |   adobe     |   adobe.com    | password recovery |          ✘          |
 |  amazon     |  amazon.com    |       login       |          ✘          |
@@ -72,8 +71,9 @@ print(lastpass("test@gmail.com"))
 |  deliveroo  | deliveroo.com  |     register      |          ✔          |
 |demonforums  |demonforums.com |     register      |          ✔          |
 |   devrant   |   devrant.com  |     register      |          ✘          |
-|  dominosfr  |   dominos.fr   |     register      |          ✔          |
+|   diigo     |   diigo.com    |     register      |          ✘          |
 |  discord    |  discord.com   |     register      |          ✘          |
+|  dominosfr  |   dominos.fr   |     register      |          ✔          |
 |   ebay      |   ebay.com     |       login       |          ✔          |
 |   ello      |    ello.co     |     register      |          ✘          |
 |  envato     |   envato.com   |     register      |          ✘          |
@@ -87,9 +87,9 @@ print(lastpass("test@gmail.com"))
 |  github     |  github.com    |     register      |          ✘          |
 | google      |   google.com   |     register      |          ✘          |
 | gravatar    |  gravatar.com  |     other         |          ✘          |
+|  imgur      |   imgur.com    |     register      |          ✔          |
 | instagram   | instagram.com  |     register      |          ✔          |
 |  issuu      |   issuu.com    |     register      |          ✘          |
-|  imgur      |   imgur.com    |     register      |          ✔          |
 |  laposte    |    laposte.fr  |     register      |          ✘          |
 |  lastfm     |    last.fm     |     register      |          ✘          |
 | lastpass    | lastpass.com   |     register      |          ✘          |
@@ -108,6 +108,7 @@ print(lastpass("test@gmail.com"))
 |  rambler    |   rambler.ru   |     register      |          ✘          |
 |   redtube   |   redtube.com  |     register      |          ✘          |
 |  samsung    |  samsung.com   |     register      |          ✘          |
+|  sevencups  |   7cups.com    |     register      |          ✔          |
 |  snapchat   |  snapchat.com  |       login       |          ✘          |
 |   spotify   |  spotify.com   |     register      |          ✔          |
 |   strava    |   strava.com   |     register      |          ✘          |
@@ -121,8 +122,8 @@ print(lastpass("test@gmail.com"))
 |   vrbo      |   vrbo.com     |     register      |          ✘          |
 | wattpad     |   wattpad.com  |     register      |          ✔          |
 | wordpress   | wordpress.com  |       login       |          ✘          |
-|  xvideos    |   xvideos.com  |     register      |          ✘          |
 |   xing      |   xing.com     |     register      |          ✘          |
+|  xvideos    |   xvideos.com  |     register      |          ✘          |
 |   yahoo     |   yahoo.com    |       login       |          ✔          |
 
 ### Rate limit, just change your IP
