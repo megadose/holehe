@@ -22,7 +22,7 @@ from holehe.localuseragent import ua
 from subprocess import Popen, PIPE
 import os
 import time
-__version__="1.55.5"
+__version__="1.55.5.2"
 checkVersion=requests.get("https://pypi.org/pypi/holehe/json")
 if checkVersion.json()["info"]["version"]!=__version__:
     if os.name != 'nt':

@@ -60,6 +60,7 @@ print(lastpass("test@gmail.com"))
 |  bitmoji    |  bitmoji.com   |       login       |          ✘          |
 | blablacar   | blablacar.com  |     register      |          ✔          |
 |    blip     |     blip.fm    |     register      |          ✔          |
+|bodybuilding |bodybuilding.com|     register      |          ✘          |
 |buymeacoffee |buymeacoffee.com|     register      |          ✔          |
 | codecademy  | codecademy.com |     register      |          ✔          |
 |  codepen    |   codepen.io   |     register      |          ✘          |
@@ -80,6 +81,7 @@ print(lastpass("test@gmail.com"))
 | fanpop      | fanpop.com     |     register      |          ✘          |
 |  firefox    |  firefox.com   |     register      |          ✘          |
 |freelancer   | freelancer.com |     register      |          ✘          |
+|  garmin     |  garmin.com    |     register      |          ✔          |
 |  github     |  github.com    |     register      |          ✘          |
 | google      |   google.com   |     register      |          ✘          |
 | gravatar    |  gravatar.com  |     other         |          ✘          |
