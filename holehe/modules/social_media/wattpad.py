@@ -20,6 +20,7 @@ def wattpad(email):
     params = (
         ('email', email),
     )
+    print("Try")
     response = requests.get('https://www.wattpad.com/api/v3/users/validate', headers=headers, params=params)
     if (response.status_code == 200 or response.status_code == 400):
         if response.status_code == 200:
