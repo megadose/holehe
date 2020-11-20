@@ -114,7 +114,9 @@ print(lastpass("test@gmail.com"))
 |   venmo     |   venmo.com    |    register       |          ✔          |
 |  voxmedia   | voxmedia.com   |     register      |          ✘          |
 |   vrbo      |   vrbo.com     |     register      |          ✘          |
+| wattpad     |   wattpad.com  |     register      |          ✔          |
 | wordpress   | wordpress.com  |       login       |          ✘          |
+|  xvideos    |   xvideos.com  |     register      |          ✘          |
 |   xing      |   xing.com     |     register      |          ✘          |
 |   yahoo     |   yahoo.com    |       login       |          ✔          |
 
