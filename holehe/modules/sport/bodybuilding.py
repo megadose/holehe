@@ -1,4 +1,5 @@
-import requests
+from holehe.core import *
+from holehe.localuseragent import *
 
 def bodybuilding(email):
     headers = {

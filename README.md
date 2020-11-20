@@ -55,6 +55,7 @@ print(lastpass("test@gmail.com"))
 |   adobe     |   adobe.com    | password recovery |          ✘          |
 |  amazon     |  amazon.com    |       login       |          ✘          |
 |    anydo    |    any.do      |       login       |          ✔          |
+|  archive    | archive.org    |     register      |          ✘          |
 |armurerieauxerre|armurerie-auxerre.com|register   |          ✘          |
 |  atlassian  |  atlassian.com |     register      |          ✘          |
 |  bitmoji    |  bitmoji.com   |       login       |          ✘          |
@@ -62,6 +63,7 @@ print(lastpass("test@gmail.com"))
 |    blip     |     blip.fm    |     register      |          ✔          |
 |bodybuilding |bodybuilding.com|     register      |          ✘          |
 |buymeacoffee |buymeacoffee.com|     register      |          ✔          |
+|caringbridge |caringbridge.org|     register      |          ✘          |
 | codecademy  | codecademy.com |     register      |          ✔          |
 |  codepen    |   codepen.io   |     register      |          ✘          |
 |  coroflot   |  coroflot.com  |     register      |          ✘          |
