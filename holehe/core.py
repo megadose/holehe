@@ -21,7 +21,7 @@ except BaseException:
 from holehe.localuseragent import ua
 from subprocess import Popen, PIPE
 import os
-__version__="1.55.4.7"
+__version__="1.55.4.8"
 checkVersion=requests.get("https://pypi.org/pypi/holehe/json")
 if checkVersion.json()["info"]["version"]!=__version__:
     if os.name != 'nt':
