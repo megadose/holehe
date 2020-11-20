@@ -21,7 +21,7 @@ except BaseException:
 from holehe.localuseragent import ua
 from subprocess import Popen, PIPE
 import os
-__version__="1.55.4.2"
+__version__="1.55.4.3"
 try:
     checkVersion=requests.get("https://pypi.org/pypi/holehe/json")
     if checkVersion.json()["info"]["version"]!=__version__:
@@ -31,8 +31,10 @@ try:
         else:
             Popen(["pip","install","--upgrade","git+git://github.com/megadose/holehe@master"],stdout=PIPE, stderr=PIPE, shell=True)
             print("Holehe has just been updated, you can restart it. ")
+    exit()
 except :
     print("Are you sure you have access to the internet? ")
+    exit()
 
 def import_submodules(package, recursive=True):
     if isinstance(package, str):
