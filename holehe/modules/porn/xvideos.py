@@ -1,4 +1,5 @@
-from holoe import *
+from holehe.core import *
+from holehe.localuseragent import *
 
 s = requests.session()
 

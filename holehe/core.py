@@ -25,10 +25,10 @@ __version__="1.55.4.7"
 checkVersion=requests.get("https://pypi.org/pypi/holehe/json")
 if checkVersion.json()["info"]["version"]!=__version__:
     if os.name != 'nt':
-        Popen(["pip3","install","--upgrade","git+git://github.com/megadose/holehe@master"],stdout=PIPE, stderr=PIPE, shell=True)
+        Popen(["pip3","install","--upgrade","git+git://github.com/megadose/holehe@master"],stdout=PIPE, stderr=PIPE)
         print("Holehe has just been updated, you can restart it. ")
     else:
-        Popen(["pip","install","--upgrade","git+git://github.com/megadose/holehe@master"],stdout=PIPE, stderr=PIPE, shell=True)
+        Popen(["pip","install","--upgrade","git+git://github.com/megadose/holehe@master"],stdout=PIPE, stderr=PIPE)
         print("Holehe has just been updated, you can restart it. ")
     exit()
 

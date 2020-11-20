@@ -1,7 +1,5 @@
-import requests
-import json
-import random
-from holehe.localuseragent import ua
+from holehe.core import *
+from holehe.localuseragent import *
 
 s = requests.session()
 
