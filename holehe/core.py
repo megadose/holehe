@@ -22,7 +22,7 @@ from holehe.localuseragent import ua
 from subprocess import Popen, PIPE
 import os
 import time
-__version__="1.55.6.0"
+__version__="1.55.6.1"
 checkVersion=requests.get("https://pypi.org/pypi/holehe/json")
 if checkVersion.json()["info"]["version"]!=__version__:
     if os.name != 'nt':
@@ -62,6 +62,7 @@ def main():
     email=sys.argv[1]
     if len(email)<5:
         print("Please enter a target email ! \nholehe email@example.com")
+        exit()
     def websiteName(WebsiteFunction, Websitename, email):
         return({Websitename: WebsiteFunction(email)})
 

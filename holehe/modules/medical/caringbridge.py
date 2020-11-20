@@ -28,7 +28,7 @@ def caringbridge(email):
       'submit-btn': 'Continue'
     }
 
-    response = requests.post('https://www.caringbridge.org/signin', headers=headers, cookies=cookies, data=data)
+    response = requests.post('https://www.caringbridge.org/signin', headers=headers, cookies=cookies, data=data,timeout=2)
     if "Welcome Back,"in response.text:
         return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
