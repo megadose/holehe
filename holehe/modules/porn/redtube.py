@@ -16,9 +16,13 @@ def redtube(email):
 
     r=s.get("https://redtube.com/register",headers=headers)
     soup=BeautifulSoup(r.text,features="lxml")
-    token=soup.find(attrs={"id":"token"}).get("value")
-    if token==None:
+    try:
+        token=soup.find(attrs={"id":"token"}).get("value")
+        if token==None:
+            return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    else:
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+
     headers['X-Requested-With']= 'XMLHttpRequest'
 
 
