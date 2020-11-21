@@ -36,7 +36,7 @@ python3 setup.py install
 ## 📚 Example
 
 ```bash
-holehe -e test@gmail.com
+holehe test@gmail.com
 ```
 
 ## 📈 Usage
