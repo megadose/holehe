@@ -21,9 +21,9 @@ def wattpad(email):
     )
     response = requests.get('https://www.wattpad.com/api/v3/users/validate', headers=headers, params=params)
     if (response.status_code == 200 or response.status_code == 400):
-        if response.status_code == 200:
-            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
-        else:
+        if "Cette adresse" not in response.text or response.text== '{"message":"OK","code":200}':
             return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        else:
+            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
