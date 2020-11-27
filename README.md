@@ -56,13 +56,16 @@ print(lastpass("test@gmail.com"))
 |  archive    | archive.org    |     register      |          ✘          |
 |armurerieauxerre|armurerie-auxerre.com|register   |          ✘          |
 |  atlassian  |  atlassian.com |     register      |          ✘          |
+|  biosmods   | bios-mods.com |     register       |          ✘          |
 |  bitmoji    |  bitmoji.com   |       login       |          ✘          |
 | blablacar   | blablacar.com  |     register      |          ✔          |
 |    blip     |     blip.fm    |     register      |          ✔          |
+|blitzortung |forum.blitzortung.org| register      |          ✘          |
 |bodybuilding |bodybuilding.com|     register      |          ✘          |
 |buymeacoffee |buymeacoffee.com|     register      |          ✔          |
 |caringbridge |caringbridge.org|     register      |          ✘          |
 | codecademy  | codecademy.com |     register      |          ✔          |
+|  codeigniter|forum.codeigniter.com|register      |          ✘          |
 |  codepen    |   codepen.io   |     register      |          ✘          |
 |  coroflot   |  coroflot.com  |     register      |          ✘          |
 |  cracked_to |  cracked.to    |     register      |          ✔          |
@@ -82,6 +85,7 @@ print(lastpass("test@gmail.com"))
 | fanpop      | fanpop.com     |     register      |          ✘          |
 |  firefox    |  firefox.com   |     register      |          ✘          |
 |freelancer   | freelancer.com |     register      |          ✘          |
+|  freiberg    |drachenhort.user.stunet.tu-freiberg.de| register  |  ✘   |
 |  garmin     |  garmin.com    |     register      |          ✔          |
 |  github     |  github.com    |     register      |          ✘          |
 | google      |   google.com   |     register      |          ✘          |
@@ -89,16 +93,21 @@ print(lastpass("test@gmail.com"))
 |  imgur      |   imgur.com    |     register      |          ✔          |
 | instagram   | instagram.com  |     register      |          ✔          |
 |  issuu      |   issuu.com    |     register      |          ✘          |
+|  koditv     |forum.kodi.tv   |     register      |          ✘          |
 |  laposte    |    laposte.fr  |     register      |          ✘          |
 |  lastfm     |    last.fm     |     register      |          ✘          |
 | lastpass    | lastpass.com   |     register      |          ✘          |
 |   live      |   live.com     | password recovery |          ✘          |
 |   mail.ru   |    mail.ru     | password recovery |          ✘          |
+|  mybb       |community.mybb.com|   register      |          ✘          |
 |  myspace    |  myspace.com   |     register      |          ✘          |
+| ndemiccreations|forum.ndemiccreations.com|register|         ✘          |
+| nextpvr     |forums.nextpvr.com   |    register  |         ✘          |
 | naturabuy   |  naturabuy.fr  |     register      |          ✘          |
 |   nike      |     nike.com   |     register      |          ✘          |
 |odnoklassniki|    ok.ru       | password recovery |          ✘          |
 | office365   | office365.com  |       other       |          ✘          |
+|openelec    |forum.openelec.tv|     register      |          ✘          |
 | pinterest   | pinterest.com  |     register      |          ✘          |
 |   plurk     |    plurk.com   |     register      |          ✘          |
 |  pornhub    |   pornhub.com  |     register      |          ✘          |
