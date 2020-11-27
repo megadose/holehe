@@ -65,15 +65,19 @@ print(lastpass("test@gmail.com"))
 |blackworldforum|blackworldforum.com|   register   |          ✔          |
 |    blip     |     blip.fm    |     register      |          ✔          |
 |blitzortung |forum.blitzortung.org| register      |          ✘          |
+|bluegrassrivals|bluegrassrivals.com| register     |          ✘          |
 |bodybuilding |bodybuilding.com|     register      |          ✘          |
 |buymeacoffee |buymeacoffee.com|     register      |          ✔          |
 |caringbridge |caringbridge.org|     register      |          ✘          |
 |cambridgemt |discussion.cambridge-mt.com|register |          ✘          |
 |chinaphonearena |chinaphonearena.com|register     |          ✘          |
+| clashfarmer | clashfarmer.com|     register      |          ✔          |
 | codecademy  | codecademy.com |     register      |          ✔          |
 |  codeigniter|forum.codeigniter.com|register      |          ✘          |
 |  codepen    |   codepen.io   |     register      |          ✘          |
 |  coroflot   |  coroflot.com  |     register      |          ✘          |
+|  cpaelites  |  cpaelites.com |     register      |          ✘          |
+|   cpahero   |   cpahero.com  |     register      |          ✘          |
 |  cracked_to |  cracked.to    |     register      |          ✔          |
 |    crevado  |  crevado.com   |     register      |          ✔          |
 |  deliveroo  | deliveroo.com  |     register      |          ✔          |
@@ -87,7 +91,6 @@ print(lastpass("test@gmail.com"))
 |  envato     |   envato.com   |     register      |          ✘          |
 | eventbrite  | eventbrite.com |       login       |          ✘          |
 | evernote    | evernote.com   |       login       |          ✘          |
-| facebook    | facebook.com   | password recovery |          ✘          |
 | fanpop      | fanpop.com     |     register      |          ✘          |
 |  firefox    |  firefox.com   |     register      |          ✘          |
 |freelancer   | freelancer.com |     register      |          ✘          |
