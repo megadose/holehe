@@ -56,14 +56,20 @@ print(lastpass("test@gmail.com"))
 |  archive    | archive.org    |     register      |          ✘          |
 |armurerieauxerre|armurerie-auxerre.com|register   |          ✘          |
 |  atlassian  |  atlassian.com |     register      |          ✘          |
+|  babeshows  | babeshows.co.uk |   register       |          ✘          |
+|badeggsonline|badeggsonline.com|   register       |          ✘          |
 |  biosmods   | bios-mods.com |     register       |          ✘          |
+|biotechnologyforums| biotechnologyforums.com |register|       ✘         |
 |  bitmoji    |  bitmoji.com   |       login       |          ✘          |
 | blablacar   | blablacar.com  |     register      |          ✔          |
+|blackworldforum|blackworldforum.com|   register   |          ✔          |
 |    blip     |     blip.fm    |     register      |          ✔          |
 |blitzortung |forum.blitzortung.org| register      |          ✘          |
 |bodybuilding |bodybuilding.com|     register      |          ✘          |
 |buymeacoffee |buymeacoffee.com|     register      |          ✔          |
 |caringbridge |caringbridge.org|     register      |          ✘          |
+|cambridgemt |discussion.cambridge-mt.com|register |          ✘          |
+|chinaphonearena |chinaphonearena.com|register     |          ✘          |
 | codecademy  | codecademy.com |     register      |          ✔          |
 |  codeigniter|forum.codeigniter.com|register      |          ✘          |
 |  codepen    |   codepen.io   |     register      |          ✘          |
@@ -102,11 +108,14 @@ print(lastpass("test@gmail.com"))
 |  mybb       |community.mybb.com|   register      |          ✘          |
 |  myspace    |  myspace.com   |     register      |          ✘          |
 | ndemiccreations|forum.ndemiccreations.com|register|         ✘          |
+| nattyornot  |nattyornotforum.nattyornot.com|register|       ✘          |
 | nextpvr     |forums.nextpvr.com   |    register  |         ✘          |
 | naturabuy   |  naturabuy.fr  |     register      |          ✘          |
 |   nike      |     nike.com   |     register      |          ✘          |
+|odampublishing|forum.odampublishing.com| register |          ✘          |
 |odnoklassniki|    ok.ru       | password recovery |          ✘          |
 | office365   | office365.com  |       other       |          ✘          |
+|onlinesequencer|onlinesequencer.net|register      |          ✘          |
 |openelec    |forum.openelec.tv|     register      |          ✘          |
 | pinterest   | pinterest.com  |     register      |          ✘          |
 |   plurk     |    plurk.com   |     register      |          ✘          |
@@ -123,6 +132,10 @@ print(lastpass("test@gmail.com"))
 |  taringa    |  taringa.net   |     register      |          ✔          |
 |teamtreehouse|teamtreehouse.com|     register     |          ✘          |
 |  tumblr     |  tumblr.com    |     register      |          ✘          |
+|thecardboard |thecardboard.org|     register      |          ✘          |
+|therianguide |forums.therian-guide.com| register  |          ✘          |
+|thevapingforum |thevapingforum.com| register      |          ✘          |
+|treasureclassifieds|forum.treasureclassifieds.com| register| ✘          |
 |  tunefind   |  tunefind.com  |     register      |          ✔          |
 |  twitter    |  twitter.com   |     register      |          ✘          |
 |   venmo     |   venmo.com    |    register       |          ✔          |
