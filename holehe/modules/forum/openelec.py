@@ -16,7 +16,7 @@ def openelec(email):
         'TE': 'Trailers',
     }
 
-    r=s.get("https://forum.openelec.tv/member.php",headers=headers,verify=false)
+    r=s.get("https://forum.openelec.tv/member.php",headers=headers,verify=False)
     if "Your request was blocked" in r.text or r.status_code!=200:
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     headers['X-Requested-With']= 'XMLHttpRequest'
@@ -32,7 +32,7 @@ def openelec(email):
         }
     except:
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-    response = s.post('https://forum.openelec.tv/xmlhttp.php', headers=headers, params=params, data=data,verify=false)
+    response = s.post('https://forum.openelec.tv/xmlhttp.php', headers=headers, params=params, data=data,verify=False)
     if "Your request was blocked" not in response.text and response.status_code==200:
         if "email address that is already in use by another member." in response.text:
             return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
