@@ -22,7 +22,7 @@ from holehe.localuseragent import ua
 from subprocess import Popen, PIPE
 import os
 import time
-__version__="1.56.1"
+__version__="1.56.2"
 checkVersion=requests.get("https://pypi.org/pypi/holehe/json")
 if checkVersion.json()["info"]["version"]!=__version__:
     if os.name != 'nt':
@@ -58,6 +58,7 @@ for module in modules:
 
 def main():
     print('Github : https://github.com/megadose/holehe')
+    print('For BTC Donations : 1FHDM49QfZX6pJmhjLE5tB2K6CaTLMZpXZ')
     start_time = time.time()
     email=sys.argv[1]
     if len(email)<5:
