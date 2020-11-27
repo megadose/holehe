@@ -1,6 +1,7 @@
 from holehe.core import *
 from holehe.localuseragent import *
-
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def openelec(email):
     s=requests.session()
