@@ -124,6 +124,7 @@ print(lastpass("test@gmail.com"))
 |   plurk     |    plurk.com   |     register      |          ✘          |
 |  pornhub    |   pornhub.com  |     register      |          ✘          |
 |  quizlet    |   quizlet.com  |     register      |          ✘          |
+|   quora     |   quora.com    |     register      |          ✘          |
 |  raidforums | raidforums.com |     register      |          ✔          |
 |  rambler    |   rambler.ru   |     register      |          ✘          |
 |   redtube   |   redtube.com  |     register      |          ✘          |
