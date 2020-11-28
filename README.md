@@ -128,6 +128,7 @@ print(lastpass("test@gmail.com"))
 |  rambler    |   rambler.ru   |     register      |          ✘          |
 |   redtube   |   redtube.com  |     register      |          ✘          |
 |  samsung    |  samsung.com   |     register      |          ✘          |
+|  seoclerks  |  seoclerks.com |     register      |          ✘          |
 |  sevencups  |   7cups.com    |     register      |          ✔          |
 |  smule      |   smule.com    |     register      |          ✔          |
 |  snapchat   |  snapchat.com  |       login       |          ✘          |

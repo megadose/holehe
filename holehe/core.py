@@ -14,14 +14,20 @@ import hashlib
 import re
 import sys
 import mechanize
+
+from subprocess import Popen, PIPE
+import os
+import time
+
 try:
     import cookielib
 except BaseException:
     import http.cookiejar as cookielib
+    
 from holehe.localuseragent import ua
-from subprocess import Popen, PIPE
-import os
-import time
+
+
+
 __version__="1.56.3.1"
 checkVersion=requests.get("https://pypi.org/pypi/holehe/json")
 if checkVersion.json()["info"]["version"]!=__version__:
