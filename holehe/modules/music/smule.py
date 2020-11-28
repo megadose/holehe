@@ -1,4 +1,5 @@
-from holehe import *
+from holehe.core import *
+from holehe.localuseragent import *
 
 def smule(email):
 

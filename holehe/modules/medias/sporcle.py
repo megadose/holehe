@@ -1,5 +1,5 @@
-import requests
-from holehe import *
+from holehe.core import *
+from holehe.localuseragent import *
 
 def sporcle(email):
     s = requests.session()

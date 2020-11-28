@@ -1,4 +1,5 @@
-from holehe import *
+from holehe.core import *
+from holehe.useragent import *
 
 def seoclercks(email):
 
@@ -21,7 +22,7 @@ def seoclercks(email):
         if "__cr" in r.text:
             cr = r.text.split('__cr" value="')[1].split('"')[0]
     except:
-        return ({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None}))
+        return ({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
 
     letters = string.ascii_lowercase
     username = ''.join(random.choice(letters) for i in range(6))
@@ -40,6 +41,6 @@ def seoclercks(email):
 
     response = s.post('https://www.seoclerks.com/signup/check', headers=headers, data=data)
     if 'The email address you entered is already taken.' in response.json()['message']:
-        return ({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None}))
+        return ({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
         return ({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

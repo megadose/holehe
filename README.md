@@ -127,6 +127,7 @@ print(lastpass("test@gmail.com"))
 |  raidforums | raidforums.com |     register      |          ✔          |
 |  rambler    |   rambler.ru   |     register      |          ✘          |
 |   redtube   |   redtube.com  |     register      |          ✘          |
+|   replit    |     repl.it    |     register      |          ✔          |
 |  samsung    |  samsung.com   |     register      |          ✘          |
 |  seoclerks  |  seoclerks.com |     register      |          ✘          |
 |  sevencups  |   7cups.com    |     register      |          ✔          |

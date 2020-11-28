@@ -1,5 +1,5 @@
-import requests
-from holehe import *
+from holehe.core import *
+from holehe.localuseragent import *
 
 def vivino(email):
     s = requests.session()
@@ -20,7 +20,7 @@ def vivino(email):
         crsf_token = r.text.split('"csrf-token" content="')[1].split('"')[0]
     except:
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        
+
     headers['X-CRSF-Token'] = crsf_token
     data = '{"email":"'+str(email)+'","password":"e"}'
 
