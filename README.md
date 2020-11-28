@@ -129,7 +129,9 @@ print(lastpass("test@gmail.com"))
 |   redtube   |   redtube.com  |     register      |          ✘          |
 |  samsung    |  samsung.com   |     register      |          ✘          |
 |  sevencups  |   7cups.com    |     register      |          ✔          |
+|  smule      |   smule.com    |     register      |          ✔          |
 |  snapchat   |  snapchat.com  |       login       |          ✘          |
+|  sporcle    |    sporcle.com |      register     |          ✘          |
 |   spotify   |  spotify.com   |     register      |          ✔          |
 |   strava    |   strava.com   |     register      |          ✘          |
 |  taringa    |  taringa.net   |     register      |          ✔          |
@@ -142,6 +144,7 @@ print(lastpass("test@gmail.com"))
 |  tunefind   |  tunefind.com  |     register      |          ✔          |
 |  twitter    |  twitter.com   |     register      |          ✘          |
 |   venmo     |   venmo.com    |    register       |          ✔          |
+|   vivino    |   vivino.com   |     register      |          ✘          |
 |  voxmedia   | voxmedia.com   |     register      |          ✘          |
 |   vrbo      |   vrbo.com     |     register      |          ✘          |
 | wattpad     |   wattpad.com  |     register      |          ✔          |
