@@ -124,12 +124,17 @@ print(lastpass("test@gmail.com"))
 |   plurk     |    plurk.com   |     register      |          ✘          |
 |  pornhub    |   pornhub.com  |     register      |          ✘          |
 |  quizlet    |   quizlet.com  |     register      |          ✘          |
+|   quora     |   quora.com    |     register      |          ✘          |
 |  raidforums | raidforums.com |     register      |          ✔          |
 |  rambler    |   rambler.ru   |     register      |          ✘          |
 |   redtube   |   redtube.com  |     register      |          ✘          |
+|   replit    |     repl.it    |     register      |          ✔          |
 |  samsung    |  samsung.com   |     register      |          ✘          |
+|  seoclerks  |  seoclerks.com |     register      |          ✘          |
 |  sevencups  |   7cups.com    |     register      |          ✔          |
+|  smule      |   smule.com    |     register      |          ✔          |
 |  snapchat   |  snapchat.com  |       login       |          ✘          |
+|  sporcle    |    sporcle.com |      register     |          ✘          |
 |   spotify   |  spotify.com   |     register      |          ✔          |
 |   strava    |   strava.com   |     register      |          ✘          |
 |  taringa    |  taringa.net   |     register      |          ✔          |
@@ -142,6 +147,7 @@ print(lastpass("test@gmail.com"))
 |  tunefind   |  tunefind.com  |     register      |          ✔          |
 |  twitter    |  twitter.com   |     register      |          ✘          |
 |   venmo     |   venmo.com    |    register       |          ✔          |
+|   vivino    |   vivino.com   |     register      |          ✘          |
 |  voxmedia   | voxmedia.com   |     register      |          ✘          |
 |   vrbo      |   vrbo.com     |     register      |          ✘          |
 | wattpad     |   wattpad.com  |     register      |          ✔          |
