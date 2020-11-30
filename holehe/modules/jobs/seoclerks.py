@@ -1,7 +1,7 @@
 from holehe.core import *
 from holehe.localuseragent import ua
 
-def seoclercks(email):
+def seoclerks(email):
 
     s = requests.session()
 

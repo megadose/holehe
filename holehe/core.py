@@ -28,7 +28,7 @@ from holehe.localuseragent import ua
 
 
 
-__version__="1.56.3.3.1"
+__version__="1.56.3.3.2"
 checkVersion=requests.get("https://pypi.org/pypi/holehe/json")
 if checkVersion.json()["info"]["version"]!=__version__:
     if os.name != 'nt':
