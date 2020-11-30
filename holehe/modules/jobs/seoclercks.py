@@ -1,5 +1,5 @@
 from holehe.core import *
-from holehe.useragent import *
+from holehe.localuseragent import ua
 
 def seoclercks(email):
 
