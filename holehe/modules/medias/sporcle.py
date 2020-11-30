@@ -16,7 +16,7 @@ def sporcle(email):
     data = {
       'email': str(email),
       'password1': '',
-      'password2': ''
+      'password2': '',
       'handle': '',
       'humancheck': '',
       'reg_path': 'main_header_join',
