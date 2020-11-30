@@ -16,7 +16,7 @@ def sporcle(email):
     data = {
       'email': str(email),
       'password1': '',
-      'password2': ''
+      'password2': '',
       'handle': '',
       'humancheck': '',
       'reg_path': 'main_header_join',
@@ -26,6 +26,6 @@ def sporcle(email):
 
     response = s.post('https://www.sporcle.com/auth/ajax/verify.php', headers=headers,data=data)
     if "account already exists with this email" in response.text:
-        return ({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None}))
+        return ({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return ({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None}))
+        return ({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
