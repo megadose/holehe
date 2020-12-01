@@ -1,19 +1,14 @@
-# Holehe
+# Holehe Educational purposes only
 #### For BTC Donations : 1FHDM49QfZX6pJmhjLE5tB2K6CaTLMZpXZ
-# Educational purposes only
 ### Holehe [does not alert the target email](https://github.com/megadose/holehe/issues/12)
-### If you have any suggestions, please do not hesitate to contact us.
-
 holehe allows you to check if the mail is used on different sites like twitter, instagram and will retrieve information on sites with the forgotten password function.
+![](https://files.catbox.moe/5we2ya.png)
 
 [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
 
-## Project example : [Holehe Maltego](https://github.com/megadose/holehe-maltego)
-
-### Demo
 
 ![](https://github.com/megadose/gif-demo/raw/master/holehe-demo.gif)
-
+## Project example : [Holehe Maltego](https://github.com/megadose/holehe-maltego)
 ## 💡 Prerequisite
 
    [Python 2/3](https://www.python.org/downloads/release/python-370/)
