@@ -92,6 +92,7 @@ print(lastpass("test@gmail.com"))
 | eventbrite  | eventbrite.com |       login       |          ✘          |
 | evernote    | evernote.com   |       login       |          ✘          |
 | fanpop      | fanpop.com     |     register      |          ✘          |
+| fetlife     | fetlife.com    |     register      |          ✘          |
 |  firefox    |  firefox.com   |     register      |          ✘          |
 |freelancer   | freelancer.com |     register      |          ✘          |
 |  freiberg    |drachenhort.user.stunet.tu-freiberg.de| register  |  ✘   |
