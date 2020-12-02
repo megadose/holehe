@@ -20,7 +20,7 @@ def teamtreehouse(email):
     req = s.get(
         "https://teamtreehouse.com/subscribe/new?trial=yes",
         headers=headers)
-    soup = BeautifulSoup(req.content, features="lxml")
+    soup = BeautifulSoup(req.content, features="html.parser")
     token = soup.find(attrs={"name": "csrf-token"}).get("content")
     headers['X-CSRF-Token'] = token
 

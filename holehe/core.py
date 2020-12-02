@@ -14,6 +14,7 @@ import hashlib
 import re
 import sys
 import mechanize
+import httpx
 
 from subprocess import Popen, PIPE
 import os
@@ -27,10 +28,11 @@ except BaseException:
 from holehe.localuseragent import ua
 
 
+DEBUG = False
 
 __version__="1.56.3.3.3"
 checkVersion=requests.get("https://pypi.org/pypi/holehe/json")
-if checkVersion.json()["info"]["version"]!=__version__:
+if not DEBUG and checkVersion.json()["info"]["version"]!=__version__:
     if os.name != 'nt':
         p=Popen(["pip3","install","--upgrade","git+git://github.com/megadose/holehe@master"],stdout=PIPE,stderr=PIPE)
     else:

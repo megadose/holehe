@@ -18,7 +18,7 @@ def codeacademy(email):
     req = s.get(
         "https://www.codecademy.com/register?redirect=%2F",
         headers=headers)
-    soup = BeautifulSoup(req.content, features="lxml")
+    soup = BeautifulSoup(req.content, features="html.parser")
     try:
         headers["X-CSRF-Token"] = soup.find(
             attrs={"name": "csrf-token"}).get("content")

@@ -17,7 +17,7 @@ def buymeacoffee(email):
     }
     r = requests.get("https://www.buymeacoffee.com/", headers=headers)
     if r.status_code == 200:
-        soup = BeautifulSoup(req.content, features="lxml")
+        soup = BeautifulSoup(req.content, features="html.parser")
         csrf_token = soup.find(attrs={'name': 'bmc_csrf_token'}).get("value")
     else:
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
