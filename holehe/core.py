@@ -14,6 +14,7 @@ import hashlib
 import re
 import sys
 import mechanize
+import httpx
 
 from subprocess import Popen, PIPE
 import os

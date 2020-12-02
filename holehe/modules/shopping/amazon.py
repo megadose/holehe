@@ -1,8 +1,6 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
-import httpx
-
 
 def amazon(email):
     client = httpx.Client() # To remove in the async update
