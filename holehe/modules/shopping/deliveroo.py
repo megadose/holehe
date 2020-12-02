@@ -19,9 +19,11 @@ def deliveroo(email):
         'TE': 'Trailers',
     }
 
-    data = '{"email_address":"tazeest@gmail.com"}'
-
-    response = requests.post('https://consumer-ow-api.deliveroo.com/orderapp/v1/check-email', headers=headers, data=data)
+    data = '{"email_address":"'+email+'"}'
+    try:
+        response = requests.post('https://consumer-ow-api.deliveroo.com/orderapp/v1/check-email', headers=headers, data=data,timeout=1)
+    except :
+        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     if response.status_code==200:
         data=response.json()
         if data["registered"]==True:

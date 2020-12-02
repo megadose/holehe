@@ -102,7 +102,6 @@ print(lastpass("test@gmail.com"))
 |  laposte    |    laposte.fr  |     register      |          ✘          |
 |  lastfm     |    last.fm     |     register      |          ✘          |
 | lastpass    | lastpass.com   |     register      |          ✘          |
-|   live      |   live.com     | password recovery |          ✘          |
 |   mail.ru   |    mail.ru     | password recovery |          ✘          |
 |  mybb       |community.mybb.com|   register      |          ✘          |
 |  myspace    |  myspace.com   |     register      |          ✘          |
