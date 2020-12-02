@@ -13,7 +13,7 @@ def fetlife(email):
 
     s = requests.session()
     req = s.get("https://fetlife.com/signup_step_profile", headers=headers)
-    soup = BeautifulSoup(req.content, features="lxml")
+    soup = BeautifulSoup(req.content, features="html.parser")
 
     inp_method = soup.find("input", attrs={"type": "hidden", "name": "_method"})
     inp_authenticity_token = soup.find(
@@ -39,7 +39,7 @@ def fetlife(email):
         headers=headers,
         data=data
     )
-    resp_soup = BeautifulSoup(post.content, features="lxml")
+    resp_soup = BeautifulSoup(post.content, features="html.parser")
 
     EMAIL_MSG_ERROR = (
         "We're having problems processing the above email address. "

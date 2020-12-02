@@ -17,6 +17,6 @@ def laposte(email):
         }
 
     response = requests.post('https://www.laposte.fr/authentification', headers=headers, data=data)
-    post_soup = BeautifulSoup(response.content , 'lxml')
+    post_soup = BeautifulSoup(response.content , 'html.parser')
     l = post_soup.find_all('span', id="wrongEmail")
     return({"rateLimit": False, "exists": l != [], "emailrecovery": None, "phoneNumber": None, "others": None})

@@ -14,7 +14,7 @@ def pornhub(email):
 
     s = requests.session()
     req = s.get("https://www.pornhub.com/signup", headers=headers)
-    soup = BeautifulSoup(req.content, features="lxml")
+    soup = BeautifulSoup(req.content, features="html.parser")
     try:
         toe = soup.find(attrs={"name": "token"}).get("value")
     except:

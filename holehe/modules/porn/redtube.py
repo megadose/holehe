@@ -15,7 +15,7 @@ def redtube(email):
     }
 
     r=s.get("https://redtube.com/register",headers=headers)
-    soup=BeautifulSoup(r.text,features="lxml")
+    soup=BeautifulSoup(r.text,features="html.parser")
     try:
         token=soup.find(attrs={"id":"token"}).get("value")
         if token==None:

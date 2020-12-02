@@ -20,7 +20,7 @@ def codepen(email):
         req = s.get(
             "https://codepen.io/accounts/signup/user/free",
             headers=headers)
-        soup = BeautifulSoup(req.content, features="lxml")
+        soup = BeautifulSoup(req.content, features="html.parser")
         token = soup.find(attrs={"name": "csrf-token"}).get("content")
         headers["X-CSRF-Token"] = token
     except BaseException:
