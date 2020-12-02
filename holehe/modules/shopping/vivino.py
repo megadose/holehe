@@ -8,6 +8,7 @@ def vivino(email):
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': 'application/json',
+        'Accept-Language': 'en-US,en;q=0.5',
         'Referer': 'https://www.vivino.com/',
         'X-Requested-With': 'XMLHttpRequest',
         'Content-Type': 'application/json',
@@ -25,6 +26,7 @@ def vivino(email):
     data = '{"email":"'+str(email)+'","password":"e"}'
 
     response = s.post('https://www.vivino.com/api/login', headers=headers, data=data)
+    print(response.text)
     if response.status_code == 429:
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
