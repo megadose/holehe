@@ -30,7 +30,7 @@ from holehe.localuseragent import ua
 
 DEBUG = False
 
-__version__="1.56.3.3.3"
+__version__="1.56.3.3.4"
 checkVersion=requests.get("https://pypi.org/pypi/holehe/json")
 if not DEBUG and checkVersion.json()["info"]["version"]!=__version__:
     if os.name != 'nt':
