@@ -25,7 +25,7 @@ async def codepen(email, client, out):
         headers["X-CSRF-Token"] = token
     except BaseException:
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
 
     data = {
         'attribute': 'email',

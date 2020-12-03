@@ -21,7 +21,7 @@ async def venmo(email, client, out):
         headers["device-id"]=s.cookies["v_id"]
     except :
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
 
     data = '{"last_name":"e","first_name":"z","email":"'+email+'","password":"","phone":"1","client_id":10}'
 

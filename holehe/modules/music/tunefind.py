@@ -17,7 +17,7 @@ async def tunefind(email, client, out):
         crsf_token = r.text.split('"csrf-token" content="')[1].split('"')[0]
     except :
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
     data = '$-----------------------------\r\nContent-Disposition: form-data; name="username"\r\n\r\n\r\n-----------------------------\r\nContent-Disposition: form-data; name="email"\r\n\r\n'+str(email)+'\r\n-----------------------------\r\nContent-Disposition: form-data; name="password"\r\n\r\n\r\n-------------------------------\r\n'
     response = await client.post('https://www.tunefind.com/user/join', headers=headers,data=data)
     if "email" in response.json()["errors"].keys():

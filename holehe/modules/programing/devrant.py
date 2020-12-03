@@ -30,7 +30,7 @@ async def devrant(email, client, out):
         response = await client.post('https://devrant.com/api/users', headers=headers, data=data)
     except :
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
     result = response.json()['error']
     if result == 'The email specified is already registered to an account.':
         out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})

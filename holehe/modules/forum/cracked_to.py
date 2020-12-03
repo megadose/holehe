@@ -18,12 +18,12 @@ async def cracked_to(email, client, out):
         r=await client.get("https://cracked.to/member.php",headers=headers,timeout=1)
         if "Your request was blocked" in r.text or r.status_code!=200:
             out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-            return()
+            return None
     except:
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
-    headers['X-Requested-With']= 'XMLHttpRequest'
+        return None
 
+    headers['X-Requested-With']= 'XMLHttpRequest'
 
     params={
         'action':'email_availability',

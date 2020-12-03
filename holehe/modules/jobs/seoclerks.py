@@ -20,7 +20,8 @@ async def seoclerks(email, client, out):
         if "__cr" in r.text:
             cr = r.text.split('__cr" value="')[1].split('"')[0]
     except:
-        return ({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name, "rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        return None
 
     letters = string.ascii_lowercase
     username = ''.join(random.choice(letters) for i in range(6))
@@ -39,6 +40,6 @@ async def seoclerks(email, client, out):
 
     response = await client.post('https://www.seoclerks.com/signup/check', headers=headers, data=data)
     if 'The email address you entered is already taken.' in response.json()['message']:
-        return ({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name, "rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return ({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name, "rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

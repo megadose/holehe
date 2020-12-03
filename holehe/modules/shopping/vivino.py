@@ -19,7 +19,7 @@ async def vivino(email, client, out):
         crsf_token = r.text.split('"csrf-token" content="')[1].split('"')[0]
     except:
         out.append({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
 
     headers['X-CRSF-Token'] = crsf_token
     data = '{"email":"'+str(email)+'","password":"e"}'

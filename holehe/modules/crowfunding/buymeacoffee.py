@@ -22,7 +22,7 @@ async def buymeacoffee(email, client, out):
         csrf_token = soup.find(attrs={'name': 'bmc_csrf_token'}).get("value")
     else:
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
 
     cookies = {
         'bmccsrftoken': csrf_token,

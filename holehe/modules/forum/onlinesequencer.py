@@ -19,10 +19,10 @@ async def onlinesequencer(email, client, out):
         r=await client.get("https://onlinesequencer.net/forum/member.php",headers=headers,timeout=1)
         if "Your request was blocked" in r.text or r.status_code!=200:
             out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-            return()
+            return None
     except:
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
     headers['X-Requested-With']= 'XMLHttpRequest'
 
 
@@ -36,12 +36,12 @@ async def onlinesequencer(email, client, out):
         }
     except:
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
     try:
         response = await client.post('https://onlinesequencer.net/forum/xmlhttp.php', headers=headers, params=params, data=data)
     except:
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
     if "Your request was blocked" not in response.text and response.status_code==200:
         if "email address that is already in use by another member." in response.text:
             out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})

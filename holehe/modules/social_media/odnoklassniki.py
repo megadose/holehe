@@ -42,7 +42,7 @@ async def odnoklassniki(email, client, out):
                 profile_registred = None
         else:
             out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-            return()
+            return None
 
         others = {
             # TODO: split info separate fields, now only FullName displayed
@@ -50,8 +50,8 @@ async def odnoklassniki(email, client, out):
         }
 
         out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": masked_email, "phoneNumber": masked_phone, "others": others})
-        return()
+        return None
 
     if root_soup.find('div', {'data-l': 'registrationContainer,home_rest'}):
         out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None

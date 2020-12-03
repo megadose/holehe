@@ -27,7 +27,7 @@ async def blablacar(email, client, out):
 
     except BaseException:
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
 
     cookies = {
         'datadome': '',
@@ -36,7 +36,7 @@ async def blablacar(email, client, out):
         headers["Authorization"] = 'Bearer ' + appToken
     except :
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
 
     response = await client.get(
         'https://edge.blablacar.fr/auth/validation/email/' +

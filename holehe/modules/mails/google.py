@@ -25,7 +25,7 @@ async def google(email, client, out):
             1].split('&quot')[0]
     except BaseException:
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
 
 
     params={

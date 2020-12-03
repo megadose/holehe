@@ -23,7 +23,7 @@ async def eventbrite(email, client, out):
 
     except BaseException:
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
 
     cookies = {
         'csrftoken': csrf_token,

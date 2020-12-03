@@ -24,7 +24,7 @@ async def codeacademy(email, client, out):
             attrs={"name": "csrf-token"}).get("content")
     except BaseException:
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
 
     data = '{"user":{"email":"' + email + '"}}'
 

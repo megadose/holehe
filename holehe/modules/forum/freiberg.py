@@ -19,11 +19,11 @@ async def freiberg(email, client, out):
         r=await client.get("https://drachenhort.user.stunet.tu-freiberg.de/member.php",headers=headers)
         if "Your request was blocked" in r.text or r.status_code!=200:
             out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-            return()
+            return None
 
     except:
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
 
     headers['X-Requested-With']= 'XMLHttpRequest'
 
@@ -38,7 +38,7 @@ async def freiberg(email, client, out):
         }
     except:
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
     response = await client.post('https://drachenhort.user.stunet.tu-freiberg.de/xmlhttp.php', headers=headers, params=params, data=data)
     if "Your request was blocked" not in response.text and response.status_code==200:
         if "email address that is already in use by another member." in response.text:

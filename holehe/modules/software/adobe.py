@@ -22,7 +22,7 @@ async def adobe(email, client, out):
     r=r.json()
     if "errorCode" in str(r.keys()):
         out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
     headers['X-IMS-Authentication-State'] = r['id']
     params={
         'purpose': 'passwordRecovery',

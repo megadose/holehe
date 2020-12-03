@@ -80,7 +80,7 @@ async def maincore():
 
     email = ask_email()
 
-    client = httpx.AsyncClient(timeout=5)
+    client = httpx.AsyncClient(timeout=6)
     out = []
     async with trio.open_nursery() as nursery:
         for website in tqdm(websites):

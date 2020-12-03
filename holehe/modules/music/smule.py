@@ -19,7 +19,7 @@ async def smule(email, client, out):
         csrf_token = (r.text.split('authenticity_token" name="csrf-param" />\n<meta content="')[1]).split('"')[0]
     except:
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
 
     headers['X-CSRF-Token'] = str(csrf_token)
 

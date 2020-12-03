@@ -17,7 +17,7 @@ async def wattpad(email, client, out):
         await client.get("https://www.wattpad.com", headers=headers)
     except :
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
     headers["X-Requested-With"]='XMLHttpRequest'
     params={
         'email':email,
