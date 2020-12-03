@@ -33,7 +33,7 @@ async def adobe(email, client, out):
     params = {
         'purpose': 'passwordRecovery',
     }
-    response = requests.get(
+    response = client.get(
         'https://auth.services.adobe.com/signin/v2/challenges',
         headers=headers,
         params=params).json()
