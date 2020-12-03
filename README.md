@@ -171,7 +171,7 @@ trio.run(main)
 
 ## The output of the modules
 
-The result of the modules is in this form : `` {"rateLimit":False,"exists":True,"emailrecovery":ex****e@gmail.com,"phoneNumber":'0************78","others":None}``
+The result of the modules is in this form : `` {name:"example","rateLimit":False,"exists":True,"emailrecovery":ex****e@gmail.com,"phoneNumber":'0************78","others":None}``
 
 - rateLitmit : is to find out if you've been rate-limited
 - exists : know an account is associated with the mail
