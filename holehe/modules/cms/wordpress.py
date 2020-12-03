@@ -28,7 +28,7 @@ async def wordpress(email, client, out):
         response = await client.get('https://public-api.wordpress.com/rest/v1.1/users/' + email +'/auth-options',headers=headers,params=params,cookies=cookies)
     except :
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
     info = response.json()
     if "email_verified" in info["body"].keys():
         if info["body"]["email_verified"] == True:

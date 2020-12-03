@@ -27,6 +27,6 @@ async def sporcle(email, client, out):
 
     response = await client.post('https://www.sporcle.com/auth/ajax/verify.php', headers=headers,data=data)
     if "account already exists with this email" in response.text:
-        return ({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name, "rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return ({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name, "rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

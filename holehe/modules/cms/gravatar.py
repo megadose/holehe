@@ -7,7 +7,7 @@ async def gravatar(email, client, out):
     r =  await client.get('https://gravatar.com/{hashed_name}.json')
     if r.status_code != 200:
         out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
     else:
         try:
             data = r.json()
@@ -17,7 +17,7 @@ async def gravatar(email, client, out):
             }
 
             out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": others})
-            return()
+            return None
         except BaseException:
             out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-            return()
+            return None

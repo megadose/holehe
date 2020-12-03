@@ -15,7 +15,7 @@ async def fetlife(email, client, out):
         req = await client.get("https://fetlife.com/signup_step_profile", headers=headers)
     except:
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
 
     soup = BeautifulSoup(req.content, features="html.parser")
 

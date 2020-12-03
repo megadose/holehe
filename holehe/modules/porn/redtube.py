@@ -20,10 +20,10 @@ async def redtube(email, client, out):
         token=soup.find(attrs={"id":"token"}).get("value")
         if token==None:
             out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-            return()
+            return None
     except:
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
 
     headers['X-Requested-With']= 'XMLHttpRequest'
 

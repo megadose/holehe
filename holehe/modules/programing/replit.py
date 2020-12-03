@@ -19,8 +19,8 @@ async def replit(email, client, out):
     response = await client.post('https://repl.it/data/user/exists', headers=headers, data=data)
     try:
         if response.json()['exists'] == True:
-            return ({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name, "rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
         else:
-            return ({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name, "rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     except:
-        return ({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name, "rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

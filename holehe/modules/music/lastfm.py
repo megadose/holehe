@@ -10,7 +10,7 @@ async def lastfm(email, client, out):
         token = req.cookies["csrftoken"]
     except:
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
 
     data = {"csrfmiddlewaretoken": token, "userName": "", "email": email}
     headers = {
@@ -24,7 +24,7 @@ async def lastfm(email, client, out):
         check = await client.post("https://www.last.fm/join/partial/validate",headers=headers,data=data)
     except:
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
 
     if check.json()["email"]["valid"]:
         out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

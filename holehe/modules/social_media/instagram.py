@@ -19,7 +19,7 @@ async def instagram(email, client, out):
         token = freq.text.split('{"config":{"csrf_token":"')[1].split('"')[0]
     except :
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
 
     data = {
         'email': email,

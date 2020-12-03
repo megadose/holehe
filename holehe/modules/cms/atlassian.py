@@ -21,7 +21,7 @@ async def atlassian(email, client, out):
         }
     except :
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
 
     response = await client.post('https://id.atlassian.com/rest/check-username', headers=headers, data=data)
     if response.json()["action"]=="signup":

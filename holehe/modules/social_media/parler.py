@@ -29,7 +29,7 @@ async def parler(email, client, out):
         response = await client.post(url, data=data, headers=headers)
     except:
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
     data = response.text
     if 'password' in data:
         out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})

@@ -8,7 +8,7 @@ async def aboutme(email, client, out):
             ua["browsers"]["firefox"])})
     except :
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': 'application/json, text/javascript, */*; q=0.01',

@@ -18,10 +18,10 @@ async def raidforums(email, client, out):
         r=await client.get("https://raidforums.com/member.php",headers=headers)
         if "Your request was blocked" in r.text or r.status_code!=200:
             out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-            return()
+            return None
     except:
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-        return()
+        return None
 
     headers['X-Requested-With']= 'XMLHttpRequest'
 
