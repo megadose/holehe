@@ -17,7 +17,7 @@ def flickr(email, client, out):
     params = {
         'email': email,
     }
-    response = client.get(url, headers=headers, params=params)
+    response = await client.get(url, headers=headers, params=params)
     data = json.loads(response.text)
     if data['state_code'] == '5':
         out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
