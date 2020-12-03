@@ -18,7 +18,12 @@ async def ebay(email, client, out):
             "https://www.ebay.com/signin/", headers=headers)
         srt = req.text.split('"csrfAjaxToken":"')[1].split('"')[0]
     except IndexError:
-        out.append({"name": name, "rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
         return None
 
     data = {
@@ -31,6 +36,16 @@ async def ebay(email, client, out):
         data=data, headers=headers)
     results = json.loads(req.text)
     if "err" in results.keys():
-        out.append({"name": name, "rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": False,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
     else:
-        out.append({"name": name, "rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": False,
+                    "exists": True,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})

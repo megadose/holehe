@@ -3,7 +3,7 @@ from holehe.localuseragent import *
 
 
 async def yahoo(email, client, out):
-    name="yahoo"
+    name = "yahoo"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': '*/*',
@@ -27,7 +27,7 @@ async def yahoo(email, client, out):
         'Connection': 'keep-alive',
     }
 
-    params={
+    params = {
         '.src': 'fpctx',
         '.intl': 'ca',
         '.lang': 'en-CA',
@@ -40,8 +40,7 @@ async def yahoo(email, client, out):
             'username': email,
             'passwd': '',
             'signin': 'Next',
-            'persistent': 'y'
-        }
+            'persistent': 'y'}
 
         response = await client.post(
             'https://login.yahoo.com/',
@@ -50,16 +49,46 @@ async def yahoo(email, client, out):
             data=data)
         response = response.json()
         if "error" in response.keys():
-            if response["error"] == False:
-                out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+            if not response["error"]:
+                out.append({"name": name,
+                            "rateLimit": False,
+                            "exists": True,
+                            "emailrecovery": None,
+                            "phoneNumber": None,
+                            "others": None})
             else:
-                out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+                out.append({"name": name,
+                            "rateLimit": True,
+                            "exists": False,
+                            "emailrecovery": None,
+                            "phoneNumber": None,
+                            "others": None})
         elif "render" in response.keys():
             if response["render"]["error"] == "messages.ERROR_INVALID_USERNAME":
-                out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+                out.append({"name": name,
+                            "rateLimit": False,
+                            "exists": False,
+                            "emailrecovery": None,
+                            "phoneNumber": None,
+                            "others": None})
             else:
-                out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+                out.append({"name": name,
+                            "rateLimit": True,
+                            "exists": False,
+                            "emailrecovery": None,
+                            "phoneNumber": None,
+                            "others": None})
         else:
-            out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": True,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
     except BaseException:
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})

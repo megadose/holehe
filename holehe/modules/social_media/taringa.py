@@ -1,8 +1,9 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
+
 async def taringa(email, client, out):
-    name="taringa"
+    name = "taringa"
     cookies = {
         'G_ENABLED_IDPS': 'google',
     }
@@ -18,15 +19,35 @@ async def taringa(email, client, out):
         'TE': 'Trailers',
     }
 
-    data = '{"email":"'+email+'"}'
+    data = '{"email":"' + email + '"}'
 
     response = await client.post('https://www.taringa.net/api/auth/availability/email', headers=headers, cookies=cookies, data=data)
-    if response.status_code==200:
+    if response.status_code == 200:
         if '{"available":false}' == response.text:
-            out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": True,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
         else:
-            out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-    elif response.status_code==400:
-        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
+    elif response.status_code == 400:
+        out.append({"name": name,
+                    "rateLimit": False,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
     else:
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})

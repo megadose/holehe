@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='holehe',
-    version="1.56.4.2.8",
+    version="1.57",
     packages=find_packages(),
     author="megadose",
     install_requires=["termcolor","tqdm","lxml","bs4","httpx","trio"],

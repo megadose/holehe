@@ -3,7 +3,7 @@ from holehe.localuseragent import *
 
 
 async def vrbo(email, client, out):
-    name="vrbo"
+    name = "vrbo"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': '*/*',
@@ -26,10 +26,30 @@ async def vrbo(email, client, out):
 
     if "authType" in response.keys():
         if response["authType"][0] == "LOGIN_UMS":
-            out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": True,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
         elif response["authType"][0] == "SIGNUP":
-            out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
         else:
-            out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": True,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
     else:
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})

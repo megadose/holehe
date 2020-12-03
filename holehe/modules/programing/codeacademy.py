@@ -3,7 +3,7 @@ from holehe.localuseragent import *
 
 
 async def codeacademy(email, client, out):
-    name="codeacademy"
+    name = "codeacademy"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': 'application/json',
@@ -23,7 +23,12 @@ async def codeacademy(email, client, out):
         headers["X-CSRF-Token"] = soup.find(
             attrs={"name": "csrf-token"}).get("content")
     except BaseException:
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
         return None
 
     data = '{"user":{"email":"' + email + '"}}'
@@ -33,6 +38,16 @@ async def codeacademy(email, client, out):
         headers=headers,
         data=data)
     if 'is already taken' in response.text:
-        out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": False,
+                    "exists": True,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
     else:
-        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": False,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})

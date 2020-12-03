@@ -3,7 +3,7 @@ from holehe.localuseragent import *
 
 
 async def sevencups(email, client, out):
-    name="sevencups"
+    name = "sevencups"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]), 'DNT': '1',
         'Connection': 'keep-alive', 'Accept': 'application/json, text/javascript, */*; q=0.01',
@@ -23,8 +23,23 @@ async def sevencups(email, client, out):
         headers=headers)
     if response.status_code == 200:
         if "Account already exists with this email address" in response.text:
-            out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": True,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
         else:
-            out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
     else:
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})

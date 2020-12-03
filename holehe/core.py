@@ -9,7 +9,6 @@ from bs4 import BeautifulSoup
 import hashlib
 import re
 import sys
-import mechanize
 import httpx
 import trio
 from subprocess import Popen, PIPE
@@ -27,18 +26,29 @@ from holehe.localuseragent import ua
 
 DEBUG = False
 
-__version__="1.56.4.2.8"
-if not DEBUG :
-    checkVersion=httpx.get("https://pypi.org/pypi/holehe/json")
-if not DEBUG and checkVersion.json()["info"]["version"]!=__version__:
+__version__ = "1.57"
+if not DEBUG:
+    checkVersion = httpx.get("https://pypi.org/pypi/holehe/json")
+if not DEBUG and checkVersion.json()["info"]["version"] != __version__:
     if os.name != 'nt':
-        p=Popen(["pip3","install","--upgrade","git+git://github.com/megadose/holehe@master"],stdout=PIPE,stderr=PIPE)
+        p = Popen(["pip3",
+                   "install",
+                   "--upgrade",
+                   "git+git://github.com/megadose/holehe@master"],
+                  stdout=PIPE,
+                  stderr=PIPE)
     else:
-        p=Popen(["pip","install","--upgrade","git+git://github.com/megadose/holehe@master"],stdout=PIPE,stderr=PIPE)
+        p = Popen(["pip",
+                   "install",
+                   "--upgrade",
+                   "git+git://github.com/megadose/holehe@master"],
+                  stdout=PIPE,
+                  stderr=PIPE)
     (output, err) = p.communicate()
     p_status = p.wait()
     print("Holehe has just been updated, you can restart it. ")
     exit()
+
 
 def import_submodules(package, recursive=True):
     """Get all the holehe submodules"""
@@ -52,6 +62,7 @@ def import_submodules(package, recursive=True):
             results.update(import_submodules(full_name))
     return results
 
+
 def get_functions(modules):
     """Transform the modules objects to functions"""
     websites = []
@@ -61,6 +72,7 @@ def get_functions(modules):
             site = module.split(".")[-1]
             websites.append(modu.__dict__[site])
     return websites
+
 
 def ask_email():
     if len(sys.argv) < 2 or len(sys.argv[1]) < 5:
@@ -85,7 +97,7 @@ async def maincore():
     async with trio.open_nursery() as nursery:
         for website in tqdm(websites):
             nursery.start_soon(website, email, client, out)
-    out = sorted(out, key = lambda i: i['name']) # We sort by modules names
+    out = sorted(out, key=lambda i: i['name'])  # We sort by modules names
     await client.aclose()
 
     description = colored("[+] Email used",
@@ -97,10 +109,10 @@ async def maincore():
     print(email)
     print("*" * 25)
     for results in out:
-        if results["rateLimit"] == True:
-            websiteprint = colored("[x] "+results["name"], "red")
+        if results["rateLimit"]:
+            websiteprint = colored("[x] " + results["name"], "red")
         elif results["exists"] == False:
-            websiteprint = colored("[-] "+results["name"], "magenta")
+            websiteprint = colored("[-] " + results["name"], "magenta")
         else:
             toprint = ""
             if results["emailrecovery"] is not None:
@@ -110,7 +122,7 @@ async def maincore():
             if results["others"] is not None:
                 toprint += " / FullName " + results["others"]["FullName"]
 
-            websiteprint = colored("[+] "+results["name"] + toprint, "green")
+            websiteprint = colored("[+] " + results["name"] + toprint, "green")
         print(websiteprint)
 
     print("\n" + description)
@@ -120,6 +132,7 @@ async def maincore():
     print('Twitter : @palenath')
     print('Github : https://github.com/megadose/holehe')
     print('For BTC Donations : 1FHDM49QfZX6pJmhjLE5tB2K6CaTLMZpXZ')
+
 
 def main():
     trio.run(maincore)

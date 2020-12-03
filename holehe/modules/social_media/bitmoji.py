@@ -2,9 +2,8 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
-
 async def bitmoji(email, client, out):
-    name="bitmoji"
+    name = "bitmoji"
     req = await client.get("https://accounts.snapchat.com")
     xsrf = req.text.split('data-xsrf="')[1].split('"')[0]
     webClientId = req.text.split('ata-web-client-id="')[1].split('"')[0]
@@ -25,8 +24,23 @@ async def bitmoji(email, client, out):
     try:
         if response.status_code != 204:
             data = response.json()
-            out.append({"name":name,"rateLimit": False, "exists": data["hasBitmoji"], "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": data["hasBitmoji"],
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
             return None
-        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-    except :
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": False,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
+    except BaseException:
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})

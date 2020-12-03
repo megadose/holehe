@@ -1,8 +1,10 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
+
 async def buymeacoffee(email, client, out):
-    name="buymeacoffe"
+    name = "buymeacoffe"
+
     def get_random_string(length):
         letters = string.ascii_lowercase
         result_str = ''.join(random.choice(letters) for i in range(length))
@@ -21,7 +23,12 @@ async def buymeacoffee(email, client, out):
         soup = BeautifulSoup(req.content, features="html.parser")
         csrf_token = soup.find(attrs={'name': 'bmc_csrf_token'}).get("value")
     else:
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
         return None
 
     cookies = {
@@ -41,10 +48,30 @@ async def buymeacoffee(email, client, out):
     if response.status_code == 200:
         data = response.json()
         if data["status"] == "SUCCESS":
-            out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
         elif data["status"] == "FAIL" and "email" in str(data):
-            out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": True,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
         else:
-            out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": True,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
     else:
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})

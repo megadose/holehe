@@ -1,8 +1,10 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
+
 async def discord(email, client, out):
-    name="discord"
+    name = "discord"
+
     def get_random_string(length):
         letters = string.ascii_lowercase
         result_str = ''.join(random.choice(letters) for i in range(length))
@@ -31,14 +33,44 @@ async def discord(email, client, out):
         if "code" in responseData.keys():
             try:
                 if responseData["errors"]["email"]["_errors"][0]['code'] == "EMAIL_ALREADY_REGISTERED":
-                    out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+                    out.append({"name": name,
+                                "rateLimit": False,
+                                "exists": True,
+                                "emailrecovery": None,
+                                "phoneNumber": None,
+                                "others": None})
                 else:
-                    out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+                    out.append({"name": name,
+                                "rateLimit": False,
+                                "exists": False,
+                                "emailrecovery": None,
+                                "phoneNumber": None,
+                                "others": None})
             except BaseException:
-                out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+                out.append({"name": name,
+                            "rateLimit": True,
+                            "exists": False,
+                            "emailrecovery": None,
+                            "phoneNumber": None,
+                            "others": None})
         elif responseData["captcha_key"][0] == "captcha-required":
-            out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
         else:
-            out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": True,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
     except BaseException:
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})

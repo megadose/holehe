@@ -3,7 +3,7 @@ from holehe.localuseragent import *
 
 
 async def imgur(email, client, out):
-    name="imgur"
+    name = "imgur"
 
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
@@ -16,21 +16,34 @@ async def imgur(email, client, out):
         'TE': 'Trailers',
     }
 
+    r = await client.get("https://imgur.com/register?redirect=%2Fuser", headers=headers)
 
-    r=await client.get("https://imgur.com/register?redirect=%2Fuser",headers=headers)
-
-
-    headers["X-Requested-With"]="XMLHttpRequest"
+    headers["X-Requested-With"] = "XMLHttpRequest"
 
     data = {
-      'email': email
+        'email': email
     }
 
     response = await client.post('https://imgur.com/signin/ajax_email_available', headers=headers, data=data)
-    if response.status_code==200:
-        if response.json()["data"]["available"]==True:
-            out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    if response.status_code == 200:
+        if response.json()["data"]["available"]:
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
         else:
-            out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": True,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
     else:
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})

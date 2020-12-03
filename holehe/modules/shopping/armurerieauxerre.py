@@ -4,7 +4,7 @@ from holehe.localuseragent import *
 
 async def armurerieauxerre(email, client, out):
     name = "armurerieauxerre"
-    
+
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': '*/*',
@@ -18,11 +18,21 @@ async def armurerieauxerre(email, client, out):
     }
 
     data = {
-      'mail': email
+        'mail': email
     }
 
     req = await client.post('https://www.armurerie-auxerre.com/customer/Email/email/', headers=headers, data=data)
-    if req.text=="exist":
-        out.append({"name": name, "rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+    if req.text == "exist":
+        out.append({"name": name,
+                    "rateLimit": False,
+                    "exists": True,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
     else:
-        out.append({"name": name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": False,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})

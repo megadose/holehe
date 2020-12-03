@@ -1,8 +1,9 @@
 from holehe.core import *
 from holehe.localuseragent import ua
 
+
 async def seoclerks(email, client, out):
-    name="seoclerks"
+    name = "seoclerks"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': '*/*',
@@ -19,8 +20,13 @@ async def seoclerks(email, client, out):
             token = r.text.split('token" value="')[1].split('"')[0]
         if "__cr" in r.text:
             cr = r.text.split('__cr" value="')[1].split('"')[0]
-    except:
-        out.append({"name": name, "rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    except BaseException:
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
         return None
 
     letters = string.ascii_lowercase
@@ -28,18 +34,29 @@ async def seoclerks(email, client, out):
     password = ''.join(random.choice(letters) for i in range(6))
 
     data = {
-      'token': str(token),
-      '__cr': str(cr),
-      'fsub': '1',
-      'droplet': '',
-      'user_username': str(username),
-      'user_email': str(email),
-      'user_password': str(password),
-      'confirm_password': str(password)
+        'token': str(token),
+        '__cr': str(cr),
+        'fsub': '1',
+        'droplet': '',
+        'user_username': str(username),
+        'user_email': str(email),
+        'user_password': str(password),
+        'confirm_password': str(password)
     }
 
     response = await client.post('https://www.seoclerks.com/signup/check', headers=headers, data=data)
-    if 'The email address you entered is already taken.' in response.json()['message']:
-        out.append({"name": name, "rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+    if 'The email address you entered is already taken.' in response.json()[
+            'message']:
+        out.append({"name": name,
+                    "rateLimit": False,
+                    "exists": True,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
     else:
-        out.append({"name": name, "rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": False,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})

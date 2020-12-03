@@ -1,8 +1,9 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
+
 async def fetlife(email, client, out):
-    name="fetlife"
+    name = "fetlife"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -13,13 +14,22 @@ async def fetlife(email, client, out):
     }
     try:
         req = await client.get("https://fetlife.com/signup_step_profile", headers=headers)
-    except:
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    except BaseException:
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
         return None
 
     soup = BeautifulSoup(req.content, features="html.parser")
 
-    inp_method = soup.find("input", attrs={"type": "hidden", "name": "_method"})
+    inp_method = soup.find(
+        "input",
+        attrs={
+            "type": "hidden",
+            "name": "_method"})
     inp_authenticity_token = soup.find(
         "input",
         attrs={"type": "hidden", "name": "authenticity_token"}
@@ -54,4 +64,9 @@ async def fetlife(email, client, out):
 
     email_is_present = len(email_error_tag) > 0
 
-    out.append({"name":name,"rateLimit": False,"exists": email_is_present,"emailrecovery": None,"phoneNumber": None,"others": None})
+    out.append({"name": name,
+                "rateLimit": False,
+                "exists": email_is_present,
+                "emailrecovery": None,
+                "phoneNumber": None,
+                "others": None})

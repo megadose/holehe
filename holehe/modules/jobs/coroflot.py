@@ -3,7 +3,7 @@ from holehe.localuseragent import *
 
 
 async def coroflot(email, client, out):
-    name="coroflot"
+    name = "coroflot"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': '*/*',
@@ -26,8 +26,23 @@ async def coroflot(email, client, out):
         data=data)
     try:
         if response.json()["data"] == -2:
-            out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": True,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
         else:
-            out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
     except BaseException:
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})

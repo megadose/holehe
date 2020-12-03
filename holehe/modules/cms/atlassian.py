@@ -1,8 +1,9 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
+
 async def atlassian(email, client, out):
-    name="atlassian"
+    name = "atlassian"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': '*/*',
@@ -13,18 +14,31 @@ async def atlassian(email, client, out):
         'DNT': '1',
         'Connection': 'keep-alive',
     }
-    r= await client.get("https://id.atlassian.com/login",headers=headers)
+    r = await client.get("https://id.atlassian.com/login", headers=headers)
     try:
-        data = {
-          'csrfToken': r.text.split('{&quot;csrfToken&quot;:&quot;')[1].split('&quot')[0],
-          'username': email
-        }
-    except :
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        data = {'csrfToken': r.text.split('{&quot;csrfToken&quot;:&quot;')[
+            1].split('&quot')[0], 'username': email}
+    except BaseException:
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
         return None
 
     response = await client.post('https://id.atlassian.com/rest/check-username', headers=headers, data=data)
-    if response.json()["action"]=="signup":
-        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    if response.json()["action"] == "signup":
+        out.append({"name": name,
+                    "rateLimit": False,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
     else:
-        out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": False,
+                    "exists": True,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})

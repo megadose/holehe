@@ -4,7 +4,7 @@ from holehe.localuseragent import *
 
 async def quora(email, client, out):
 
-    name="quora"
+    name = "quora"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': 'application/json, text/javascript, */*; q=0.01',
@@ -19,14 +19,14 @@ async def quora(email, client, out):
     try:
         revision = r.text.split('revision": "')[1].split('"')[0]
         formkey = r.text.split('formkey": "')[1].split('"')[0]
-    except:
+    except BaseException:
         print("error")
 
     data = {
-      'json': '{"args":[],"kwargs":{"value":"'+str(email)+'"}}',
-      'formkey': str(formkey),
-      '__hmac': '0XUlSIZzr7N1DA',
-      '__method': 'validate'
+        'json': '{"args":[],"kwargs":{"value":"' + str(email) + '"}}',
+        'formkey': str(formkey),
+        '__hmac': '0XUlSIZzr7N1DA',
+        '__method': 'validate'
     }
 
     response = await client.post('https://fr.quora.com/webnode2/server_call_POST', headers=headers, data=data)
@@ -35,5 +35,5 @@ async def quora(email, client, out):
             return(({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None}))
         else:
             return(({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None}))
-    except:
+    except BaseException:
         return(({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None}))

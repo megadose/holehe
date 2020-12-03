@@ -1,8 +1,9 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
+
 async def blip(email, client, out):
-    name="blip"
+    name = "blip"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept-Language': 'en,en-US;q=0.5',
@@ -13,20 +14,40 @@ async def blip(email, client, out):
     }
 
     data = {
-      'referringUrl': '',
-      'genpass': '1',
-      'signup[urlName]': 'test',
-      'signup[emailAddress]': email,
-      'g-recaptcha-response': '',
-      'tos': '0'
+        'referringUrl': '',
+        'genpass': '1',
+        'signup[urlName]': 'test',
+        'signup[emailAddress]': email,
+        'g-recaptcha-response': '',
+        'tos': '0'
     }
     try:
         response = await client.post('https://blip.fm/signup/save', headers=headers, data=data)
         if 'That email address is already in use.' in response.text:
-            out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": True,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
         elif 'cloudfront.net/images/blip/spinner.gif" alt="loading..."' in response.text:
-            out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": True,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
         else:
-            out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-    except:
-        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
+    except BaseException:
+        out.append({"name": name,
+                    "rateLimit": False,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})

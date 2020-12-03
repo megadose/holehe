@@ -33,13 +33,6 @@ python3 setup.py install
 holehe test@gmail.com
 ```
 
-## 📈 Usage
-
-```python
-from holehe import *
-print(adobe("test@gmail.com"))
-print(lastpass("test@gmail.com"))
-```
 
 ## Modules :
 |  Module     |    Website     |      Method       | Frequent rate limit |
@@ -152,6 +145,29 @@ print(lastpass("test@gmail.com"))
 |   yahoo     |   yahoo.com    |       login       |          ✔          |
 
 ### Rate limit, just change your IP
+
+## 📈 Example of use
+
+```python
+import trio
+import httpx
+
+from holehe.modules.shopping.ebay import ebay
+
+
+async def main():
+    email = "test@gmail.com"
+    out = []
+    client = httpx.AsyncClient(timeout=10)
+
+    await ebay(email, client, out)
+
+    print(out)
+    await client.aclose()
+
+trio.run(main)
+```
+
 
 ## The output of the modules
 

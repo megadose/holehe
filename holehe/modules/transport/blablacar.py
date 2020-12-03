@@ -3,7 +3,7 @@ from holehe.localuseragent import *
 
 
 async def blablacar(email, client, out):
-    name="blablacar"
+    name = "blablacar"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': 'application/json',
@@ -23,10 +23,15 @@ async def blablacar(email, client, out):
         appToken = await client.get(
             "https://www.blablacar.fr/register",
             headers=headers)
-        appToken=appToken.text.split(',"appToken":"')[1].split('"')[0]
+        appToken = appToken.text.split(',"appToken":"')[1].split('"')[0]
 
     except BaseException:
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
         return None
 
     cookies = {
@@ -34,8 +39,13 @@ async def blablacar(email, client, out):
     }
     try:
         headers["Authorization"] = 'Bearer ' + appToken
-    except :
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    except BaseException:
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
         return None
 
     response = await client.get(
@@ -45,6 +55,16 @@ async def blablacar(email, client, out):
         cookies=cookies)
     data = response.json()
     if "url" in data.keys():
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
     elif "exists" in data.keys():
-        out.append({"name":name,"rateLimit": False, "exists": data["exists"], "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": False,
+                    "exists": data["exists"],
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})

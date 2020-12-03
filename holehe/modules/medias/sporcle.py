@@ -1,8 +1,9 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
+
 async def sporcle(email, client, out):
-    name="sporcle"
+    name = "sporcle"
 
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
@@ -15,18 +16,28 @@ async def sporcle(email, client, out):
     }
 
     data = {
-      'email': str(email),
-      'password1': '',
-      'password2': '',
-      'handle': '',
-      'humancheck': '',
-      'reg_path': 'main_header_join',
-      'ref_page': '',
-      'querystring': ''
+        'email': str(email),
+        'password1': '',
+        'password2': '',
+        'handle': '',
+        'humancheck': '',
+        'reg_path': 'main_header_join',
+        'ref_page': '',
+        'querystring': ''
     }
 
-    response = await client.post('https://www.sporcle.com/auth/ajax/verify.php', headers=headers,data=data)
+    response = await client.post('https://www.sporcle.com/auth/ajax/verify.php', headers=headers, data=data)
     if "account already exists with this email" in response.text:
-        out.append({"name": name, "rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": False,
+                    "exists": True,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
     else:
-        out.append({"name": name, "rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": False,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})

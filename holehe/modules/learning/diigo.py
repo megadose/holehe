@@ -1,8 +1,9 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
+
 async def diigo(email, client, out):
-    name="diigo"
+    name = "diigo"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': '*/*',
@@ -12,24 +13,49 @@ async def diigo(email, client, out):
         'Referer': 'https://www.diigo.com/sign-up?plan=free',
     }
     try:
-        await client.get("https://www.diigo.com/sign-up?plan=free",headers=headers)
-    except :
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        await client.get("https://www.diigo.com/sign-up?plan=free", headers=headers)
+    except BaseException:
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
 
-    headers["X-Requested-With"]='XMLHttpRequest'
+    headers["X-Requested-With"] = 'XMLHttpRequest'
 
-    params={
+    params = {
         'email': email,
     }
     try:
         response = await client.get('https://www.diigo.com/user_mana2/check_email', headers=headers, params=params)
-    except :
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    except BaseException:
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
         return None
-    if response.status_code==200:
-        if response.text=="0":
-            out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+    if response.status_code == 200:
+        if response.text == "0":
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": True,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
         else:
-            out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
     else:
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})

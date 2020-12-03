@@ -1,13 +1,19 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
+
 async def aboutme(email, client, out):
-    name="aboutme"
+    name = "aboutme"
     try:
         reqToken = await client.get("https://about.me/signup", headers={'User-Agent': random.choice(
             ua["browsers"]["firefox"])})
-    except :
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    except BaseException:
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
         return None
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
@@ -26,8 +32,23 @@ async def aboutme(email, client, out):
 
     response = await client.post('https://about.me/n/signup', headers=headers, data=data)
     if response.status_code == 409:
-        out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": False,
+                    "exists": True,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
     elif response.status_code == 200:
-        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": False,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
     else:
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})

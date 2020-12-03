@@ -3,7 +3,7 @@ from holehe.localuseragent import *
 
 
 async def caringbridge(email, client, out):
-    name="caringbridge"
+    name = "caringbridge"
     cookies = {
         'lang': 'en_US',
         'showSurvey': 'true',
@@ -23,14 +23,24 @@ async def caringbridge(email, client, out):
     }
 
     data = {
-      'csrf': '',
-      'email': email,
-      'password_placeholder': '',
-      'submit-btn': 'Continue'
+        'csrf': '',
+        'email': email,
+        'password_placeholder': '',
+        'submit-btn': 'Continue'
     }
 
-    response = await client.post('https://www.caringbridge.org/signin', headers=headers, cookies=cookies, data=data,timeout=2)
-    if "Welcome Back,"in response.text:
-        out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+    response = await client.post('https://www.caringbridge.org/signin', headers=headers, cookies=cookies, data=data, timeout=2)
+    if "Welcome Back," in response.text:
+        out.append({"name": name,
+                    "rateLimit": False,
+                    "exists": True,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
     else:
-        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": False,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})

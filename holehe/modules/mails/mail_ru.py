@@ -1,8 +1,9 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
+
 async def mail_ru(email, client, out):
-    name="mail_ru"
+    name = "mail_ru"
     headers = {
         'authority': 'account.mail.ru',
         'accept': 'application/json, text/javascript, */*; q=0.01',
@@ -30,11 +31,31 @@ async def mail_ru(email, client, out):
             if reqd['status'] == 200:
                 phones = ', '.join(reqd['body'].get('phones', [])) or None
                 emails = ', '.join(reqd['body'].get('emails', [])) or None
-                out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": emails, "phoneNumber": phones, "others": None})
+                out.append({"name": name,
+                            "rateLimit": False,
+                            "exists": True,
+                            "emailrecovery": emails,
+                            "phoneNumber": phones,
+                            "others": None})
             else:
                 # email not exists or some problem
-                out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+                out.append({"name": name,
+                            "rateLimit": False,
+                            "exists": False,
+                            "emailrecovery": None,
+                            "phoneNumber": None,
+                            "others": None})
         except BaseException:
-            out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": True,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
     else:
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})

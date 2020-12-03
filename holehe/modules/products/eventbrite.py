@@ -2,9 +2,8 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
-
 async def eventbrite(email, client, out):
-    name="eventbrite"
+    name = "eventbrite"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': '*/*',
@@ -17,12 +16,17 @@ async def eventbrite(email, client, out):
         'Connection': 'keep-alive',
     }
 
-    req = await client.get("https://www.eventbrite.com/signin/?referrer=%2F",headers=headers)
+    req = await client.get("https://www.eventbrite.com/signin/?referrer=%2F", headers=headers)
     try:
         csrf_token = req.cookies["csrftoken"]
 
     except BaseException:
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
         return None
 
     cookies = {
@@ -40,11 +44,31 @@ async def eventbrite(email, client, out):
     if response.status_code == 200:
         try:
             reqd = response.json()
-            if reqd["exists"] == True:
-                out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+            if reqd["exists"]:
+                out.append({"name": name,
+                            "rateLimit": False,
+                            "exists": True,
+                            "emailrecovery": None,
+                            "phoneNumber": None,
+                            "others": None})
             else:
-                out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+                out.append({"name": name,
+                            "rateLimit": False,
+                            "exists": False,
+                            "emailrecovery": None,
+                            "phoneNumber": None,
+                            "others": None})
         except BaseException:
-            out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": True,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
     else:
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})

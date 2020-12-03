@@ -1,6 +1,7 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
+
 async def garmin(email, client, out):
     name = "garmin"
 
@@ -14,7 +15,7 @@ async def garmin(email, client, out):
         'TE': 'Trailers',
     }
 
-    params=(
+    params = (
         ('service', 'https://www.garmin.com/fr-FR/account/profile/'),
         ('webhost', 'https://www.garmin.com/fr-FR/account/create/'),
         ('source', 'https://www.garmin.com/fr-FR/account/create/'),
@@ -54,13 +55,23 @@ async def garmin(email, client, out):
 
     try:
         req = await client.get('https://sso.garmin.com/sso/createNewAccount', headers=headers, params=params)
-    except :
-        out.append({"name": name, "rateLimit": True,"exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    except BaseException:
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
         return None
     try:
         token = req.text.split('"token": "')[1].split('"')[0]
-    except:
-        out.append({"name": name, "rateLimit": True,"exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    except BaseException:
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
         return None
 
     headers["Origin"] = "https://sso.garmin.com"
@@ -71,13 +82,28 @@ async def garmin(email, client, out):
         'locale': '',
     }
     data = {
-      'email': email,
-      'token': token
+        'email': email,
+        'token': token
     }
     req = await client.post('https://sso.garmin.com/sso/validateNewAccount', headers=headers, params=params, data=data)
     if req.text == "false":
-        out.append({"name": name, "rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": False,
+                    "exists": True,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
     elif req.text == "true":
-        out.append({"name": name, "rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": False,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
     else:
-        out.append({"name": name, "rateLimit": True,"exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})

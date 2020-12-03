@@ -3,7 +3,7 @@ from holehe.localuseragent import *
 
 
 async def lastpass(email, client, out):
-    name="lastpass"
+    name = "lastpass"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': '*/*',
@@ -14,7 +14,7 @@ async def lastpass(email, client, out):
         'Connection': 'keep-alive',
         'TE': 'Trailers',
     }
-    params={
+    params = {
         'check': 'avail',
         'skipcontent': '1',
         'mistype': '1',
@@ -26,8 +26,23 @@ async def lastpass(email, client, out):
         params=params,
         headers=headers)
     if response.text == "no":
-        out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": False,
+                    "exists": True,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
     if response.text == "ok" or response.text == "emailinvalid":
-        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": False,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
     else:
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})

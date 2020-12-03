@@ -3,13 +3,14 @@ from holehe.localuseragent import *
 
 
 async def naturabuy(email, client, out):
-    name="naturabuy"
+    name = "naturabuy"
+
     def get_random_string(length):
         letters = string.digits
         result_str = ''.join(random.choice(letters) for i in range(length))
         return(result_str)
 
-    randomChar=str(get_random_string(30))
+    randomChar = str(get_random_string(30))
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': '*/*',
@@ -21,13 +22,29 @@ async def naturabuy(email, client, out):
         'Connection': 'keep-alive',
     }
 
-    data = '-----------------------------\r\nContent-Disposition: form-data; name="jsref"\r\n\r\nemail\r\n-----------------------------\r\nContent-Disposition: form-data; name="jsvalue"\r\n\r\n'+email+'\r\n-----------------------------\r\nContent-Disposition: form-data; name="registerMode"\r\n\r\nfull\r\n-------------------------------\r\n'
+    data = '-----------------------------\r\nContent-Disposition: form-data; name="jsref"\r\n\r\nemail\r\n-----------------------------\r\nContent-Disposition: form-data; name="jsvalue"\r\n\r\n' + \
+        email + '\r\n-----------------------------\r\nContent-Disposition: form-data; name="registerMode"\r\n\r\nfull\r\n-------------------------------\r\n'
 
     response = await client.post('https://www.naturabuy.fr/includes/ajax/register.php', headers=headers, data=data)
     try:
-        if json.loads(response.text)["free"]==False:
-            out.append({"name": name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        if json.loads(response.text)["free"] == False:
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": True,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
         else:
-            out.append({"name": name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-    except:
-            out.append({"name": name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
+    except BaseException:
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})

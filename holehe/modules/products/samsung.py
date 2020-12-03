@@ -3,7 +3,7 @@ from holehe.localuseragent import *
 
 
 async def samsung(email, client, out):
-    name="samsung"
+    name = "samsung"
     req = await client.get(
         "https://account.samsung.com/accounts/v1/Samsung_com_FR/signUp")
     token = req.text.split("sJSESSIONID")[1].split('"')[1].split('"')[0]
@@ -26,7 +26,7 @@ async def samsung(email, client, out):
         'Connection': 'keep-alive',
     }
 
-    params={
+    params = {
         'v': '1337',
     }
 
@@ -41,8 +41,23 @@ async def samsung(email, client, out):
     data = response.json()
     if response.status_code == 200:
         if "rtnCd" in data.keys():
-            out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": True,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
         else:
-            out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
     else:
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})

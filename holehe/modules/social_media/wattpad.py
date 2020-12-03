@@ -3,7 +3,7 @@ from holehe.localuseragent import *
 
 
 async def wattpad(email, client, out):
-    name="wattpad"
+    name = "wattpad"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': '*/*',
@@ -15,18 +15,38 @@ async def wattpad(email, client, out):
     try:
 
         await client.get("https://www.wattpad.com", headers=headers)
-    except :
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    except BaseException:
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
         return None
-    headers["X-Requested-With"]='XMLHttpRequest'
-    params={
-        'email':email,
+    headers["X-Requested-With"] = 'XMLHttpRequest'
+    params = {
+        'email': email,
     }
     response = await client.get('https://www.wattpad.com/api/v3/users/validate', headers=headers, params=params)
     if (response.status_code == 200 or response.status_code == 400):
-        if "Cette adresse" not in response.text or response.text== '{"message":"OK","code":200}':
-            out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        if "Cette adresse" not in response.text or response.text == '{"message":"OK","code":200}':
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
         else:
-            out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": True,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
     else:
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})

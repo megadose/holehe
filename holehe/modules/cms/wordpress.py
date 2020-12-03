@@ -1,8 +1,9 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
+
 async def wordpress(email, client, out):
-    name="wordpress"
+    name = "wordpress"
     cookies = {
         'G_ENABLED_IDPS': 'google',
         'ccpa_applies': 'true',
@@ -25,17 +26,42 @@ async def wordpress(email, client, out):
         'locale': 'fr',
     }
     try:
-        response = await client.get('https://public-api.wordpress.com/rest/v1.1/users/' + email +'/auth-options',headers=headers,params=params,cookies=cookies)
-    except :
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        response = await client.get('https://public-api.wordpress.com/rest/v1.1/users/' + email + '/auth-options', headers=headers, params=params, cookies=cookies)
+    except BaseException:
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
         return None
     info = response.json()
     if "email_verified" in info["body"].keys():
-        if info["body"]["email_verified"] == True:
-            out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        if info["body"]["email_verified"]:
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": True,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
         else:
-            out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
     elif "unknown_user" in str(info) or "email_login_not_allowed" in str(info):
-        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": False,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
     else:
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})

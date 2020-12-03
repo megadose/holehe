@@ -2,9 +2,8 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
-
 async def spotify(email, client, out):
-    name="spotify"
+    name = "spotify"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': 'application/json, text/plain, */*',
@@ -13,7 +12,7 @@ async def spotify(email, client, out):
         'Connection': 'keep-alive',
     }
 
-    params={
+    params = {
         'validate': '1',
         'email': email,
     }
@@ -23,8 +22,23 @@ async def spotify(email, client, out):
         headers=headers,
         params=params)
     if req.json()["status"] == 1:
-        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": False,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
     elif req.json()["status"] == 20:
-        out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": False,
+                    "exists": True,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
     else:
-        out.append({"name":name,"rateLimit": True, "exists": None, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": None,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
