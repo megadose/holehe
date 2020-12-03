@@ -19,6 +19,7 @@ async def biotechnologyforums(email, client, out):
         r=await client.get("https://biotechnologyforums.com/member.php",headers=headers)
     except:
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        return()
 
     if "Your request was blocked" in r.text or r.status_code!=200:
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
