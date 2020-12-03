@@ -2,7 +2,8 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
-def nike(email):
+async def nike(email, client, out):
+    name="nike"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': '*/*',
@@ -15,28 +16,28 @@ def nike(email):
         'TE': 'Trailers',
     }
 
-    params = (
-        ('appVersion', '831'),
-        ('experienceVersion', '831'),
-        ('uxid', 'com.nike.commerce.nikedotcom.web'),
-        ('locale', 'fr_FR'),
-        ('backendEnvironment', 'identity'),
-        ('browser', ''),
-        ('mobile', 'false'),
-        ('native', 'false'),
-        ('visit', '1'),
-    )
+    params={
+        'appVersion': '831',
+        'experienceVersion': '831',
+        'uxid': 'com.nike.commerce.nikedotcom.web',
+        'locale': 'fr_FR',
+        'backendEnvironment': 'identity',
+        'browser': '',
+        'mobile':'false',
+        'native': 'false',
+        'visit': '1',
+    }
 
     data = '{"emailAddress":"' + email + '"}'
 
-    response = requests.post(
+    response = await client.post(
         'https://unite.nike.com/account/email/v1',
         headers=headers,
         params=params,
         data=data)
     if response.status_code == 409:
-        return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     elif response.status_code == 204:
-        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

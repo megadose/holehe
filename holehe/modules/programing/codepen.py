@@ -2,7 +2,8 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
-def codepen(email):
+async def codepen(email, client, out):
+    name="codepen"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': '*/*',
@@ -16,15 +17,15 @@ def codepen(email):
         'TE': 'Trailers',
     }
     try:
-        s = requests.session()
-        req = s.get(
+        req = await client.get(
             "https://codepen.io/accounts/signup/user/free",
             headers=headers)
         soup = BeautifulSoup(req.content, features="html.parser")
         token = soup.find(attrs={"name": "csrf-token"}).get("content")
         headers["X-CSRF-Token"] = token
     except BaseException:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        return()
 
     data = {
         'attribute': 'email',
@@ -32,11 +33,11 @@ def codepen(email):
         'context': 'user'
     }
 
-    response = s.post(
+    response = await client.post(
         'https://codepen.io/accounts/duplicate_check',
         headers=headers,
         data=data)
     if "That Email is already taken." in response.text:
-        return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

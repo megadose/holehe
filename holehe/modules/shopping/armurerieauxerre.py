@@ -2,7 +2,9 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
-def armurerieauxerre(email):
+async def armurerieauxerre(email, client, out):
+    name = "armurerieauxerre"
+    
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': '*/*',
@@ -19,8 +21,8 @@ def armurerieauxerre(email):
       'mail': email
     }
 
-    response = requests.post('https://www.armurerie-auxerre.com/customer/Email/email/', headers=headers, data=data)
-    if response.text=="exist":
-        return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+    req = await client.post('https://www.armurerie-auxerre.com/customer/Email/email/', headers=headers, data=data)
+    if req.text=="exist":
+        out.append({"name": name, "rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

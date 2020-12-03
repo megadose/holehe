@@ -1,7 +1,8 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
-def plurk(email):
+async def plurk(email, client, out):
+    name="plurk"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': '*/*',
@@ -17,10 +18,10 @@ def plurk(email):
       'email': email
     }
 
-    response = requests.post('https://www.plurk.com/Users/isEmailFound', headers=headers, data=data)
+    response = await client.post('https://www.plurk.com/Users/isEmailFound', headers=headers, data=data)
     if response.text=="True":
-        return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     elif response.text=="False":
-        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

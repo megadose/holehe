@@ -2,7 +2,8 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
-def lastpass(email):
+async def lastpass(email, client, out):
+    name="lastpass"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': '*/*',
@@ -13,20 +14,20 @@ def lastpass(email):
         'Connection': 'keep-alive',
         'TE': 'Trailers',
     }
-    params = (
-        ('check', 'avail'),
-        ('skipcontent', '1'),
-        ('mistype', '1'),
-        ('username', email),
-    )
+    params={
+        'check': 'avail',
+        'skipcontent': '1',
+        'mistype': '1',
+        'username': email,
+    }
 
-    response = requests.get(
+    response = await client.get(
         'https://lastpass.com/create_account.php',
         params=params,
         headers=headers)
     if response.text == "no":
-        return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     if response.text == "ok" or response.text == "emailinvalid":
-        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

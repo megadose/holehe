@@ -1,37 +1,35 @@
 import time
-import queue
-import requests
 import random
 import importlib
 import pkgutil
 import string
 from tqdm import tqdm
 from termcolor import colored
-from threading import Thread
-from mechanize import Browser
 from bs4 import BeautifulSoup
 import hashlib
 import re
 import sys
 import mechanize
 import httpx
-
+import trio
 from subprocess import Popen, PIPE
 import os
 import time
+import json
 
 try:
     import cookielib
 except BaseException:
     import http.cookiejar as cookielib
 
-from holehe.localuseragent import ua
+from hholehe.localuseragent import ua
 
 
-DEBUG = False
+DEBUG = True
 
-__version__="1.56.3.3.6"
-checkVersion=requests.get("https://pypi.org/pypi/holehe/json")
+__version__="1.56.4.1"
+if not DEBUG :
+    checkVersion=requests.get("https://pypi.org/pypi/holehe/json")
 if not DEBUG and checkVersion.json()["info"]["version"]!=__version__:
     if os.name != 'nt':
         p=Popen(["pip3","install","--upgrade","git+git://github.com/megadose/holehe@master"],stdout=PIPE,stderr=PIPE)
@@ -43,6 +41,7 @@ if not DEBUG and checkVersion.json()["info"]["version"]!=__version__:
     exit()
 
 def import_submodules(package, recursive=True):
+    """Get all the holehe submodules"""
     if isinstance(package, str):
         package = importlib.import_module(package)
     results = {}
@@ -53,49 +52,41 @@ def import_submodules(package, recursive=True):
             results.update(import_submodules(full_name))
     return results
 
-modules = import_submodules("holehe.modules")
+def get_functions(modules):
+    """Transform the modules objects to functions"""
+    websites = []
+    for module in modules:
+        if len(module.split(".")) > 3:
+            modu = modules[module]
+            site = module.split(".")[-1]
+            websites.append(modu.__dict__[site])
+    return websites
 
-websites = list()
-
-for module in modules:
-    if len(module.split(".")) > 3:
-        modu = modules[module]
-        site = module.split(".")[-1]
-        websites.append(modu.__dict__[site])
+def ask_email():
+    if len(sys.argv) < 2 or len(sys.argv[1]) < 5:
+        exit("[-] Please enter a target email ! \nExample : holehe email@example.com")
+    return sys.argv[1]
 
 
-def main():
+async def main():
+    modules = import_submodules("holehe.modules")
+    websites = get_functions(modules)
+
     print('Twitter : @palenath')
     print('Github : https://github.com/megadose/holehe')
-    print('For BTC Donations : 1FHDM49QfZX6pJmhjLE5tB2K6CaTLMZpXZ')
+    print('For BTC Donations : 1FHDM49QfZX6pJmhjLE5tB2K6CaTLMZpXZ\n')
+
     start_time = time.time()
-    email=sys.argv[1]
-    if len(email)<5:
-        print("Please enter a target email ! \nholehe email@example.com")
-        exit()
-    def websiteName(WebsiteFunction, Websitename, email):
-        return({Websitename: WebsiteFunction(email)})
 
-    que = queue.Queue()
-    infos = {}
-    threads_list = []
+    email = ask_email()
 
-    for website in websites:
-        t = Thread(
-            target=lambda q, arg1: q.put(
-                websiteName(
-                    website, website.__name__, email)), args=(
-                que, website))
-        t.start()
-        threads_list.append(t)
-
-    for t in tqdm(threads_list):
-        t.join()
-
-    while not que.empty():
-        result = que.get()
-        key, value = next(iter(result.items()))
-        infos[key] = value
+    client = httpx.AsyncClient(timeout=3)
+    out = []
+    async with trio.open_nursery() as nursery:
+        for website in websites:
+            nursery.start_soon(website, email, client, out)
+    out = sorted(out, key = lambda i: i['name']) # We sort by modules names
+    await client.aclose()
 
     description = colored("[+] Email used",
                           "green") + "," + colored(" [-] Email not used",
@@ -105,23 +96,21 @@ def main():
     print("*" * 25)
     print(email)
     print("*" * 25)
-    for i in sorted(infos):
-        key, value = i, infos[i]
-        i = value
-        if i["rateLimit"] == True:
-            websiteprint = colored("[x] "+str(key), "red")
-        elif i["exists"] == False:
-            websiteprint = colored("[-] "+str(key), "magenta")
+    for results in out:
+        if results["rateLimit"] == True:
+            websiteprint = colored("[x] "+results["name"], "red")
+        elif results["exists"] == False:
+            websiteprint = colored("[-] "+results["name"], "magenta")
         else:
             toprint = ""
-            if i["emailrecovery"] is not None:
-                toprint += " " + i["emailrecovery"]
-            if i["phoneNumber"] is not None:
-                toprint += " / " + i["phoneNumber"]
-            if i["others"] is not None:
-                toprint += " / FullName " + i["others"]["FullName"]
+            if results["emailrecovery"] is not None:
+                toprint += " " + results["emailrecovery"]
+            if results["phoneNumber"] is not None:
+                toprint += " / " + results["phoneNumber"]
+            if results["others"] is not None:
+                toprint += " / FullName " + results["others"]["FullName"]
 
-            websiteprint = colored("[+] "+str(key) + toprint, "green")
+            websiteprint = colored("[+] "+results["name"] + toprint, "green")
         print(websiteprint)
 
     print("\n" + description)

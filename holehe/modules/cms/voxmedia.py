@@ -1,7 +1,8 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
-def voxmedia(email):
+async def voxmedia(email, client, out):
+    name="voxmedia"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': 'application/json, text/javascript, */*; q=0.01',
@@ -19,12 +20,12 @@ def voxmedia(email):
       'email': email
     }
 
-    response = requests.post('https://auth.voxmedia.com/chorus_auth/email_valid.json', headers=headers, data=data)
+    response = await client.post('https://auth.voxmedia.com/chorus_auth/email_valid.json', headers=headers, data=data)
     try:
         rep=response.json()
         if rep["available"]==True:
-            return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
         else:
-            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     except :
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

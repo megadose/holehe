@@ -1,7 +1,8 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
-def laposte(email):
+async def laposte(email, client, out):
+    name="laposte"
     headers = {
         'Origin': 'https://www.laposte.fr',
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
@@ -16,7 +17,7 @@ def laposte(email):
         'tunnelSteps': ''
         }
 
-    response = requests.post('https://www.laposte.fr/authentification', headers=headers, data=data)
+    response = await client.post('https://www.laposte.fr/authentification', headers=headers, data=data)
     post_soup = BeautifulSoup(response.content , 'html.parser')
     l = post_soup.find_all('span', id="wrongEmail")
-    return({"rateLimit": False, "exists": l != [], "emailrecovery": None, "phoneNumber": None, "others": None})
+    out.append({"name":name,"rateLimit": False, "exists": l != [], "emailrecovery": None, "phoneNumber": None, "others": None})

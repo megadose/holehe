@@ -2,7 +2,8 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
-def odnoklassniki(email):
+async def odnoklassniki(email, client, out):
+    name="odnoklassniki"
     # credits: https://github.com/shllwrld/ok_checker/
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
@@ -16,10 +17,8 @@ def odnoklassniki(email):
     OK_LOGIN_URL = 'https://www.ok.ru/dk?st.cmd=anonymMain&st.accRecovery=on&st.error=errors.password.wrong'
     OK_RECOVER_URL = 'https://www.ok.ru/dk?st.cmd=anonymRecoveryAfterFailedLogin&st._aid=LeftColumn_Login_ForgotPassword'
 
-    session = requests.Session()
-    session.headers.update(headers)
-    session.get(OK_LOGIN_URL+'&st.email='+email)
-    request = session.get(OK_RECOVER_URL)
+    await client.get(OK_LOGIN_URL+'&st.email='+email,headers=headers)
+    request = await client.get(OK_RECOVER_URL,headers=headers)
     root_soup = BeautifulSoup(request.content, 'html.parser')
     soup = root_soup.find('div', {'data-l': 'registrationContainer,offer_contact_rest'})
     if soup:
@@ -42,14 +41,17 @@ def odnoklassniki(email):
                 profile_info = None
                 profile_registred = None
         else:
-            return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            return()
 
         others = {
             # TODO: split info separate fields, now only FullName displayed
             'FullName': '; '.join([masked_name, profile_info, profile_registred]),
         }
 
-        return({"rateLimit": False, "exists": True, "emailrecovery": masked_email, "phoneNumber": masked_phone, "others": others})
+        out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": masked_email, "phoneNumber": masked_phone, "others": others})
+        return()
 
     if root_soup.find('div', {'data-l': 'registrationContainer,home_rest'}):
-        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        return()

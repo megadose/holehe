@@ -1,9 +1,9 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
-def freelancer(email):
-    s = requests.session()
-    s.headers = {
+async def freelancer(email, client, out):
+    name="freelancer"
+    headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': 'application/json, text/plain, */*',
         'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
@@ -14,23 +14,15 @@ def freelancer(email):
         'TE': 'Trailers',
     }
 
-    params = (
-        ('compact', 'true'),
-        ('new_errors', 'true'),
-    )
 
     data = '{"user":{"email":"' + email + '"}}'
-    response = s.post(
-        'https://www.freelancer.com/api/users/0.1/users/check',
-        params=params,
-        data=data)
+    response = await client.post('https://www.freelancer.com/api/users/0.1/users/check?compact=true&new_errors=true',data=data,headers=headers)
     resData = response.json()
-    if response.status_code == 409:
-        if "EMAIL_ALREADY_IN_USE" in response.text:
-            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+    if response.status_code == 409 and "EMAIL_ALREADY_IN_USE" in response.text:
+        out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
 
     elif response.status_code == 200:
-        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
 
     else:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

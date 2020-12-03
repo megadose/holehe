@@ -2,7 +2,8 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
-def naturabuy(email):
+async def naturabuy(email, client, out):
+    name="naturabuy"
     def get_random_string(length):
         letters = string.digits
         result_str = ''.join(random.choice(letters) for i in range(length))
@@ -22,11 +23,11 @@ def naturabuy(email):
 
     data = '-----------------------------\r\nContent-Disposition: form-data; name="jsref"\r\n\r\nemail\r\n-----------------------------\r\nContent-Disposition: form-data; name="jsvalue"\r\n\r\n'+email+'\r\n-----------------------------\r\nContent-Disposition: form-data; name="registerMode"\r\n\r\nfull\r\n-------------------------------\r\n'
 
-    response = requests.post('https://www.naturabuy.fr/includes/ajax/register.php', headers=headers, data=data)
+    response = await client.post('https://www.naturabuy.fr/includes/ajax/register.php', headers=headers, data=data)
     try:
-        if response.json()["free"]==False:
-            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        if json.loads(response.text)["free"]==False:
+            out.append({"name": name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
         else:
-            return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     except:
-            return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

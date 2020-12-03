@@ -2,8 +2,8 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
-def yahoo(email):
-    s = requests.session()
+async def yahoo(email, client, out):
+    name="yahoo"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': '*/*',
@@ -13,7 +13,7 @@ def yahoo(email):
         'DNT': '1',
         'Connection': 'keep-alive',
     }
-    req = s.get("https://login.yahoo.com", headers=headers)
+    req = await client.get("https://login.yahoo.com", headers=headers)
 
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
@@ -27,12 +27,12 @@ def yahoo(email):
         'Connection': 'keep-alive',
     }
 
-    params = (
-        ('.src', 'fpctx'),
-        ('.intl', 'ca'),
-        ('.lang', 'en-CA'),
-        ('.done', 'https://ca.yahoo.com'),
-    )
+    params={
+        '.src': 'fpctx',
+        '.intl': 'ca',
+        '.lang': 'en-CA',
+        '.done': 'https://ca.yahoo.com',
+    }
     try:
         data = {
             'acrumb': req.text.split('<input type="hidden" name="acrumb" value="')[1].split('"')[0],
@@ -43,7 +43,7 @@ def yahoo(email):
             'persistent': 'y'
         }
 
-        response = s.post(
+        response = await client.post(
             'https://login.yahoo.com/',
             headers=headers,
             params=params,
@@ -51,15 +51,15 @@ def yahoo(email):
         response = response.json()
         if "error" in response.keys():
             if response["error"] == False:
-                return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+                out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
             else:
-                return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+                out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
         elif "render" in response.keys():
             if response["render"]["error"] == "messages.ERROR_INVALID_USERNAME":
-                return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+                out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
             else:
-                return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+                out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
         else:
-            return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     except BaseException:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

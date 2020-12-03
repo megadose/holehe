@@ -2,10 +2,9 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
-def quora(email):
+async def quora(email, client, out):
 
-    s = requests.session()
-
+    name="quora"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': 'application/json, text/javascript, */*; q=0.01',
@@ -16,7 +15,7 @@ def quora(email):
         'Connection': 'keep-alive',
         'TE': 'Trailers',
     }
-    r = s.get("https://fr.quora.com", headers=headers)
+    r = await client.get("https://fr.quora.com", headers=headers)
     try:
         revision = r.text.split('revision": "')[1].split('"')[0]
         formkey = r.text.split('formkey": "')[1].split('"')[0]
@@ -30,7 +29,7 @@ def quora(email):
       '__method': 'validate'
     }
 
-    response = s.post('https://fr.quora.com/webnode2/server_call_POST', headers=headers, data=data)
+    response = await client.post('https://fr.quora.com/webnode2/server_call_POST', headers=headers, data=data)
     try:
         if 'Un compte a' in response.text:
             return(({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None}))

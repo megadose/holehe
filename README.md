@@ -102,6 +102,7 @@ print(lastpass("test@gmail.com"))
 |  laposte    |    laposte.fr  |     register      |          ✘          |
 |  lastfm     |    last.fm     |     register      |          ✘          |
 | lastpass    | lastpass.com   |     register      |          ✘          |
+|   live      |   live.com     | password recovery |          ✘          |
 |   mail.ru   |    mail.ru     | password recovery |          ✘          |
 |  mybb       |community.mybb.com|   register      |          ✘          |
 |  myspace    |  myspace.com   |     register      |          ✘          |
@@ -114,7 +115,6 @@ print(lastpass("test@gmail.com"))
 |odnoklassniki|    ok.ru       | password recovery |          ✘          |
 | office365   | office365.com  |       other       |          ✘          |
 |onlinesequencer|onlinesequencer.net|register      |          ✘          |
-|openelec    |forum.openelec.tv|     register      |          ✘          |
 | pinterest   | pinterest.com  |     register      |          ✘          |
 |   plurk     |    plurk.com   |     register      |          ✘          |
 |  pornhub    |   pornhub.com  |     register      |          ✘          |

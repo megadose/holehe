@@ -2,8 +2,8 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
-
-def deliveroo(email):
+async def deliveroo(email, client, out):
+    name = "deliveroo"
 
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
@@ -19,16 +19,14 @@ def deliveroo(email):
         'TE': 'Trailers',
     }
 
-    data = '{"email_address":"'+email+'"}'
-    try:
-        response = requests.post('https://consumer-ow-api.deliveroo.com/orderapp/v1/check-email', headers=headers, data=data,timeout=1)
-    except :
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-    if response.status_code==200:
-        data=response.json()
-        if data["registered"]==True:
-            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+    data = {"email_address": email}
+
+    req = await client.post('https://consumer-ow-api.deliveroo.com/orderapp/v1/check-email', headers=headers, json=data)
+    if req.status_code==200:
+        data = json.loads(req.text)
+        if data["registered"]:
+            out.append({"name": name, "rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
         else:
-            return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name, "rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-            return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name, "rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

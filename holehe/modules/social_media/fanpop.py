@@ -1,9 +1,8 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
-def fanpop(email):
-
-    s = requests.session()
+async def fanpop(email, client, out):
+    name="fanpop"
 
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
@@ -26,9 +25,9 @@ def fanpop(email):
       'submissiontype': 'register'
     }
 
-    response = s.post('https://www.fanpop.com/login/superlogin', headers=headers, data=data)
+    response = await client.post('https://www.fanpop.com/login/superlogin', headers=headers, data=data)
 
     if "already registered" in response.text:
-        return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

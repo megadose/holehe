@@ -1,10 +1,9 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
-def replit(email):
+async def replit(email, client, out):
 
-    s = requests.session()
-
+    name="replit"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': 'application/json',
@@ -17,7 +16,7 @@ def replit(email):
 
     data = '{"email":"'+str(email)+'"}'
 
-    response = requests.post('https://repl.it/data/user/exists', headers=headers, data=data)
+    response = await client.post('https://repl.it/data/user/exists', headers=headers, data=data)
     try:
         if response.json()['exists'] == True:
             return ({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})

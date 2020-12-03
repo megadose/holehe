@@ -2,9 +2,8 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
-def evernote(email):
-
-    s = requests.session()
+async def evernote(email, client, out):
+    name="evernote"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': 'application/json, text/javascript, */*; q=0.01',
@@ -17,9 +16,8 @@ def evernote(email):
         'Referer': 'https://www.evernote.com/Login.action',
         'TE': 'Trailers',
     }
-    s.headers = headers
-    data = s.get("https://www.evernote.com/Login.action")
-    data = {
+    data = await client.get("https://www.evernote.com/Login.action",headers=headers)
+    data2 = {
         'username': email,
         'evaluateUsername': '',
         'hpts': data.text.split('document.getElementById("hpts").value = "')[1].split('"')[0],
@@ -31,10 +29,10 @@ def evernote(email):
         '_sourcePage': data.text.split('<input type="hidden" name="_sourcePage" value="')[1].split('"')[0],
         '__fp': data.text.split('<input type="hidden" name="__fp" value="')[1].split('"')[0]
     }
-    response = s.post('https://www.evernote.com/Login.action', data=data)
+    response = await client.post('https://www.evernote.com/Login.action', data=data2,headers=headers)
     if "usePasswordAuth" in response.text:
-        return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     elif "displayMessage" in response.text:
-        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

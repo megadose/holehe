@@ -2,7 +2,8 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
-def caringbridge(email):
+async def caringbridge(email, client, out):
+    name="caringbridge"
     cookies = {
         'lang': 'en_US',
         'showSurvey': 'true',
@@ -28,8 +29,8 @@ def caringbridge(email):
       'submit-btn': 'Continue'
     }
 
-    response = requests.post('https://www.caringbridge.org/signin', headers=headers, cookies=cookies, data=data,timeout=2)
+    response = await client.post('https://www.caringbridge.org/signin', headers=headers, cookies=cookies, data=data,timeout=2)
     if "Welcome Back,"in response.text:
-        return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

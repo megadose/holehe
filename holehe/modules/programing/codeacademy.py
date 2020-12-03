@@ -2,8 +2,8 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
-def codeacademy(email):
-    s = requests.session()
+async def codeacademy(email, client, out):
+    name="codeacademy"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': 'application/json',
@@ -15,7 +15,7 @@ def codeacademy(email):
         'Connection': 'keep-alive',
         'TE': 'Trailers',
     }
-    req = s.get(
+    req = await client.get(
         "https://www.codecademy.com/register?redirect=%2F",
         headers=headers)
     soup = BeautifulSoup(req.content, features="html.parser")
@@ -23,15 +23,16 @@ def codeacademy(email):
         headers["X-CSRF-Token"] = soup.find(
             attrs={"name": "csrf-token"}).get("content")
     except BaseException:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        return()
 
     data = '{"user":{"email":"' + email + '"}}'
 
-    response = s.post(
+    response = await client.post(
         'https://www.codecademy.com/register/validate',
         headers=headers,
         data=data)
     if 'is already taken' in response.text:
-        return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

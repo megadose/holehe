@@ -3,8 +3,8 @@ from holehe.localuseragent import *
 
 
 
-def venmo(email):
-    s = requests.Session()
+async def venmo(email, client, out):
+    name="venmo"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': 'application/json',
@@ -16,19 +16,20 @@ def venmo(email):
         'Connection': 'keep-alive',
         'TE': 'Trailers',
     }
-    s.get("https://venmo.com/signup/email",headers=headers)
+    await client.get("https://venmo.com/signup/email",headers=headers)
     try:
         headers["device-id"]=s.cookies["v_id"]
     except :
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        return()
 
     data = '{"last_name":"e","first_name":"z","email":"'+email+'","password":"","phone":"1","client_id":10}'
 
-    response = s.post('https://venmo.com/api/v5/users', headers=headers, data=data)
+    response = await client.post('https://venmo.com/api/v5/users', headers=headers, data=data)
     if "Not acceptable" not in response.text:
         if "That email is already registered in our system." in response.text:
-            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
         else:
-            return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-            return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

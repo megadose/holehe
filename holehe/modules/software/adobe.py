@@ -1,7 +1,8 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
-def adobe(email):
+async def adobe(email, client, out):
+    name="adobe"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': 'application/json, text/plain, */*',
@@ -14,18 +15,20 @@ def adobe(email):
     }
 
     data = '{"username":"' + email + '","accountType":"individual"}'
-    r = requests.post(
+    r = await client.post(
         'https://auth.services.adobe.com/signin/v1/authenticationstate',
         headers=headers,
-        data=data).json()
+        data=data)
+    r=r.json()
     if "errorCode" in str(r.keys()):
-        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        return()
     headers['X-IMS-Authentication-State'] = r['id']
-    params = (
-        ('purpose', 'passwordRecovery'),
-    )
+    params={
+        'purpose': 'passwordRecovery',
+    }
     response = requests.get(
         'https://auth.services.adobe.com/signin/v2/challenges',
         headers=headers,
         params=params).json()
-    return({"rateLimit": False, "exists": True, "emailrecovery": response['secondaryEmail'], "phoneNumber": response['securityPhoneNumber'], "others": None})
+    out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": response['secondaryEmail'], "phoneNumber": response['securityPhoneNumber'], "others": None})

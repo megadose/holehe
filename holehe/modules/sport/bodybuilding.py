@@ -1,7 +1,8 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
-def bodybuilding(email):
+async def bodybuilding(email, client, out):
+    name="bodybuilding"
     headers = {
     'User-Agent': random.choice(ua["browsers"]["firefox"]),
     'Accept': 'application/json, text/plain, */*',
@@ -12,8 +13,8 @@ def bodybuilding(email):
     'Referer': 'https://www.bodybuilding.com/',
     }
 
-    response = requests.head('https://api.bodybuilding.com/profile/email/teezt@gmail.com', headers=headers)
+    response = await client.head('https://api.bodybuilding.com/profile/email/'+email, headers=headers)
     if response.status_code==200:
-        return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

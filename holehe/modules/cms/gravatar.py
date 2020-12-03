@@ -1,11 +1,13 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
-def gravatar(email):
+async def gravatar(email, client, out):
+    name="gravatar"
     hashed_name =  hashlib.md5(email.encode()).hexdigest()
-    r =  requests.get('https://gravatar.com/{hashed_name}.json')
+    r =  await client.get('https://gravatar.com/{hashed_name}.json')
     if r.status_code != 200:
-        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        return()
     else:
         try:
             data = r.json()
@@ -14,6 +16,8 @@ def gravatar(email):
                 'FullName': name,
             }
 
-            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": others})
+            out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": others})
+            return()
         except BaseException:
-            return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            return()

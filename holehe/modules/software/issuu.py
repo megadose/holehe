@@ -1,8 +1,8 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
-def issuu(email):
-
+async def issuu(email, client, out):
+    name="issuu"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': '*/*',
@@ -15,14 +15,14 @@ def issuu(email):
         'TE': 'Trailers',
     }
 
-    response = requests.get(
+    response = await client.get(
         'https://issuu.com/call/signup/check-email/' +
         email,
         headers=headers)
     try:
         if response.json()["status"] == "unavailable":
-            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
         else:
-            return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     except BaseException:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

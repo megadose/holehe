@@ -2,8 +2,8 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
-def imgur(email):
-    s=requests.session()
+async def imgur(email, client, out):
+    name="imgur"
 
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
@@ -17,7 +17,7 @@ def imgur(email):
     }
 
 
-    r=requests.get("https://imgur.com/register?redirect=%2Fuser",headers=headers)
+    r=await client.get("https://imgur.com/register?redirect=%2Fuser",headers=headers)
 
 
     headers["X-Requested-With"]="XMLHttpRequest"
@@ -26,11 +26,11 @@ def imgur(email):
       'email': email
     }
 
-    response = s.post('https://imgur.com/signin/ajax_email_available', headers=headers, data=data)
+    response = await client.post('https://imgur.com/signin/ajax_email_available', headers=headers, data=data)
     if response.status_code==200:
         if response.json()["data"]["available"]==True:
-            return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
         else:
-            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

@@ -1,7 +1,8 @@
 from holehe.core import *
 from holehe.localuseragent import *
-def garmin(email):
-    s=requests.session()
+
+async def garmin(email, client, out):
+    name = "garmin"
 
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
@@ -13,7 +14,7 @@ def garmin(email):
         'TE': 'Trailers',
     }
 
-    params = (
+    params=(
         ('service', 'https://www.garmin.com/fr-FR/account/profile/'),
         ('webhost', 'https://www.garmin.com/fr-FR/account/create/'),
         ('source', 'https://www.garmin.com/fr-FR/account/create/'),
@@ -49,26 +50,34 @@ def garmin(email):
         ('rememberMyDeviceChecked', 'false'),
     )
 
-    response = s.get('https://sso.garmin.com/sso/createNewAccount', headers=headers, params=params)
+    params = dict(params)
+
     try:
-        token=response.text.split('"token": "')[1].split('"')[0]
+        req = await client.get('https://sso.garmin.com/sso/createNewAccount', headers=headers, params=params)
+    except :
+        out.append({"name": name, "rateLimit": True,"exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        return None
+    try:
+        token = req.text.split('"token": "')[1].split('"')[0]
     except:
-        return({"rateLimit": True,"exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-    headers["X-Requested-With"]= 'XMLHttpRequest'
+        out.append({"name": name, "rateLimit": True,"exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        return None
 
-    params = (
-        ('clientId', 'ACCOUNT_MANAGEMENT_CENTER'),
-    )
+    headers["Origin"] = "https://sso.garmin.com"
+    headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
 
+    params = {
+        'clientId': '',
+        'locale': '',
+    }
     data = {
       'email': email,
       'token': token
     }
-
-    response = s.post('https://sso.garmin.com/sso/validateNewAccount', headers=headers, params=params, data=data)
-    if response.text=="false":
-        return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
-    elif response.text=="true":
-        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    req = await client.post('https://sso.garmin.com/sso/validateNewAccount', headers=headers, params=params, data=data)
+    if req.text == "false":
+        out.append({"name": name, "rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+    elif req.text == "true":
+        out.append({"name": name, "rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return({"rateLimit": True,"exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name, "rateLimit": True,"exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

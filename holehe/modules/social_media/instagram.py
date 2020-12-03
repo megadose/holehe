@@ -3,9 +3,9 @@ from holehe.localuseragent import *
 
 
 
-def instagram(email):
-    s = requests.session()
-    s.headers = {
+async def instagram(email, client, out):
+    name="instagram"
+    headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': 'application/json, text/plain, */*',
         'Accept-Language': 'en-US,en;q=0.5',
@@ -14,8 +14,13 @@ def instagram(email):
         'Connection': 'keep-alive',
     }
 
-    freq = s.get("https://www.instagram.com/accounts/emailsignup/")
-    token = freq.text.split('{"config":{"csrf_token":"')[1].split('"')[0]
+    freq = await client.get("https://www.instagram.com/accounts/emailsignup/",headers=headers)
+    try:
+        token = freq.text.split('{"config":{"csrf_token":"')[1].split('"')[0]
+    except :
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        return()
+
     data = {
         'email': email,
         'username': '',
@@ -23,18 +28,19 @@ def instagram(email):
         'opt_into_one_tap': 'false'
     }
 
-    check = s.post(
+    check = await client.post(
         "https://www.instagram.com/accounts/web_create_ajax/attempt/",
         data=data,
         headers={
-            "x-csrftoken": token}).json()
+            "x-csrftoken": token})
+    check=check.json()
     if check["status"]!="fail":
         if 'email' in check["errors"].keys():
             if check["errors"]["email"][0]["code"] == "email_is_taken":
-                return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+                out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
             elif "email_sharing_limit" in str(check["errors"]):
-                return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+                out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
         else:
-            return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

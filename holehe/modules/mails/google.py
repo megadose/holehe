@@ -1,7 +1,8 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
-def google(email):
+async def google(email, client, out):
+    name="google"
     headers = {
     'User-Agent': random.choice(ua["browsers"]["firefox"]),
     'Accept': '*/*',
@@ -16,21 +17,21 @@ def google(email):
     'TE': 'Trailers',
     }
 
-    s=requests.session()
-    req = s.get(
+    req = await client.get(
         "https://accounts.google.com/signup/v2/webcreateaccount?continue=https%3A%2F%2Faccounts.google.com%2FManageAccount%3Fnc%3D1&gmb=exp&biz=false&flowName=GlifWebSignIn&flowEntry=SignUp",
         headers=headers)
     try:
         freq = req.text.split('quot;,null,null,null,&quot;')[
             1].split('&quot')[0]
     except BaseException:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        return()
 
 
-    params = (
-    ('hl', 'fr'),
-    ('rt', 'j'),
-    )
+    params={
+    'hl':'fr',
+    'rt':'j',
+    }
 
     data = {
     'continue': 'https://accounts.google.com/',
@@ -40,14 +41,14 @@ def google(email):
     'azt': '',
     'cookiesDisabled': 'false',
     'deviceinfo': '[null,null,null,[],null,"FR",null,null,[],"GlifWebSignIn",null,[null,null,[],null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,[],null,null,null,[],[]],null,null,null,null,0,null,false]',
-    'gmscoreversion': 'undefined',
+    'gmscoreversion': 'unname=""ined',
     '': ''
 
     }
-    response = s.post('https://accounts.google.com/_/signup/webusernameavailability', headers=headers, params=params, data=data)
+    response = await client.post('https://accounts.google.com/_/signup/webusernameavailability', headers=headers, params=params, data=data)
     if '"gf.wuar",2' in response.text:
-        return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     elif '"gf.wuar",1' in response.text or "EmailInvalid" in response.text:
-        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

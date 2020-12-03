@@ -1,8 +1,9 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
-def sporcle(email):
-    s = requests.session()
+async def sporcle(email, client, out):
+    name="sporcle"
+
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': '*/*',
@@ -24,7 +25,7 @@ def sporcle(email):
       'querystring': ''
     }
 
-    response = s.post('https://www.sporcle.com/auth/ajax/verify.php', headers=headers,data=data)
+    response = await client.post('https://www.sporcle.com/auth/ajax/verify.php', headers=headers,data=data)
     if "account already exists with this email" in response.text:
         return ({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:

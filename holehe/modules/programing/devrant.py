@@ -3,10 +3,8 @@ from holehe.localuseragent import *
 
 
 
-def devrant(email):
-
-    s = requests.session()
-
+async def devrant(email, client, out):
+    name="devrant"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': 'application/json, text/javascript, */*; q=0.01',
@@ -28,10 +26,13 @@ def devrant(email):
       'sid': '',
       'seid': ''
     }
-
-    response = s.post('https://devrant.com/api/users', headers=headers, data=data)
+    try:
+        response = await client.post('https://devrant.com/api/users', headers=headers, data=data)
+    except :
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        return()
     result = response.json()['error']
     if result == 'The email specified is already registered to an account.':
-        return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

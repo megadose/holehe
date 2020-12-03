@@ -1,7 +1,8 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
-def buymeacoffee(email):
+async def buymeacoffee(email, client, out):
+    name="buymeacoffe"
     def get_random_string(length):
         letters = string.ascii_lowercase
         result_str = ''.join(random.choice(letters) for i in range(length))
@@ -15,12 +16,13 @@ def buymeacoffee(email):
         'DNT': '1',
         'TE': 'Trailers',
     }
-    r = requests.get("https://www.buymeacoffee.com/", headers=headers)
+    r = await client.get("https://www.buymeacoffee.com/", headers=headers)
     if r.status_code == 200:
         soup = BeautifulSoup(req.content, features="html.parser")
         csrf_token = soup.find(attrs={'name': 'bmc_csrf_token'}).get("value")
     else:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        return()
 
     cookies = {
         'bmccsrftoken': csrf_token,
@@ -31,7 +33,7 @@ def buymeacoffee(email):
         'bmc_csrf_token': csrf_token
     }
 
-    r = requests.post(
+    r = await client.post(
         'https://www.buymeacoffee.com/auth/validate_email_and_password',
         headers=headers,
         cookies=cookies,
@@ -39,10 +41,10 @@ def buymeacoffee(email):
     if response.status_code == 200:
         data = response.json()
         if data["status"] == "SUCCESS":
-            return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
         elif data["status"] == "FAIL" and "email" in str(data):
-            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
         else:
-            return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

@@ -2,7 +2,8 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
-def blablacar(email):
+async def blablacar(email, client, out):
+    name="blablacar"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': 'application/json',
@@ -19,25 +20,31 @@ def blablacar(email):
         'TE': 'Trailers',
     }
     try:
-        appToken = requests.get(
+        appToken = await client.get(
             "https://www.blablacar.fr/register",
-            headers=headers).text.split(',"appToken":"')[1].split('"')[0]
+            headers=headers)
+        appToken=appToken.text.split(',"appToken":"')[1].split('"')[0]
+
     except BaseException:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        return()
 
     cookies = {
         'datadome': '',
     }
+    try:
+        headers["Authorization"] = 'Bearer ' + appToken
+    except :
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        return()
 
-    headers["Authorization"] = 'Bearer ' + appToken
-
-    response = requests.get(
+    response = await client.get(
         'https://edge.blablacar.fr/auth/validation/email/' +
         email,
         headers=headers,
         cookies=cookies)
     data = response.json()
     if "url" in data.keys():
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     elif "exists" in data.keys():
-        return({"rateLimit": False, "exists": data["exists"], "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": data["exists"], "emailrecovery": None, "phoneNumber": None, "others": None})

@@ -2,8 +2,8 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
-def teamtreehouse(email):
-    s = requests.Session()
+async def teamtreehouse(email, client, out):
+    name="teamtreehouse"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': 'application/json, text/javascript, */*; q=0.01',
@@ -17,7 +17,7 @@ def teamtreehouse(email):
         'TE': 'Trailers',
     }
 
-    req = s.get(
+    req = await client.get(
         "https://teamtreehouse.com/subscribe/new?trial=yes",
         headers=headers)
     soup = BeautifulSoup(req.content, features="html.parser")
@@ -28,13 +28,13 @@ def teamtreehouse(email):
         'email': email
     }
 
-    response = s.post(
+    response = await client.post(
         'https://teamtreehouse.com/account/email_address',
         headers=headers,
         data=data)
     if 'that email address is taken.' in response.text:
-        return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     elif response.text == '{"success":true}':
-        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

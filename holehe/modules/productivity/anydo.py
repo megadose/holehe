@@ -3,7 +3,8 @@ from holehe.localuseragent import *
 
 
 
-def anydo(email):
+async def anydo(email, client, out):
+    name="anydo"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': '*/*',
@@ -19,11 +20,11 @@ def anydo(email):
 
     data = '{"email":"'+email+'"}'
 
-    response = requests.post('https://sm-prod2.any.do/check_email', headers=headers, data=data)
+    response = await client.post('https://sm-prod2.any.do/check_email', headers=headers, data=data)
     if response.status_code==200:
         if response.json()["user_exists"]==True:
-            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
         else:
-            return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

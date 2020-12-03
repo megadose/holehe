@@ -1,8 +1,8 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
-def diigo(email):
-    s=requests.session()
+async def diigo(email, client, out):
+    name="diigo"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': '*/*',
@@ -11,20 +11,25 @@ def diigo(email):
         'Connection': 'keep-alive',
         'Referer': 'https://www.diigo.com/sign-up?plan=free',
     }
-
-    s.get("https://www.diigo.com/sign-up?plan=free",headers=headers)
+    try:
+        await client.get("https://www.diigo.com/sign-up?plan=free",headers=headers)
+    except :
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
 
     headers["X-Requested-With"]='XMLHttpRequest'
 
-    params = (
-        ('email', email),
-    )
-
-    response = s.get('https://www.diigo.com/user_mana2/check_email', headers=headers, params=params)
+    params={
+        'email': email,
+    }
+    try:
+        response = await client.get('https://www.diigo.com/user_mana2/check_email', headers=headers, params=params)
+    except :
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        return()
     if response.status_code==200:
         if response.text=="0":
-            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
         else:
-            return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

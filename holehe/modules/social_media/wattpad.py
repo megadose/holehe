@@ -2,9 +2,8 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
-def wattpad(email):
-
-    s = requests.session()
+async def wattpad(email, client, out):
+    name="wattpad"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': '*/*',
@@ -13,17 +12,21 @@ def wattpad(email):
         'Referer': 'https://www.wattpad.com/',
         'TE': 'Trailers',
     }
+    try:
 
-    s.get("https://www.wattpad.com", headers=headers)
+        await client.get("https://www.wattpad.com", headers=headers)
+    except :
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        return()
     headers["X-Requested-With"]='XMLHttpRequest'
-    params = (
-        ('email', email),
-    )
-    response = requests.get('https://www.wattpad.com/api/v3/users/validate', headers=headers, params=params)
+    params={
+        'email':email,
+    }
+    response = await client.get('https://www.wattpad.com/api/v3/users/validate', headers=headers, params=params)
     if (response.status_code == 200 or response.status_code == 400):
         if "Cette adresse" not in response.text or response.text== '{"message":"OK","code":200}':
-            return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
         else:
-            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

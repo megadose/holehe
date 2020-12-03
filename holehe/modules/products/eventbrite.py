@@ -3,7 +3,8 @@ from holehe.localuseragent import *
 
 
 
-def eventbrite(email):
+async def eventbrite(email, client, out):
+    name="eventbrite"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': '*/*',
@@ -16,14 +17,13 @@ def eventbrite(email):
         'Connection': 'keep-alive',
     }
 
-    req = requests.get(
-        "https://www.eventbrite.com/signin/?referrer=%2F",
-        headers=headers)
+    req = await client.get("https://www.eventbrite.com/signin/?referrer=%2F",headers=headers)
     try:
         csrf_token = req.cookies["csrftoken"]
 
     except BaseException:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        return()
 
     cookies = {
         'csrftoken': csrf_token,
@@ -32,7 +32,7 @@ def eventbrite(email):
     headers["X-CSRFToken"] = csrf_token
     data = '{"email":"' + email + '"}'
 
-    response = requests.post(
+    response = await client.post(
         'https://www.eventbrite.com/api/v3/users/lookup/',
         headers=headers,
         cookies=cookies,
@@ -41,10 +41,10 @@ def eventbrite(email):
         try:
             reqd = response.json()
             if reqd["exists"] == True:
-                return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+                out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
             else:
-                return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+                out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
         except BaseException:
-            return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

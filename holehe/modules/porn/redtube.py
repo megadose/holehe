@@ -2,8 +2,8 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
-def redtube(email):
-    s=requests.session()
+async def redtube(email, client, out):
+    name="redtube"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': '*/*',
@@ -14,21 +14,23 @@ def redtube(email):
         'Connection': 'keep-alive',
     }
 
-    r=s.get("https://redtube.com/register",headers=headers)
+    r=await client.get("https://redtube.com/register",headers=headers)
     soup=BeautifulSoup(r.text,features="html.parser")
     try:
         token=soup.find(attrs={"id":"token"}).get("value")
         if token==None:
-            return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            return()
     except:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        return()
 
     headers['X-Requested-With']= 'XMLHttpRequest'
 
 
-    params = (
-        ('token', token),
-    )
+    params={
+        'token': token,
+    }
 
     data = {
       'token': token,
@@ -37,9 +39,9 @@ def redtube(email):
       'email': email
     }
 
-    response = s.post('https://www.redtube.com/user/create_account_check', headers=headers, params=params, data=data)
+    response = await client.post('https://www.redtube.com/user/create_account_check', headers=headers, params=params, data=data)
 
     if "Email has been taken." in response.text:
-        return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

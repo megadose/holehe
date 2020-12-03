@@ -2,10 +2,10 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
-def ebay(email):
+async def ebay(email, client, out):
+    name = "ebay"
 
-    s = requests.session()
-    s.headers = {
+    headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': 'application/json, text/plain, */*',
         'Accept-Language': 'en-US,en;q=0.5',
@@ -14,20 +14,23 @@ def ebay(email):
         'Connection': 'keep-alive',
     }
     try:
-        srt = s.get(
-            "https://www.ebay.com/signin/").text.split('"csrfAjaxToken":"')[1].split('"')[0]
-    except IndexError as e:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        req = await client.get(
+            "https://www.ebay.com/signin/", headers=headers)
+        srt = req.text.split('"csrfAjaxToken":"')[1].split('"')[0]
+    except IndexError:
+        out.append({"name": name, "rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        return None
 
     data = {
         'identifier': email,
         'srt': srt
     }
 
-    response = s.post(
+    req = await client.post(
         'https://signin.ebay.com/signin/srv/identifer',
-        data=data).json()
-    if "err" in response.keys():
-        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        data=data, headers=headers)
+    results = json.loads(req.text)
+    if "err" in results.keys():
+        out.append({"name": name, "rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name": name, "rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})

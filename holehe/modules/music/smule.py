@@ -1,10 +1,9 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
-def smule(email):
+async def smule(email, client, out):
 
-    s = requests.session()
-
+    name="smule"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': 'application/json, text/plain, */*',
@@ -15,11 +14,12 @@ def smule(email):
         'TE': 'Trailers',
     }
 
-    r = s.get('https://www.smule.com/user/check_email', headers=headers)
+    r = await client.get('https://www.smule.com/user/check_email', headers=headers)
     try:
         csrf_token = (r.text.split('authenticity_token" name="csrf-param" />\n<meta content="')[1]).split('"')[0]
     except:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        return()
 
     headers['X-CSRF-Token'] = str(csrf_token)
 
@@ -27,8 +27,8 @@ def smule(email):
       'email': str(email)
     }
 
-    response = s.post('https://www.smule.com/user/check_email', headers=headers, data=data)
+    response = await client.post('https://www.smule.com/user/check_email', headers=headers, data=data)
     if str(response.json()['email']) == 'True':
-        return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

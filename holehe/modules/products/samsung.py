@@ -2,8 +2,9 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
-def samsung(email):
-    req = requests.get(
+async def samsung(email, client, out):
+    name="samsung"
+    req = await client.get(
         "https://account.samsung.com/accounts/v1/Samsung_com_FR/signUp")
     token = req.text.split("sJSESSIONID")[1].split('"')[1].split('"')[0]
 
@@ -25,13 +26,13 @@ def samsung(email):
         'Connection': 'keep-alive',
     }
 
-    params = (
-        ('v', '1337'),
-    )
+    params={
+        'v': '1337',
+    }
 
     data = '{"emailID":"' + email + '"}'
 
-    response = requests.post(
+    response = await client.post(
         'https://account.samsung.com/accounts/v1/Samsung_com_FR/signUpCheckEmailIDProc',
         headers=headers,
         params=params,
@@ -40,8 +41,8 @@ def samsung(email):
     data = response.json()
     if response.status_code == 200:
         if "rtnCd" in data.keys():
-            return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
         else:
-            return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

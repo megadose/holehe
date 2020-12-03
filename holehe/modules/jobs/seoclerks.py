@@ -1,10 +1,8 @@
 from holehe.core import *
 from holehe.localuseragent import ua
 
-def seoclerks(email):
-
-    s = requests.session()
-
+async def seoclerks(email, client, out):
+    name="seoclerks"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': '*/*',
@@ -15,7 +13,7 @@ def seoclerks(email):
         'Connection': 'keep-alive',
     }
 
-    r = s.get('https://www.seoclerks.com', headers=headers)
+    r = await client.get('https://www.seoclerks.com', headers=headers)
     try:
         if "token" in r.text:
             token = r.text.split('token" value="')[1].split('"')[0]
@@ -39,7 +37,7 @@ def seoclerks(email):
       'confirm_password': str(password)
     }
 
-    response = s.post('https://www.seoclerks.com/signup/check', headers=headers, data=data)
+    response = await client.post('https://www.seoclerks.com/signup/check', headers=headers, data=data)
     if 'The email address you entered is already taken.' in response.json()['message']:
         return ({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:

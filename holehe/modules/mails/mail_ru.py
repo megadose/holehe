@@ -1,7 +1,8 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
-def mail_ru(email):
+async def mail_ru(email, client, out):
+    name="mail_ru"
     headers = {
         'authority': 'account.mail.ru',
         'accept': 'application/json, text/javascript, */*; q=0.01',
@@ -18,7 +19,7 @@ def mail_ru(email):
 
     data = 'email={email}&htmlencoded=false'.replace('@', '%40')
 
-    response = requests.post(
+    response = await client.post(
         'https://account.mail.ru/api/v1/user/password/restore',
         headers=headers,
         data=data)
@@ -29,11 +30,11 @@ def mail_ru(email):
             if reqd['status'] == 200:
                 phones = ', '.join(reqd['body'].get('phones', [])) or None
                 emails = ', '.join(reqd['body'].get('emails', [])) or None
-                return({"rateLimit": False, "exists": True, "emailrecovery": emails, "phoneNumber": phones, "others": None})
+                out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": emails, "phoneNumber": phones, "others": None})
             else:
                 # email not exists or some problem
-                return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+                out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
         except BaseException:
-            return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

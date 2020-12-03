@@ -3,12 +3,14 @@ from holehe.localuseragent import *
 
 
 
-def lastfm(email):
-    req = requests.get("https://www.last.fm/join")
+async def lastfm(email, client, out):
+    name="lastfm"
     try:
+        req = await client.get("https://www.last.fm/join")
         token = req.cookies["csrftoken"]
     except:
-        return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        return()
 
     data = {"csrfmiddlewaretoken": token, "userName": "", "email": email}
     headers = {
@@ -17,11 +19,14 @@ def lastfm(email):
         "X-Requested-With": "XMLHttpRequest",
         "Cookie": "csrftoken="+str(token),
     }
-    check = requests.post(
-        "https://www.last.fm/join/partial/validate",
-        headers=headers,
-        data=data).json()
-    if check["email"]["valid"]:
-        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    try:
+
+        check = await client.post("https://www.last.fm/join/partial/validate",headers=headers,data=data)
+    except:
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        return()
+
+    if check.json()["email"]["valid"]:
+        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})

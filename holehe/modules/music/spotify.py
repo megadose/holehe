@@ -3,7 +3,8 @@ from holehe.localuseragent import *
 
 
 
-def spotify(email):
+async def spotify(email, client, out):
+    name="spotify"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': 'application/json, text/plain, */*',
@@ -12,18 +13,18 @@ def spotify(email):
         'Connection': 'keep-alive',
     }
 
-    params = (
-        ('validate', '1'),
-        ('email', email),
-    )
+    params={
+        'validate': '1',
+        'email': email,
+    }
 
-    req = requests.get(
+    req = await client.get(
         'https://spclient.wg.spotify.com/signup/public/v1/account',
         headers=headers,
         params=params)
     if req.json()["status"] == 1:
-        return({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     elif req.json()["status"] == 20:
-        return({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return({"rateLimit": True, "exists": None, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": True, "exists": None, "emailrecovery": None, "phoneNumber": None, "others": None})
