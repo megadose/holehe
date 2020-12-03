@@ -27,7 +27,7 @@ from holehe.localuseragent import ua
 
 DEBUG = True
 
-__version__="1.56.4.1.3"
+__version__="1.56.4.1.4"
 if not DEBUG :
     checkVersion=requests.get("https://pypi.org/pypi/holehe/json")
 if not DEBUG and checkVersion.json()["info"]["version"]!=__version__:
@@ -70,7 +70,7 @@ def ask_email():
 
 async def maincore():
     modules = import_submodules("holehe.modules")
-    websites = get_functions(modules)
+    websites = get_functions(modmainules)
 
     print('Twitter : @palenath')
     print('Github : https://github.com/megadose/holehe')
@@ -89,7 +89,7 @@ async def maincore():
     await client.aclose()
 
     description = colored("[+] Email used",
-                          "green") + "," + colored(" main[-] Email not used",
+                          "green") + "," + colored(" [-] Email not used",
                                                    "magenta") + "," + colored(" [x] Rate limit",
                                                                               "red")
     print("\033[H\033[J")
