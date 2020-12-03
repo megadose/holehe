@@ -116,6 +116,7 @@ print(lastpass("test@gmail.com"))
 |odnoklassniki|    ok.ru       | password recovery |          ✘          |
 | office365   | office365.com  |       other       |          ✘          |
 |onlinesequencer|onlinesequencer.net|register      |          ✘          |
+| parler      | parler.com     |      login        |          ✘          |
 | pinterest   | pinterest.com  |     register      |          ✘          |
 |   plurk     |    plurk.com   |     register      |          ✘          |
 |  pornhub    |   pornhub.com  |     register      |          ✘          |
