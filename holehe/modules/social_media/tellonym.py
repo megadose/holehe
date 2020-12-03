@@ -25,7 +25,7 @@ async def strava(email, client, out):
     try:
         response = await client.get('https://api.tellonym.me/accounts/check', headers=headers, params=params)
         if "EMAIL_ALREADY_IN_USE" in response.text:
-            out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None}))
+            out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
         else:
             out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     except:
