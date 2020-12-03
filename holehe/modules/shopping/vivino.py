@@ -26,7 +26,6 @@ def vivino(email):
     data = '{"email":"'+str(email)+'","password":"e"}'
 
     response = s.post('https://www.vivino.com/api/login', headers=headers, data=data)
-    print(response.text)
     if response.status_code == 429:
         return({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
