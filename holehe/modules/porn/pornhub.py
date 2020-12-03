@@ -12,8 +12,11 @@ async def pornhub(email, client, out):
         'Connection': 'keep-alive',
         'Upgrade-Insecure-Requests': '1',
     }
-
-    req = await client.get("https://www.pornhub.com/signup", headers=headers)
+    try:
+        req = await client.get("https://www.pornhub.com/signup", headers=headers)
+    except :
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        return()
     soup = BeautifulSoup(req.content, features="html.parser")
     try:
         toe = soup.find(attrs={"name": "token"}).get("value")

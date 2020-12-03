@@ -27,7 +27,7 @@ from holehe.localuseragent import ua
 
 DEBUG = False
 
-__version__="1.56.4.2.4"
+__version__="1.56.4.2.5"
 if not DEBUG :
     checkVersion=httpx.get("https://pypi.org/pypi/holehe/json")
 if not DEBUG and checkVersion.json()["info"]["version"]!=__version__:
@@ -80,7 +80,7 @@ async def maincore():
 
     email = ask_email()
 
-    client = httpx.AsyncClient(timeout=3)
+    client = httpx.AsyncClient(timeout=5)
     out = []
     async with trio.open_nursery() as nursery:
         for website in tqdm(websites):
