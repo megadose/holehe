@@ -89,6 +89,7 @@ print(lastpass("test@gmail.com"))
 | fanpop      | fanpop.com     |     register      |          ✘          |
 | fetlife     | fetlife.com    |     register      |          ✘          |
 |  firefox    |  firefox.com   |     register      |          ✘          |
+|  flickr     |  flickr.com    |      login        |          ✘          |
 |freelancer   | freelancer.com |     register      |          ✘          |
 |  freiberg    |drachenhort.user.stunet.tu-freiberg.de| register  |  ✘   |
 |  garmin     |  garmin.com    |     register      |          ✔          |
