@@ -22,12 +22,12 @@ try:
 except BaseException:
     import http.cookiejar as cookielib
 
-from hholehe.localuseragent import ua
+from holehe.localuseragent import ua
 
 
 DEBUG = True
 
-__version__="1.56.4.1"
+__version__="1.56.4.1.2"
 if not DEBUG :
     checkVersion=requests.get("https://pypi.org/pypi/holehe/json")
 if not DEBUG and checkVersion.json()["info"]["version"]!=__version__:
