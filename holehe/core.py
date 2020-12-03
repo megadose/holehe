@@ -27,7 +27,7 @@ from holehe.localuseragent import ua
 
 DEBUG = True
 
-__version__="1.56.4.1.4"
+__version__="1.56.4.1.5"
 if not DEBUG :
     checkVersion=requests.get("https://pypi.org/pypi/holehe/json")
 if not DEBUG and checkVersion.json()["info"]["version"]!=__version__:
@@ -70,7 +70,7 @@ def ask_email():
 
 async def maincore():
     modules = import_submodules("holehe.modules")
-    websites = get_functions(modmainules)
+    websites = get_functions(modules)
 
     print('Twitter : @palenath')
     print('Github : https://github.com/megadose/holehe')
@@ -83,7 +83,7 @@ async def maincore():
     client = httpx.AsyncClient(timeout=3)
     out = []
     async with trio.open_nursery() as nursery:
-        for website in websites:
+        for website in tqdm(websites):
             nursery.start_soon(website, email, client, out)
     out = sorted(out, key = lambda i: i['name']) # We sort by modules names
     await client.aclose()
