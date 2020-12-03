@@ -2,7 +2,8 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
-def flickr(email):
+def flickr(email, client, out):
+    name="flickr"
     url = "https://identity-api.flickr.com/migration"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
@@ -13,12 +14,12 @@ def flickr(email):
         'Connection': 'keep-alive',
         'TE': 'Trailers',
     }
-    params = (
-        ('email', email),
-    )
-    response = requests.get(url, headers=headers, params=params)
+    params = {
+        'email': email,
+    }
+    response = client.get(url, headers=headers, params=params)
     data = response.json()
     if data['state_code'] == '5':
-        return ({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
     else:
-        return ({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
