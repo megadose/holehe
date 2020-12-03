@@ -2,8 +2,8 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
-async def strava(email, client, out):
-    name = "strava"
+async def tellonym(email, client, out):
+    name = "tellonym"
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': 'application/json',
@@ -25,8 +25,23 @@ async def strava(email, client, out):
     try:
         response = await client.get('https://api.tellonym.me/accounts/check', headers=headers, params=params)
         if "EMAIL_ALREADY_IN_USE" in response.text:
-            out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": True,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
         else:
-            out.append({"name":name,"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
-    except:
-        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
+    except BaseException:
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
