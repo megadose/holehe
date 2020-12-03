@@ -14,10 +14,12 @@ async def flickr(email, client, out):
         'Connection': 'keep-alive',
         'TE': 'Trailers',
     }
-    params = {
-        'email': email,
-    }
-    response = await client.get(url, headers=headers, params=params)
+    try:
+        response = await client.get(url+"?email="+str(email), headers=headers, params=params)
+    except :
+        out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        return()
+
     data = json.loads(response.text)
     if data['state_code'] == '5':
         out.append({"name":name,"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
