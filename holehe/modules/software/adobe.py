@@ -37,7 +37,7 @@ async def adobe(email, client, out):
         'https://auth.services.adobe.com/signin/v2/challenges',
         headers=headers,
         params=params)
-    response.json()
+    response=response.json()
     out.append({"name": name,
                 "rateLimit": False,
                 "exists": True,
