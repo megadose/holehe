@@ -27,9 +27,9 @@ from holehe.localuseragent import ua
 
 DEBUG = False
 
-__version__="1.56.4.1.6"
+__version__="1.56.4.1.7"
 if not DEBUG :
-    checkVersion=requests.get("https://pypi.org/pypi/holehe/json")
+    checkVersion=httpx.get("https://pypi.org/pypi/holehe/json")
 if not DEBUG and checkVersion.json()["info"]["version"]!=__version__:
     if os.name != 'nt':
         p=Popen(["pip3","install","--upgrade","git+git://github.com/megadose/holehe@master"],stdout=PIPE,stderr=PIPE)
