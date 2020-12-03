@@ -26,7 +26,7 @@ async def parler(email, client, out):
     email = '"' + email + '"'
     data = '{"identifier":' + email + ',"password":"invalidpasswordfortest","deviceId":"'+get_random_string(16)+'"}'
     try:
-        response = client.post(url, data=data, headers=headers)
+        response = await client.post(url, data=data, headers=headers)
     except:
         out.append({"name":name,"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
         return()
