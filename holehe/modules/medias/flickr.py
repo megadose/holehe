@@ -2,7 +2,7 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
-def flickr(email, client, out):
+async def flickr(email, client, out):
     name="flickr"
     url = "https://identity-api.flickr.com/migration"
     headers = {
