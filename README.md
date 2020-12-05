@@ -48,7 +48,6 @@ holehe test@gmail.com
 |badeggsonline|badeggsonline.com|   register       |          ✘          |
 |  biosmods   | bios-mods.com |     register       |          ✘          |
 |biotechnologyforums| biotechnologyforums.com |register|       ✘         |
-|   bitbucket |bitbucket.com   |      login        |          ✘          |
 |  bitmoji    |  bitmoji.com   |       login       |          ✘          |
 | blablacar   | blablacar.com  |     register      |          ✔          |
 |blackworldforum|blackworldforum.com|   register   |          ✔          |
