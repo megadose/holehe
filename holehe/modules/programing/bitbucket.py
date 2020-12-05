@@ -1,7 +1,7 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
-async def bitbucket"(email, client, out):
+async def bitbucket(email, client, out):
     name="bitbucket"
     headers = {
         'authority': 'id.atlassian.com',
