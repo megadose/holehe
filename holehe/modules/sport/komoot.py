@@ -2,37 +2,44 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
-async def replit(email, client, out):
+async def komoot(email, client, out):
 
-    name = "replit"
+    print("KOMOOOOT")
+
+    name = "komoot"
+
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
-        'Accept': 'application/json',
+        'Accept': '*/*',
         'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
-        'content-type': 'application/json',
-        'x-requested-with': 'XMLHttpRequest',
-        'Origin': 'https://repl.it',
+        'Content-Type': 'application/json',
+        'Origin': 'https://account.komoot.com',
         'Connection': 'keep-alive',
+        'Referer': 'https://account.komoot.com/signin',
     }
 
-    data = '{"email":"' + str(email) + '"}'
+    data = '{"email":"'+email+'"}'
 
-    response = await client.post('https://repl.it/data/user/exists', headers=headers, data=data)
+    response = await client.post(
+            'https://account.komoot.com/v1/signin',
+            headers=headers,
+            data=data)
+
     try:
-        if response.json()['exists']:
+        if 'login' in response.json()['type']:
             out.append({"name": name,
                         "rateLimit": False,
                         "exists": True,
-                        "emailrecovery": None,
+                        s"emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
         else:
             out.append({"name": name,
-                        "rateLimit": False,
-                        "exists": False,
-                        "emailrecovery": None,
-                        "phoneNumber": None,
-                        "others": None})
+                    "rateLimit": False,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
     except BaseException:
         out.append({"name": name,
                     "rateLimit": True,
