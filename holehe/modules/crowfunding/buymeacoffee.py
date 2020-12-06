@@ -2,7 +2,7 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
-async def buymeacoffee(email, client, out, pbar):
+async def buymeacoffee(email, client, out):
     name = "buymeacoffe"
 
     def get_random_string(length):
@@ -23,7 +23,7 @@ async def buymeacoffee(email, client, out, pbar):
         soup = BeautifulSoup(req.content, features="html.parser")
         csrf_token = soup.find(attrs={'name': 'bmc_csrf_token'}).get("value")
     else:
-        pbar.update(1);out.append({"name": name,
+        out.append({"name": name,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,
@@ -48,28 +48,28 @@ async def buymeacoffee(email, client, out, pbar):
     if r.status_code == 200:
         data = r.json()
         if data["status"] == "SUCCESS":
-            pbar.update(1);out.append({"name": name,
+            out.append({"name": name,
                         "rateLimit": False,
                         "exists": False,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
         elif data["status"] == "FAIL" and "email" in str(data):
-            pbar.update(1);out.append({"name": name,
+            out.append({"name": name,
                         "rateLimit": False,
                         "exists": True,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
         else:
-            pbar.update(1);out.append({"name": name,
+            out.append({"name": name,
                         "rateLimit": True,
                         "exists": False,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
     else:
-        pbar.update(1);out.append({"name": name,
+        out.append({"name": name,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,
