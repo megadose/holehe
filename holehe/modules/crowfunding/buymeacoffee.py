@@ -1,14 +1,11 @@
 from holehe.core import *
 from holehe.localuseragent import *
+from ..utils import get_random_string
 
 
 async def buymeacoffee(email, client, out):
     name = "buymeacoffe"
 
-    def get_random_string(length):
-        letters = string.ascii_lowercase
-        result_str = ''.join(random.choice(letters) for i in range(length))
-        return(result_str)
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': 'application/json, text/javascript, */*; q=0.01',
@@ -18,10 +15,11 @@ async def buymeacoffee(email, client, out):
         'DNT': '1',
         'TE': 'Trailers',
     }
+
     r = await client.get("https://www.buymeacoffee.com/", headers=headers)
     if r.status_code == 200:
         soup = BeautifulSoup(req.content, features="html.parser")
-        csrf_token = soup.find(attrs={'name': 'bmc_csrf_token'}).get("value")
+        token = soup.find(attrs={'name': 'bmc_csrf_token'}).get("value")
     else:
         out.append({"name": name,
                     "rateLimit": True,
@@ -32,12 +30,12 @@ async def buymeacoffee(email, client, out):
         return None
 
     cookies = {
-        'bmccsrftoken': csrf_token,
+        'bmccsrftoken': token,
     }
     data = {
         'email': email,
         'password': get_random_string(20),
-        'bmc_csrf_token': csrf_token
+        'bmc_csrf_token': token
     }
 
     r = await client.post(
@@ -45,6 +43,7 @@ async def buymeacoffee(email, client, out):
         headers=headers,
         cookies=cookies,
         data=data)
+
     if response.status_code == 200:
         data = response.json()
         if data["status"] == "SUCCESS":

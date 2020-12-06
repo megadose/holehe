@@ -1,20 +1,19 @@
-import time
-import random
-import importlib
-import pkgutil
-import string
-from tqdm import tqdm
-from termcolor import colored
-from bs4 import BeautifulSoup
 import hashlib
-import re
-import sys
 import httpx
-import trio
-from subprocess import Popen, PIPE
-import os
-import time
+import importlib
 import json
+import pkgutil
+import os
+import random
+import re
+import string
+import sys
+import time
+import trio
+
+from bs4 import BeautifulSoup
+from subprocess import Popen, PIPE
+from tqdm import tqdm
 
 try:
     import cookielib
@@ -22,11 +21,13 @@ except BaseException:
     import http.cookiejar as cookielib
 
 from holehe.localuseragent import ua
+from prints import *
 
 
-DEBUG = False
+DEBUG = True
 
 __version__ = "1.57"
+
 if not DEBUG:
     checkVersion = httpx.get("https://pypi.org/pypi/holehe/json")
 if not DEBUG and checkVersion.json()["info"]["version"] != __version__:
@@ -79,60 +80,25 @@ def ask_email():
         exit("[-] Please enter a target email ! \nExample : holehe email@example.com")
     return sys.argv[1]
 
-
 async def maincore():
     modules = import_submodules("holehe.modules")
     websites = get_functions(modules)
 
-    print('Twitter : @palenath')
-    print('Github : https://github.com/megadose/holehe')
-    print('For BTC Donations : 1FHDM49QfZX6pJmhjLE5tB2K6CaTLMZpXZ\n')
-
-    start_time = time.time()
-
+    credits()
     email = ask_email()
-
+    start_time = time.time()
     client = httpx.AsyncClient(timeout=6)
     out = []
     async with trio.open_nursery() as nursery:
         for website in tqdm(websites):
             nursery.start_soon(website, email, client, out)
-    out = sorted(out, key=lambda i: i['name'])  # We sort by modules names
+
+    out.sort(key=lambda i: i['name'])# We sort by modules names
+
     await client.aclose()
-
-    description = colored("[+] Email used",
-                          "green") + "," + colored(" [-] Email not used",
-                                                   "magenta") + "," + colored(" [x] Rate limit",
-                                                                              "red")
-    print("\033[H\033[J")
-    print("*" * 25)
-    print(email)
-    print("*" * 25)
-    for results in out:
-        if results["rateLimit"]:
-            websiteprint = colored("[x] " + results["name"], "red")
-        elif results["exists"] == False:
-            websiteprint = colored("[-] " + results["name"], "magenta")
-        else:
-            toprint = ""
-            if results["emailrecovery"] is not None:
-                toprint += " " + results["emailrecovery"]
-            if results["phoneNumber"] is not None:
-                toprint += " / " + results["phoneNumber"]
-            if results["others"] is not None:
-                toprint += " / FullName " + results["others"]["FullName"]
-
-            websiteprint = colored("[+] " + results["name"] + toprint, "green")
-        print(websiteprint)
-
-    print("\n" + description)
-    print(str(len(websites)) + " websites checked in " +
-          str(round(time.time() - start_time, 2)) + " seconds")
-    print("\n")
-    print('Twitter : @palenath')
-    print('Github : https://github.com/megadose/holehe')
-    print('For BTC Donations : 1FHDM49QfZX6pJmhjLE5tB2K6CaTLMZpXZ')
-
+    shows(email, out, time, len(websites), start_time)
 
 def main():
     trio.run(maincore)
+
+main()

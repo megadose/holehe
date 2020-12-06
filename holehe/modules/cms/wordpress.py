@@ -4,6 +4,7 @@ from holehe.localuseragent import *
 
 async def wordpress(email, client, out):
     name = "wordpress"
+
     cookies = {
         'G_ENABLED_IDPS': 'google',
         'ccpa_applies': 'true',
@@ -26,7 +27,8 @@ async def wordpress(email, client, out):
         'locale': 'fr',
     }
     try:
-        response = await client.get('https://public-api.wordpress.com/rest/v1.1/users/' + email + '/auth-options', headers=headers, params=params, cookies=cookies)
+        r = await client.get(f"https://public-api.wordpress.com/rest/v1.1/users/{email}/auth-options",
+                    headers=headers, params=params, cookies=cookies)
     except BaseException:
         out.append({"name": name,
                     "rateLimit": True,
@@ -35,7 +37,8 @@ async def wordpress(email, client, out):
                     "phoneNumber": None,
                     "others": None})
         return None
-    info = response.json()
+    info = r.json()
+    sinfo = str(info)
     if "email_verified" in info["body"].keys():
         if info["body"]["email_verified"]:
             out.append({"name": name,
@@ -51,7 +54,7 @@ async def wordpress(email, client, out):
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
-    elif "unknown_user" in str(info) or "email_login_not_allowed" in str(info):
+    elif "unknown_user" in sinfo or "email_login_not_allowed" in sinfo:
         out.append({"name": name,
                     "rateLimit": False,
                     "exists": False,

@@ -11,7 +11,6 @@ async def voxmedia(email, client, out):
         'Referer': 'https://auth.voxmedia.com/login',
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
         'X-Requested-With': 'XMLHttpRequest',
-        'Origin': 'https://auth.voxmedia.com',
         'DNT': '1',
         'Connection': 'keep-alive',
         'TE': 'Trailers',
@@ -21,10 +20,9 @@ async def voxmedia(email, client, out):
         'email': email
     }
 
-    response = await client.post('https://auth.voxmedia.com/chorus_auth/email_valid.json', headers=headers, data=data)
+    r = await client.post('https://auth.voxmedia.com/chorus_auth/email_valid.json', headers=headers, data=data)
     try:
-        rep = response.json()
-        if rep["available"]:
+        if r.json()["available"]:
             out.append({"name": name,
                         "rateLimit": False,
                         "exists": False,
@@ -38,7 +36,7 @@ async def voxmedia(email, client, out):
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
-    except BaseException:
+    except KeyError, AttributeError:
         out.append({"name": name,
                     "rateLimit": True,
                     "exists": False,

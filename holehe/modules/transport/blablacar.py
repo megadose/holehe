@@ -20,10 +20,10 @@ async def blablacar(email, client, out):
         'TE': 'Trailers',
     }
     try:
-        appToken = await client.get(
+        token = await client.get(
             "https://www.blablacar.fr/register",
             headers=headers)
-        appToken = appToken.text.split(',"appToken":"')[1].split('"')[0]
+        token = token.text.split(',"appToken":"')[1].split('"')[0]
 
     except BaseException:
         out.append({"name": name,
@@ -37,6 +37,7 @@ async def blablacar(email, client, out):
     cookies = {
         'datadome': '',
     }
+    
     try:
         headers["Authorization"] = 'Bearer ' + appToken
     except BaseException:
