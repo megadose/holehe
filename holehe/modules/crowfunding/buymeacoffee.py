@@ -2,7 +2,7 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
-async def buymeacoffee(email, client, out):
+async def buymeacoffee(email, client, out, pbar):
     name = "buymeacoffe"
 
     def get_random_string(length):
@@ -23,7 +23,7 @@ async def buymeacoffee(email, client, out):
         soup = BeautifulSoup(req.content, features="html.parser")
         csrf_token = soup.find(attrs={'name': 'bmc_csrf_token'}).get("value")
     else:
-        out.append({"name": name,
+        pbar.update(1);out.append({"name": name,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,
@@ -45,31 +45,31 @@ async def buymeacoffee(email, client, out):
         headers=headers,
         cookies=cookies,
         data=data)
-    if response.status_code == 200:
-        data = response.json()
+    if r.status_code == 200:
+        data = r.json()
         if data["status"] == "SUCCESS":
-            out.append({"name": name,
+            pbar.update(1);out.append({"name": name,
                         "rateLimit": False,
                         "exists": False,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
         elif data["status"] == "FAIL" and "email" in str(data):
-            out.append({"name": name,
+            pbar.update(1);out.append({"name": name,
                         "rateLimit": False,
                         "exists": True,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
         else:
-            out.append({"name": name,
+            pbar.update(1);out.append({"name": name,
                         "rateLimit": True,
                         "exists": False,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
     else:
-        out.append({"name": name,
+        pbar.update(1);out.append({"name": name,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,
