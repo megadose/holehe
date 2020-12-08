@@ -93,6 +93,7 @@ python3 setup.py install
 | instagram   | instagram.com  |     register      |          ✔          |
 |  issuu      |   issuu.com    |     register      |          ✘          |
 |  koditv     |forum.kodi.tv   |     register      |          ✘          |
+|   komoot    | komoot.com     |     register      |          ✔          |
 |  laposte    |    laposte.fr  |     register      |          ✘          |
 |  lastfm     |    last.fm     |     register      |          ✘          |
 | lastpass    | lastpass.com   |     register      |          ✘          |
@@ -101,7 +102,7 @@ python3 setup.py install
 |  myspace    |  myspace.com   |     register      |          ✘          |
 | ndemiccreations|forum.ndemiccreations.com|register|         ✘          |
 | nattyornot  |nattyornotforum.nattyornot.com|register|       ✘          |
-| nextpvr     |forums.nextpvr.com   |    register  |         ✘          |
+| nextpvr     |forums.nextpvr.com   |    register  |          ✘          |
 | naturabuy   |  naturabuy.fr  |     register      |          ✘          |
 |   nike      |     nike.com   |     register      |          ✘          |
 |odampublishing|forum.odampublishing.com| register |          ✘          |
