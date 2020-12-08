@@ -1,6 +1,6 @@
 from holehe.core import *
 from holehe.localuseragent import ua
-from tools.utils import *
+from holehe.tools.utils import *
 
 
 async def seoclerks(email, client, out):

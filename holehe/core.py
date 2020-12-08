@@ -31,7 +31,7 @@ __version__ = "1.57"
 
 
 async def maincore():
-    modules = import_submodules("modules")
+    modules = import_submodules("holehe.modules")
     websites = get_functions(modules)
 
     credits()
