@@ -4,8 +4,6 @@ from holehe.localuseragent import *
 
 async def komoot(email, client, out):
 
-    print("KOMOOOOT")
-
     name = "komoot"
 
     headers = {
@@ -20,17 +18,17 @@ async def komoot(email, client, out):
 
     data = '{"email":"'+email+'"}'
 
-    response = await client.post(
+    r = await client.post(
             'https://account.komoot.com/v1/signin',
             headers=headers,
             data=data)
 
     try:
-        if 'login' in response.json()['type']:
+        if 'login' in r.json()['type']:
             out.append({"name": name,
                         "rateLimit": False,
                         "exists": True,
-                        s"emailrecovery": None,
+                        "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
         else:

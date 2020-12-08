@@ -16,12 +16,12 @@ async def issuu(email, client, out):
         'TE': 'Trailers',
     }
 
-    response = await client.get(
+    r = await client.get(
         'https://issuu.com/call/signup/check-email/' +
         email,
         headers=headers)
     try:
-        if response.json()["status"] == "unavailable":
+        if r.json()["status"] == "unavailable":
             out.append({"name": name,
                         "rateLimit": False,
                         "exists": True,

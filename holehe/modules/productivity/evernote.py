@@ -30,15 +30,15 @@ async def evernote(email, client, out):
         [0],
         '__fp': data.text.split('<input type="hidden" name="__fp" value="')
         [1].split('"')[0]}
-    response = await client.post('https://www.evernote.com/Login.action', data=data2, headers=headers)
-    if "usePasswordAuth" in response.text:
+    r = await client.post('https://www.evernote.com/Login.action', data=data2, headers=headers)
+    if "usePasswordAuth" in r.text:
         out.append({"name": name,
                     "rateLimit": False,
                     "exists": True,
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
-    elif "displayMessage" in response.text:
+    elif "displayMessage" in r.text:
         out.append({"name": name,
                     "rateLimit": False,
                     "exists": False,

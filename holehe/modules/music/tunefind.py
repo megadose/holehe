@@ -25,10 +25,10 @@ async def tunefind(email, client, out):
         return None
     data = '$-----------------------------\r\nContent-Disposition: form-data; name="username"\r\n\r\n\r\n-----------------------------\r\nContent-Disposition: form-data; name="email"\r\n\r\n' + \
         str(email) + '\r\n-----------------------------\r\nContent-Disposition: form-data; name="password"\r\n\r\n\r\n-------------------------------\r\n'
-    response = await client.post('https://www.tunefind.com/user/join', headers=headers, data=data)
-    if "email" in response.json()["errors"].keys():
+    r = await client.post('https://www.tunefind.com/user/join', headers=headers, data=data)
+    if "email" in r.json()["errors"].keys():
         if "Someone is already registered with that email address" in str(
-                response.json()["errors"]["email"]):
+                r.json()["errors"]["email"]):
             out.append({"name": name,
                         "rateLimit": False,
                         "exists": True,

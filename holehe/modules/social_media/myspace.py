@@ -33,9 +33,9 @@ async def myspace(email, client, out):
         'email': email
     }
 
-    response = await client.post('https://myspace.com/ajax/account/validateemail', headers=headers, data=data, timeout=3)
+    r = await client.post('https://myspace.com/ajax/account/validateemail', headers=headers, data=data, timeout=3)
     try:
-        if "This email address was already used to create an account." in response.text:
+        if "This email address was already used to create an account." in r.text:
             out.append({"name": name,
                         "rateLimit": False,
                         "exists": True,

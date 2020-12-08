@@ -50,15 +50,15 @@ async def google(email, client, out):
         '': ''
 
     }
-    response = await client.post('https://accounts.google.com/_/signup/webusernameavailability', headers=headers, params=params, data=data)
-    if '"gf.wuar",2' in response.text:
+    r = await client.post('https://accounts.google.com/_/signup/webusernameavailability', headers=headers, params=params, data=data)
+    if '"gf.wuar",2' in r.text:
         out.append({"name": name,
                     "rateLimit": False,
                     "exists": True,
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
-    elif '"gf.wuar",1' in response.text or "EmailInvalid" in response.text:
+    elif '"gf.wuar",1' in r.text or "EmailInvalid" in r.text:
         out.append({"name": name,
                     "rateLimit": False,
                     "exists": False,

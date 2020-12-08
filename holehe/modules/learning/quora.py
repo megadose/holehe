@@ -29,9 +29,9 @@ async def quora(email, client, out):
         '__method': 'validate'
     }
 
-    response = await client.post('https://fr.quora.com/webnode2/server_call_POST', headers=headers, data=data)
+    r = await client.post('https://fr.quora.com/webnode2/server_call_POST', headers=headers, data=data)
     try:
-        if 'Un compte a' in response.text:
+        if 'Un compte a' in r.text:
             return(({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None}))
         else:
             return(({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None}))

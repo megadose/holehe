@@ -16,9 +16,9 @@ async def xvideos(email, client, out):
         'email': email,
     }
 
-    response = await client.get('https://www.xvideos.com/account/checkemail', headers=headers, params=params)
+    r = await client.get('https://www.xvideos.com/account/checkemail', headers=headers, params=params)
     try:
-        if response.json()['result'] == False:
+        if r.json()['result'] == False:
             out.append({"name": name,
                         "rateLimit": False,
                         "exists": True,

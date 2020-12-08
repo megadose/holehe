@@ -19,15 +19,15 @@ async def plurk(email, client, out):
         'email': email
     }
 
-    response = await client.post('https://www.plurk.com/Users/isEmailFound', headers=headers, data=data)
-    if response.text == "True":
+    r = await client.post('https://www.plurk.com/Users/isEmailFound', headers=headers, data=data)
+    if r.text == "True":
         out.append({"name": name,
                     "rateLimit": False,
                     "exists": True,
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
-    elif response.text == "False":
+    elif r.text == "False":
         out.append({"name": name,
                     "rateLimit": False,
                     "exists": False,

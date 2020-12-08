@@ -21,18 +21,18 @@ async def lastpass(email, client, out):
         'username': email,
     }
 
-    response = await client.get(
+    r = await client.get(
         'https://lastpass.com/create_account.php',
         params=params,
         headers=headers)
-    if response.text == "no":
+    if r.text == "no":
         out.append({"name": name,
                     "rateLimit": False,
                     "exists": True,
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
-    if response.text == "ok" or response.text == "emailinvalid":
+    if r.text == "ok" or r.text == "emailinvalid":
         out.append({"name": name,
                     "rateLimit": False,
                     "exists": False,

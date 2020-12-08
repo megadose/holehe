@@ -19,9 +19,9 @@ async def anydo(email, client, out):
 
     data = '{"email":"' + email + '"}'
 
-    response = await client.post('https://sm-prod2.any.do/check_email', headers=headers, data=data)
-    if response.status_code == 200:
-        if response.json()["user_exists"]:
+    r = await client.post('https://sm-prod2.any.do/check_email', headers=headers, data=data)
+    if r.status_code == 200:
+        if r.json()["user_exists"]:
             out.append({"name": name,
                         "rateLimit": False,
                         "exists": True,

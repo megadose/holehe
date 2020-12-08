@@ -49,12 +49,12 @@ async def blablacar(email, client, out):
                     "others": None})
         return None
 
-    response = await client.get(
+    r = await client.get(
         'https://edge.blablacar.fr/auth/validation/email/' +
         email,
         headers=headers,
         cookies=cookies)
-    data = response.json()
+    data = r.json()
     if "url" in data.keys():
         out.append({"name": name,
                     "rateLimit": True,

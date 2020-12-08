@@ -45,9 +45,9 @@ async def cracked_to(email, client, out):
         'my_post_key': r.text.split('var my_post_key = "')[1].split('"')[0]
     }
 
-    response = await client.post('https://cracked.to/xmlhttp.php', headers=headers, params=params, data=data)
-    if "Your request was blocked" not in response.text and response.status_code == 200:
-        if "email address that is already in use by another member." in response.text:
+    r = await client.post('https://cracked.to/xmlhttp.php', headers=headers, params=params, data=data)
+    if "Your request was blocked" not in r.text and r.status_code == 200:
+        if "email address that is already in use by another member." in r.text:
             out.append({"name": name,
                         "rateLimit": False,
                         "exists": True,

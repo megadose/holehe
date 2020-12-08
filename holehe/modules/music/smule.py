@@ -36,8 +36,8 @@ async def smule(email, client, out):
         'email': str(email)
     }
 
-    response = await client.post('https://www.smule.com/user/check_email', headers=headers, data=data)
-    if str(response.json()['email']) == 'True':
+    r = await client.post('https://www.smule.com/user/check_email', headers=headers, data=data)
+    if str(r.json()['email']) == 'True':
         out.append({"name": name,
                     "rateLimit": False,
                     "exists": True,

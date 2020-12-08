@@ -28,8 +28,8 @@ async def tumblr(email, client, out):
         [1].split('"')[0],
         'action': 'signup_determine', 'action': 'signup_determine',
         'tracking_url': '/login', 'tracking_version': 'modal', }
-    response = await client.post('https://www.tumblr.com/svc/account/register', data=data, headers=headers)
-    if response.text == '{"redirect":false,"redirect_method":"GET","errors":[],"signup_success":false,"next_view":"signup_magiclink"}':
+    r = await client.post('https://www.tumblr.com/svc/account/register', data=data, headers=headers)
+    if r.text == '{"redirect":false,"redirect_method":"GET","errors":[],"signup_success":false,"next_view":"signup_magiclink"}':
         out.append({"name": name,
                     "rateLimit": False,
                     "exists": True,

@@ -32,11 +32,11 @@ async def crevado(email, client, out):
         'account[terms_accepted]': '1',
     }
 
-    response = await client.post('https://crevado.com/', headers=headers, data=data)
+    r = await client.post('https://crevado.com/', headers=headers, data=data)
     try:
-        msg_error = response.text.split('showFormErrors({"')[1].split('"')[0]
+        msg_error = r.text.split('showFormErrors({"')[1].split('"')[0]
         if msg_error == "account_email":
-            errorEMail = response.text.split(
+            errorEMail = r.text.split(
                 'showFormErrors({"account_email":{"error_message":"')[1].split('"')[0]
             if errorEMail == "has already been taken":
                 out.append({"name": name,

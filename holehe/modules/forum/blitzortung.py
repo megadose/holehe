@@ -16,7 +16,8 @@ async def blitzortung(email, client, out):
         'TE': 'Trailers',
     }
     try:
-        r = await client.get("https://forum.blitzortung.org/member.php", headers=headers)
+        r = await client.get("https://forum.blitzortung.org/member.php",
+            headers=headers)
         if "Your request was blocked" in r.text or r.status_code != 200:
             out.append({"name": name,
                         "rateLimit": True,
@@ -52,9 +53,10 @@ async def blitzortung(email, client, out):
                     "phoneNumber": None,
                     "others": None})
         return None
-    response = await client.post('https://forum.blitzortung.org/xmlhttp.php', headers=headers, params=params, data=data)
-    if "Your request was blocked" not in response.text and response.status_code == 200:
-        if "email address that is already in use by another member." in response.text:
+    r = await client.post('https://forum.blitzortung.org/xmlhttp.php',
+        headers=headers, params=params, data=data)
+    if "Your request was blocked" not in r.text and r.status_code == 200:
+        if "email address that is already in use by another member." in r.text:
             out.append({"name": name,
                         "rateLimit": False,
                         "exists": True,

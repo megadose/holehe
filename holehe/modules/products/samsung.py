@@ -32,14 +32,14 @@ async def samsung(email, client, out):
 
     data = '{"emailID":"' + email + '"}'
 
-    response = await client.post(
+    r = await client.post(
         'https://account.samsung.com/accounts/v1/Samsung_com_FR/signUpCheckEmailIDProc',
         headers=headers,
         params=params,
         cookies=cookies,
         data=data)
-    data = response.json()
-    if response.status_code == 200:
+    data = r.json()
+    if r.status_code == 200:
         if "rtnCd" in data.keys():
             out.append({"name": name,
                         "rateLimit": False,

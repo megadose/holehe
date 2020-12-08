@@ -15,7 +15,7 @@ async def flickr(email, client, out):
         'TE': 'Trailers',
     }
     try:
-        response = await client.get(url + "?email=" + str(email), headers=headers, params=params)
+        r = await client.get(url + "?email=" + str(email), headers=headers, params=params)
     except BaseException:
         out.append({"name": name,
                     "rateLimit": True,
@@ -25,7 +25,7 @@ async def flickr(email, client, out):
                     "others": None})
         return None
 
-    data = json.loads(response.text)
+    data = json.loads(r.text)
     if data['state_code'] == '5':
         out.append({"name": name,
                     "rateLimit": False,

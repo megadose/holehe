@@ -28,18 +28,18 @@ async def teamtreehouse(email, client, out):
         'email': email
     }
 
-    response = await client.post(
+    r = await client.post(
         'https://teamtreehouse.com/account/email_address',
         headers=headers,
         data=data)
-    if 'that email address is taken.' in response.text:
+    if 'that email address is taken.' in r.text:
         out.append({"name": name,
                     "rateLimit": False,
                     "exists": True,
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
-    elif response.text == '{"success":true}':
+    elif r.text == '{"success":true}':
         out.append({"name": name,
                     "rateLimit": False,
                     "exists": False,

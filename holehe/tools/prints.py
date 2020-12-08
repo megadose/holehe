@@ -5,7 +5,7 @@ def credits():
     """Print Creditials"""
     print("""
 Twitter : @palenath
-Github : https://github.com/megadose/holehe
+Github : https://github.com/megadose/
 For BTC Donations : 1FHDM49QfZX6pJmhjLE5tB2K6CaTLMZpXZ\n""")
 
 
@@ -19,6 +19,7 @@ def show_mail(email):
 
 
 def show_out(out):
+    """ Printing the finals results"""
     for results in out:
         if results["rateLimit"]:
             print(colored(f"[x] {results['name']}", "red"))
@@ -36,6 +37,7 @@ def show_out(out):
 
 
 def shows(email, out, time, len_web, start_time):
+    """ Calls the differents printing functions """
     description = (f"{colored('[+] Email used','green')},"
                     f" {colored('[-] Email not used','magenta')},"
                     f" {colored(' [x] Rate limit','red')}")

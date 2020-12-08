@@ -29,7 +29,7 @@ async def gravatar(email, client, out):
                         "phoneNumber": None,
                         "others": others})
             return None
-        except IndexError, KeyError, AttributeError:
+        except (IndexError, KeyError, AttributeError):
             out.append({"name": name,
                         "rateLimit": True,
                         "exists": False,

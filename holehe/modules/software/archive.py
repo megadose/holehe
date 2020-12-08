@@ -19,8 +19,8 @@ async def archive(email, client, out):
     data = '-----------------------------\r\nContent-Disposition: form-data; name="input_name"\r\n\r\nusername\r\n-----------------------------\r\nContent-Disposition: form-data; name="input_value"\r\n\r\n' + email + \
         '\r\n-----------------------------\r\nContent-Disposition: form-data; name="input_validator"\r\n\r\ntrue\r\n-----------------------------\r\nContent-Disposition: form-data; name="submit_by_js"\r\n\r\ntrue\r\n-------------------------------\r\n'
 
-    response = await client.post('https://archive.org/account/signup', headers=headers, data=data)
-    if "is already taken." in response.text:
+    r = await client.post('https://archive.org/account/signup', headers=headers, data=data)
+    if "is already taken." in r.text:
         out.append({"name": name,
                     "rateLimit": False,
                     "exists": True,

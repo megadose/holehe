@@ -26,9 +26,9 @@ async def fanpop(email, client, out):
         'submissiontype': 'register'
     }
 
-    response = await client.post('https://www.fanpop.com/login/superlogin', headers=headers, data=data)
+    r = await client.post('https://www.fanpop.com/login/superlogin', headers=headers, data=data)
 
-    if "already registered" in response.text:
+    if "already registered" in r.text:
         out.append({"name": name,
                     "rateLimit": False,
                     "exists": True,

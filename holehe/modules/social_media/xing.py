@@ -13,8 +13,8 @@ async def xing(email, client, out):
         'Upgrade-Insecure-Requests': '1',
     }
 
-    response = await client.get("https://www.xing.com/start/signup?registration=1", headers=headers)
-    headers['x-csrf-token'] = response.cookies["xing_csrf_token"]
+    r = await client.get("https://www.xing.com/start/signup?registration=1", headers=headers)
+    headers['x-csrf-token'] = r.cookies["xing_csrf_token"]
 
     data = {
         'signup_minireg': {
@@ -27,9 +27,9 @@ async def xing(email, client, out):
         }
     }
 
-    response = await client.post('https://www.xing.com/welcome/api/signup/validate', headers=headers, json=data)
+    r = await client.post('https://www.xing.com/welcome/api/signup/validate', headers=headers, json=data)
     try:
-        errors = response.json()["errors"]
+        errors = r.json()["errors"]
         if "signup_minireg[email]" in errors and errors["signup_minireg[email]"].startswith(
                 "We already know this e-mail address."):
             out.append({"name": name,

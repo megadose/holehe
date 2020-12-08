@@ -30,19 +30,19 @@ async def nike(email, client, out):
 
     data = '{"emailAddress":"' + email + '"}'
 
-    response = await client.post(
+    r = await client.post(
         'https://unite.nike.com/account/email/v1',
         headers=headers,
         params=params,
         data=data)
-    if response.status_code == 409:
+    if r.status_code == 409:
         out.append({"name": name,
                     "rateLimit": False,
                     "exists": True,
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
-    elif response.status_code == 204:
+    elif r.status_code == 204:
         out.append({"name": name,
                     "rateLimit": False,
                     "exists": False,

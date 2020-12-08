@@ -20,75 +20,27 @@ try:
 except BaseException:
     import http.cookiejar as cookielib
 
-from holehe.localuseragent import ua
-from prints import *
+from localuseragent import ua
+from tools.prints import *
+from tools.debug import *
+from tools.config import *
 
-
-DEBUG = True
+DEBUG = False
 
 __version__ = "1.57"
 
-if not DEBUG:
-    checkVersion = httpx.get("https://pypi.org/pypi/holehe/json")
-if not DEBUG and checkVersion.json()["info"]["version"] != __version__:
-    if os.name != 'nt':
-        p = Popen(["pip3",
-                   "install",
-                   "--upgrade",
-                   "git+git://github.com/megadose/holehe@master"],
-                  stdout=PIPE,
-                  stderr=PIPE)
-    else:
-        p = Popen(["pip",
-                   "install",
-                   "--upgrade",
-                   "git+git://github.com/megadose/holehe@master"],
-                  stdout=PIPE,
-                  stderr=PIPE)
-    (output, err) = p.communicate()
-    p_status = p.wait()
-    print("Holehe has just been updated, you can restart it. ")
-    exit()
-
-
-def import_submodules(package, recursive=True):
-    """Get all the holehe submodules"""
-    if isinstance(package, str):
-        package = importlib.import_module(package)
-    results = {}
-    for loader, name, is_pkg in pkgutil.walk_packages(package.__path__):
-        full_name = package.__name__ + '.' + name
-        results[full_name] = importlib.import_module(full_name)
-        if recursive and is_pkg:
-            results.update(import_submodules(full_name))
-    return results
-
-
-def get_functions(modules):
-    """Transform the modules objects to functions"""
-    websites = []
-    for module in modules:
-        if len(module.split(".")) > 3:
-            modu = modules[module]
-            site = module.split(".")[-1]
-            websites.append(modu.__dict__[site])
-    return websites
-
-
-def ask_email():
-    if len(sys.argv) < 2 or len(sys.argv[1]) < 5:
-        exit("[-] Please enter a target email ! \nExample : holehe email@example.com")
-    return sys.argv[1]
 
 async def maincore():
-    modules = import_submodules("holehe.modules")
+    modules = import_submodules("modules")
     websites = get_functions(modules)
 
     credits()
     email = ask_email()
     start_time = time.time()
+
     client = httpx.AsyncClient(timeout=6)
     out = []
+
     async with trio.open_nursery() as nursery:
         for website in tqdm(websites):
             nursery.start_soon(website, email, client, out)
@@ -98,7 +50,10 @@ async def maincore():
     await client.aclose()
     shows(email, out, time, len(websites), start_time)
 
-def main():
+def main(DEBUG):
+    debug(DEBUG)
     trio.run(maincore)
 
-main()
+if __name__ == "__main__":
+    DEBUG = True
+    main(DEBUG)

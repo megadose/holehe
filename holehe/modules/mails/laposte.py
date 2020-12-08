@@ -18,8 +18,8 @@ async def laposte(email, client, out):
         'tunnelSteps': ''
     }
 
-    response = await client.post('https://www.laposte.fr/authentification', headers=headers, data=data)
-    post_soup = BeautifulSoup(response.content, 'html.parser')
+    r = await client.post('https://www.laposte.fr/authentification', headers=headers, data=data)
+    post_soup = BeautifulSoup(r.content, 'html.parser')
     l = post_soup.find_all('span', id="wrongEmail")
     out.append({"name": name,
                 "rateLimit": False,

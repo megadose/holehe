@@ -18,8 +18,8 @@ async def ello(email, client, out):
 
     data = '{"email":"' + email + '"}'
     try:
-        response = await client.post('https://ello.co/api/v2/availability', headers=headers, data=data)
-        if response.json()["availability"]["email"]:
+        r = await client.post('https://ello.co/api/v2/availability', headers=headers, data=data)
+        if r.json()["availability"]["email"]:
             out.append({"name": name,
                         "rateLimit": False,
                         "exists": False,

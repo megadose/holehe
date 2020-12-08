@@ -42,14 +42,14 @@ async def yahoo(email, client, out):
             'signin': 'Next',
             'persistent': 'y'}
 
-        response = await client.post(
+        r = await client.post(
             'https://login.yahoo.com/',
             headers=headers,
             params=params,
             data=data)
-        response = response.json()
-        if "error" in response.keys():
-            if not response["error"]:
+        r = r.json()
+        if "error" in r.keys():
+            if not r["error"]:
                 out.append({"name": name,
                             "rateLimit": False,
                             "exists": True,
@@ -63,8 +63,8 @@ async def yahoo(email, client, out):
                             "emailrecovery": None,
                             "phoneNumber": None,
                             "others": None})
-        elif "render" in response.keys():
-            if response["render"]["error"] == "messages.ERROR_INVALID_USERNAME":
+        elif "render" in r.keys():
+            if r["render"]["error"] == "messages.ERROR_INVALID_USERNAME":
                 out.append({"name": name,
                             "rateLimit": False,
                             "exists": False,

@@ -43,13 +43,13 @@ async def pornhub(email, client, out):
         'email': email
     }
 
-    response = await client.post(
+    r = await client.post(
         'https://www.pornhub.com/user/create_account_check',
         headers=headers,
         params=params,
         data=data)
     try:
-        if response.json()["error_message"] == "Email has been taken.":
+        if r.json()["error_message"] == "Email has been taken.":
             out.append({"name": name,
                         "rateLimit": False,
                         "exists": True,

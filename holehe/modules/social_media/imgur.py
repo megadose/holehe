@@ -24,9 +24,9 @@ async def imgur(email, client, out):
         'email': email
     }
 
-    response = await client.post('https://imgur.com/signin/ajax_email_available', headers=headers, data=data)
-    if response.status_code == 200:
-        if response.json()["data"]["available"]:
+    r = await client.post('https://imgur.com/signin/ajax_email_available', headers=headers, data=data)
+    if r.status_code == 200:
+        if r.json()["data"]["available"]:
             out.append({"name": name,
                         "rateLimit": False,
                         "exists": False,

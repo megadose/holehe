@@ -4,6 +4,7 @@ from holehe.localuseragent import *
 
 async def adobe(email, client, out):
     name = "adobe"
+
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': 'application/json, text/plain, */*',
@@ -33,14 +34,14 @@ async def adobe(email, client, out):
     params = {
         'purpose': 'passwordRecovery',
     }
-    response = client.get(
+    r = await client.get(
         'https://auth.services.adobe.com/signin/v2/challenges',
         headers=headers,
         params=params)
-    response.json()
+    r = r.json()
     out.append({"name": name,
                 "rateLimit": False,
                 "exists": True,
-                "emailrecovery": response['secondaryEmail'],
-                "phoneNumber": response['securityPhoneNumber'],
+                "emailrecovery": r['secondaryEmail'],
+                "phoneNumber": r['securityPhoneNumber'],
                 "others": None})

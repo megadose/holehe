@@ -38,11 +38,11 @@ async def codepen(email, client, out):
         'context': 'user'
     }
 
-    response = await client.post(
+    r = await client.post(
         'https://codepen.io/accounts/duplicate_check',
         headers=headers,
         data=data)
-    if "That Email is already taken." in response.text:
+    if "That Email is already taken." in r.text:
         out.append({"name": name,
                     "rateLimit": False,
                     "exists": True,

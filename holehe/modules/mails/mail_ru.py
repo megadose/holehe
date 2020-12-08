@@ -20,14 +20,14 @@ async def mail_ru(email, client, out):
 
     data = 'email={email}&htmlencoded=false'.replace('@', '%40')
 
-    response = await client.post(
+    r = await client.post(
         'https://account.mail.ru/api/v1/user/password/restore',
         headers=headers,
         data=data)
 
-    if response.status_code == 200:
+    if r.status_code == 200:
         try:
-            reqd = response.json()
+            reqd = r.json()
             if reqd['status'] == 200:
                 phones = ', '.join(reqd['body'].get('phones', [])) or None
                 emails = ', '.join(reqd['body'].get('emails', [])) or None

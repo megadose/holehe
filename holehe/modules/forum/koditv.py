@@ -52,9 +52,9 @@ async def koditv(email, client, out):
                     "phoneNumber": None,
                     "others": None})
         return None
-    response = await client.post('https://forum.kodi.tv/xmlhttp.php', headers=headers, params=params, data=data)
-    if "Your request was blocked" not in response.text and response.status_code == 200:
-        if "email address that is already in use by another member." in response.text:
+    r = await client.post('https://forum.kodi.tv/xmlhttp.php', headers=headers, params=params, data=data)
+    if "Your request was blocked" not in r.text and r.status_code == 200:
+        if "email address that is already in use by another member." in r.text:
             out.append({"name": name,
                         "rateLimit": False,
                         "exists": True,

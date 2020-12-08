@@ -26,7 +26,7 @@ async def devrant(email, client, out):
         'seid': ''
     }
     try:
-        response = await client.post('https://devrant.com/api/users', headers=headers, data=data)
+        r = await client.post('https://devrant.com/api/users', headers=headers, data=data)
     except BaseException:
         out.append({"name": name,
                     "rateLimit": True,
@@ -35,7 +35,7 @@ async def devrant(email, client, out):
                     "phoneNumber": None,
                     "others": None})
         return None
-    result = response.json()['error']
+    result = r.json()['error']
     if result == 'The email specified is already registered to an account.':
         out.append({"name": name,
                     "rateLimit": False,

@@ -29,15 +29,15 @@ async def vivino(email, client, out):
     headers['X-CRSF-Token'] = crsf_token
     data = '{"email":"' + str(email) + '","password":"e"}'
 
-    response = await client.post('https://www.vivino.com/api/login', headers=headers, data=data)
-    if response.status_code == 429:
+    r = await client.post('https://www.vivino.com/api/login', headers=headers, data=data)
+    if r.status_code == 429:
         out.append({"rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
     else:
-        if response.json()['error'] == "The supplied email does not exist":
+        if r.json()['error'] == "The supplied email does not exist":
             out.append({"name": name,
                         "rateLimit": False,
                         "exists": False,

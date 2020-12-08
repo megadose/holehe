@@ -17,12 +17,12 @@ async def sevencups(email, client, out):
 
     data = '-----------------------------\r\nContent-Disposition: form-data; name="email"\r\n\r\n' + email + '\r\n-----------------------------\r\nContent-Disposition: form-data; name="passwd"\r\n\r\n\r\n-----------------------------\r\nContent-Disposition: form-data; name="dobMonth"\r\n\r\n12\r\n-----------------------------\r\nContent-Disposition: form-data; name="dobDay"\r\n\r\n11\r\n-----------------------------\r\nContent-Disposition: form-data; name="dobYear"\r\n\r\n2010\r\n-----------------------------\r\nContent-Disposition: form-data; name="orgPass"\r\n\r\n\r\n-----------------------------\r\nContent-Disposition: form-data; name="data-request-datatype"\r\n\r\njson\r\n-----------------------------\r\nContent-Disposition: form-data; name="submit-value"\r\n\r\nnull\r\n-------------------------------\r\n'
 
-    response = await client.post(
+    r = await client.post(
         'https://www.7cups.com/listener/CreateAccount.php',
         data=data,
         headers=headers)
-    if response.status_code == 200:
-        if "Account already exists with this email address" in response.text:
+    if r.status_code == 200:
+        if "Account already exists with this email address" in r.text:
             out.append({"name": name,
                         "rateLimit": False,
                         "exists": True,

@@ -20,10 +20,10 @@ async def bitmoji(email, client, out):
     }
     data = '{"email":' + email + ',"app":"BITMOJI_APP"}'
 
-    response = await client.post(url, data=data, headers=headers)
+    r = await client.post(url, data=data, headers=headers)
     try:
-        if response.status_code != 204:
-            data = response.json()
+        if r.status_code != 204:
+            data = r.json()
             out.append({"name": name,
                         "rateLimit": False,
                         "exists": data["hasBitmoji"],

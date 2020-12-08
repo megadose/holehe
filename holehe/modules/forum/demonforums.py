@@ -44,7 +44,7 @@ async def demonforums(email, client, out):
             'email': email,
             'my_post_key': r.text.split('var my_post_key = "')[1].split('"')[0]
         }
-        response = await client.post('https://demonforums.net/xmlhttp.php', headers=headers, params=params, data=data)
+        r = await client.post('https://demonforums.net/xmlhttp.php', headers=headers, params=params, data=data)
     except BaseException:
         out.append({"name": name,
                     "rateLimit": True,
@@ -53,8 +53,8 @@ async def demonforums(email, client, out):
                     "phoneNumber": None,
                     "others": None})
         return None
-    if "Your request was blocked" not in response.text and response.status_code == 200:
-        if "email address that is already in use by another member." in response.text:
+    if "Your request was blocked" not in r.text and r.status_code == 200:
+        if "email address that is already in use by another member." in r.text:
             out.append({"name": name,
                         "rateLimit": False,
                         "exists": True,

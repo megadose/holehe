@@ -16,9 +16,9 @@ async def freelancer(email, client, out):
     }
 
     data = '{"user":{"email":"' + email + '"}}'
-    response = await client.post('https://www.freelancer.com/api/users/0.1/users/check?compact=true&new_errors=true', data=data, headers=headers)
-    resData = response.json()
-    if response.status_code == 409 and "EMAIL_ALREADY_IN_USE" in response.text:
+    r = await client.post('https://www.freelancer.com/api/users/0.1/users/check?compact=true&new_errors=true', data=data, headers=headers)
+    resData = r.json()
+    if r.status_code == 409 and "EMAIL_ALREADY_IN_USE" in r.text:
         out.append({"name": name,
                     "rateLimit": False,
                     "exists": True,
@@ -26,7 +26,7 @@ async def freelancer(email, client, out):
                     "phoneNumber": None,
                     "others": None})
 
-    elif response.status_code == 200:
+    elif r.status_code == 200:
         out.append({"name": name,
                     "rateLimit": False,
                     "exists": False,

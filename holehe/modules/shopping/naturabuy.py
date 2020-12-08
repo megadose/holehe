@@ -25,9 +25,9 @@ async def naturabuy(email, client, out):
     data = '-----------------------------\r\nContent-Disposition: form-data; name="jsref"\r\n\r\nemail\r\n-----------------------------\r\nContent-Disposition: form-data; name="jsvalue"\r\n\r\n' + \
         email + '\r\n-----------------------------\r\nContent-Disposition: form-data; name="registerMode"\r\n\r\nfull\r\n-------------------------------\r\n'
 
-    response = await client.post('https://www.naturabuy.fr/includes/ajax/register.php', headers=headers, data=data)
+    r = await client.post('https://www.naturabuy.fr/includes/ajax/register.php', headers=headers, data=data)
     try:
-        if json.loads(response.text)["free"] == False:
+        if json.loads(r.text)["free"] == False:
             out.append({"name": name,
                         "rateLimit": False,
                         "exists": True,

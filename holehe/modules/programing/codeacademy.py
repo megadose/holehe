@@ -33,11 +33,11 @@ async def codeacademy(email, client, out):
 
     data = '{"user":{"email":"' + email + '"}}'
 
-    response = await client.post(
+    r = await client.post(
         'https://www.codecademy.com/register/validate',
         headers=headers,
         data=data)
-    if 'is already taken' in response.text:
+    if 'is already taken' in r.text:
         out.append({"name": name,
                     "rateLimit": False,
                     "exists": True,

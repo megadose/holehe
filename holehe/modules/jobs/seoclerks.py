@@ -1,5 +1,6 @@
 from holehe.core import *
 from holehe.localuseragent import ua
+from tools.utils import *
 
 
 async def seoclerks(email, client, out):
@@ -29,9 +30,8 @@ async def seoclerks(email, client, out):
                     "others": None})
         return None
 
-    letters = string.ascii_lowercase
-    username = ''.join(random.choice(letters) for i in range(6))
-    password = ''.join(random.choice(letters) for i in range(6))
+    username = get_random_string(6)
+    password = get_random_string(6)
 
     data = {
         'token': str(token),
@@ -44,8 +44,9 @@ async def seoclerks(email, client, out):
         'confirm_password': str(password)
     }
 
-    response = await client.post('https://www.seoclerks.com/signup/check', headers=headers, data=data)
-    if 'The email address you entered is already taken.' in response.json()[
+    r = await client.post('https://www.seoclerks.com/signup/check',
+        headers=headers, data=data)
+    if 'The email address you entered is already taken.' in r.json()[
             'message']:
         out.append({"name": name,
                     "rateLimit": False,

@@ -1,3 +1,4 @@
+from holehe.core import *
 
 def get_random_string(length):
     letters = string.ascii_lowercase

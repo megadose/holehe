@@ -48,9 +48,9 @@ async def redtube(email, client, out):
         'email': email
     }
 
-    response = await client.post('https://www.redtube.com/user/create_account_check', headers=headers, params=params, data=data)
+    r = await client.post('https://www.redtube.com/user/create_account_check', headers=headers, params=params, data=data)
 
-    if "Email has been taken." in response.text:
+    if "Email has been taken." in r.text:
         out.append({"name": name,
                     "rateLimit": False,
                     "exists": True,

@@ -21,9 +21,9 @@ async def taringa(email, client, out):
 
     data = '{"email":"' + email + '"}'
 
-    response = await client.post('https://www.taringa.net/api/auth/availability/email', headers=headers, cookies=cookies, data=data)
-    if response.status_code == 200:
-        if '{"available":false}' == response.text:
+    r = await client.post('https://www.taringa.net/api/auth/availability/email', headers=headers, cookies=cookies, data=data)
+    if r.status_code == 200:
+        if '{"available":false}' == r.text:
             out.append({"name": name,
                         "rateLimit": False,
                         "exists": True,
@@ -37,7 +37,7 @@ async def taringa(email, client, out):
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
-    elif response.status_code == 400:
+    elif r.status_code == 400:
         out.append({"name": name,
                     "rateLimit": False,
                     "exists": False,

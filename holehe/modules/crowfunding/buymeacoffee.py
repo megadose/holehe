@@ -1,13 +1,13 @@
 from holehe.core import *
 from holehe.localuseragent import *
-from ..utils import get_random_string
+from tools.utils import *
 
 
 async def buymeacoffee(email, client, out):
     name = "buymeacoffe"
 
     headers = {
-        'User-Agent': random.choice(ua["browsers"]["chrome"]),
+        'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': 'application/json, text/javascript, */*; q=0.01',
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
         'X-Requested-With': 'XMLHttpRequest',
@@ -18,8 +18,8 @@ async def buymeacoffee(email, client, out):
 
     r = await client.get("https://www.buymeacoffee.com/", headers=headers)
     if r.status_code == 200:
-        soup = BeautifulSoup(req.content, features="html.parser")
-        token = soup.find(attrs={'name': 'bmc_csrf_token'}).get("value")
+        token = (r.text).split('name="bmc_csrf_token" value="')[1].split('"')[0]
+        print(token)
     else:
         out.append({"name": name,
                     "rateLimit": True,
@@ -44,8 +44,8 @@ async def buymeacoffee(email, client, out):
         cookies=cookies,
         data=data)
 
-    if response.status_code == 200:
-        data = response.json()
+    if r.status_code == 200:
+        data = r.json()
         if data["status"] == "SUCCESS":
             out.append({"name": name,
                         "rateLimit": False,

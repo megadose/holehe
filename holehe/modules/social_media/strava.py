@@ -30,16 +30,16 @@ async def strava(email, client, out):
         'email': email
     }
 
-    response = await client.get('https://www.strava.com/athletes/email_unique', headers=headers, params=params)
+    r = await client.get('https://www.strava.com/athletes/email_unique', headers=headers, params=params)
 
-    if response.text == "false":
+    if r.text == "false":
         out.append({"name": name,
                     "rateLimit": False,
                     "exists": True,
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
-    elif response.text == "true":
+    elif r.text == "true":
         out.append({"name": name,
                     "rateLimit": False,
                     "exists": False,

@@ -27,9 +27,9 @@ async def wattpad(email, client, out):
     params = {
         'email': email,
     }
-    response = await client.get('https://www.wattpad.com/api/v3/users/validate', headers=headers, params=params)
-    if (response.status_code == 200 or response.status_code == 400):
-        if "Cette adresse" not in response.text or response.text == '{"message":"OK","code":200}':
+    r = await client.get('https://www.wattpad.com/api/v3/users/validate', headers=headers, params=params)
+    if (r.status_code == 200 or r.status_code == 400):
+        if "Cette adresse" not in r.text or r.text == '{"message":"OK","code":200}':
             out.append({"name": name,
                         "rateLimit": False,
                         "exists": False,

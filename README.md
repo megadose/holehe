@@ -1,14 +1,14 @@
-# Holehe Educational purposes only
+#  Educational purposes only
 #### For BTC Donations : 1FHDM49QfZX6pJmhjLE5tB2K6CaTLMZpXZ
-### Holehe [does not alert the target email](https://github.com/megadose/holehe/issues/12)
-holehe allows you to check if the mail is used on different sites like twitter, instagram and will retrieve information on sites with the forgotten password function.
+###  [does not alert the target email](https://github.com/megadose//issues/12)
+ allows you to check if the mail is used on different sites like twitter, instagram and will retrieve information on sites with the forgotten password function.
 
 [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
 ![](https://files.catbox.moe/5we2ya.png)
 
 
-![](https://github.com/megadose/gif-demo/raw/master/holehe-demo.gif)
-## Project example : [Holehe Maltego](https://github.com/megadose/holehe-maltego)
+![](https://github.com/megadose/gif-demo/raw/master/-demo.gif)
+## Project example : [ Maltego](https://github.com/megadose/-maltego)
 ## 💡 Prerequisite
 
    [Python 2/3](https://www.python.org/downloads/release/python-370/)
@@ -17,20 +17,20 @@ holehe allows you to check if the mail is used on different sites like twitter, 
 
 ### With PyPI
 
-```pip3 install holehe```
+```pip3 install ```
 
 ### With Github
 
 ```bash
-git clone https://github.com/megadose/holehe.git
-cd holehe/
+git clone https://github.com/megadose/.git
+cd /
 python3 setup.py install
 ```
 
 ## 📚 Example
 
 ```bash
-holehe test@gmail.com
+ test@gmail.com
 ```
 
 
@@ -152,7 +152,7 @@ holehe test@gmail.com
 import trio
 import httpx
 
-from holehe.modules.shopping.ebay import ebay
+from coreshopping.ebay import ebay
 
 
 async def main():

@@ -28,7 +28,7 @@ async def diigo(email, client, out):
         'email': email,
     }
     try:
-        response = await client.get('https://www.diigo.com/user_mana2/check_email', headers=headers, params=params)
+        r = await client.get('https://www.diigo.com/user_mana2/check_email', headers=headers, params=params)
     except BaseException:
         out.append({"name": name,
                     "rateLimit": True,
@@ -37,8 +37,8 @@ async def diigo(email, client, out):
                     "phoneNumber": None,
                     "others": None})
         return None
-    if response.status_code == 200:
-        if response.text == "0":
+    if r.status_code == 200:
+        if r.text == "0":
             out.append({"name": name,
                         "rateLimit": False,
                         "exists": True,

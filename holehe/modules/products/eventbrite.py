@@ -36,14 +36,14 @@ async def eventbrite(email, client, out):
     headers["X-CSRFToken"] = csrf_token
     data = '{"email":"' + email + '"}'
 
-    response = await client.post(
+    r = await client.post(
         'https://www.eventbrite.com/api/v3/users/lookup/',
         headers=headers,
         cookies=cookies,
         data=data)
-    if response.status_code == 200:
+    if r.status_code == 200:
         try:
-            reqd = response.json()
+            reqd = r.json()
             if reqd["exists"]:
                 out.append({"name": name,
                             "rateLimit": False,

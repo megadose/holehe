@@ -14,8 +14,8 @@ async def bodybuilding(email, client, out):
         'Referer': 'https://www.bodybuilding.com/',
     }
 
-    response = await client.head('https://api.bodybuilding.com/profile/email/' + email, headers=headers)
-    if response.status_code == 200:
+    r = await client.head('https://api.bodybuilding.com/profile/email/' + email, headers=headers)
+    if r.status_code == 200:
         out.append({"name": name,
                     "rateLimit": False,
                     "exists": True,

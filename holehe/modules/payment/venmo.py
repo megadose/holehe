@@ -30,9 +30,9 @@ async def venmo(email, client, out):
     data = '{"last_name":"e","first_name":"z","email":"' + \
         email + '","password":"","phone":"1","client_id":10}'
 
-    response = await client.post('https://venmo.com/api/v5/users', headers=headers, data=data)
-    if "Not acceptable" not in response.text:
-        if "That email is already registered in our system." in response.text:
+    r = await client.post('https://venmo.com/api/v5/users', headers=headers, data=data)
+    if "Not acceptable" not in r.text:
+        if "That email is already registered in our system." in r.text:
             out.append({"name": name,
                         "rateLimit": False,
                         "exists": True,

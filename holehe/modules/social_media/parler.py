@@ -1,12 +1,10 @@
 from holehe.core import *
 from holehe.localuseragent import *
+from tools.utils import *
 
 
 async def parler(email, client, out):
-    def get_random_string(length):
-        letters = string.ascii_lowercase
-        result_str = ''.join(random.choice(letters) for i in range(length))
-        return(result_str)
+
     name = "parler"
     url = "https://api.parler.com/v2/login/new"
     headers = {
@@ -27,7 +25,7 @@ async def parler(email, client, out):
     data = '{"identifier":' + email + \
         ',"password":"invalidpasswordfortest","deviceId":"' + get_random_string(16) + '"}'
     try:
-        response = await client.post(url, data=data, headers=headers)
+        r = await client.post(url, data=data, headers=headers)
     except BaseException:
         out.append({"name": name,
                     "rateLimit": True,
@@ -36,7 +34,7 @@ async def parler(email, client, out):
                     "phoneNumber": None,
                     "others": None})
         return None
-    data = response.text
+    data = r.text
     if 'password' in data:
         out.append({"name": name,
                     "rateLimit": False,

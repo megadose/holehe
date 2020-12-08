@@ -17,12 +17,12 @@ async def rambler(email, client, out):
 
     data = '{"method":"Rambler::Id::get_email_account_info","params":[{"email":"' + email + '"}],"rpc":"2.0"}'
 
-    response = await client.post(
+    r = await client.post(
         'https://id.rambler.ru/jsonrpc',
         headers=headers,
         data=data)
     try:
-        if response.json()["result"]["exists"] == 0:
+        if r.json()["result"]["exists"] == 0:
             out.append({"name": name,
                         "rateLimit": False,
                         "exists": False,
