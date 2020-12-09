@@ -25,7 +25,7 @@ async def quora(email, client, out):
     data = {
         'json': '{"args":[],"kwargs":{"value":"' + str(email) + '"}}',
         'formkey': str(formkey),
-        '__hmac': '0XUlSIZzr7N1DA',
+        '__hmac': '0XXXXXXxxXDxX',
         '__method': 'validate'
     }
 
