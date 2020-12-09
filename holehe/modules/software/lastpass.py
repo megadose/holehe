@@ -32,7 +32,7 @@ async def lastpass(email, client, out):
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
-    if response.text == "ok" or response.text == "emailinvalid":
+    elif response.text == "ok" or response.text == "emailinvalid":
         out.append({"name": name,
                     "rateLimit": False,
                     "exists": False,
