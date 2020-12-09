@@ -20,20 +20,42 @@ async def quora(email, client, out):
         revision = r.text.split('revision": "')[1].split('"')[0]
         formkey = r.text.split('formkey": "')[1].split('"')[0]
     except BaseException:
-        print("error")
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
+        return None
 
     data = {
         'json': '{"args":[],"kwargs":{"value":"' + str(email) + '"}}',
         'formkey': str(formkey),
-        '__hmac': '0XUlSIZzr7N1DA',
+        '__hmac': '0XXXXXXxxXDxX',
         '__method': 'validate'
     }
 
-    r = await client.post('https://fr.quora.com/webnode2/server_call_POST', headers=headers, data=data)
+    r = await client.post('https://fr.quora.com/webnode2/server_call_POST',
+        headers=headers,data=data)
     try:
         if 'Un compte a' in r.text:
-            return(({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None}))
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": True,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
         else:
-            return(({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None}))
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
     except BaseException:
-        return(({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None}))
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
