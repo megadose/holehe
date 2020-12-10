@@ -126,6 +126,7 @@ holehe test@gmail.com
 |   spotify   |  spotify.com   |     register      |          ✔          |
 |   strava    |   strava.com   |     register      |          ✘          |
 |  taringa    |  taringa.net   |     register      |          ✔          |
+|  tellonym   |  tellonym.me   |     register      |          ✘          |
 |teamtreehouse|teamtreehouse.com|     register     |          ✘          |
 |  tumblr     |  tumblr.com    |     register      |          ✘          |
 |thecardboard |thecardboard.org|     register      |          ✘          |
@@ -137,6 +138,7 @@ holehe test@gmail.com
 |   venmo     |   venmo.com    |    register       |          ✔          |
 |   vivino    |   vivino.com   |     register      |          ✘          |
 |  voxmedia   | voxmedia.com   |     register      |          ✘          |
+|   vsco      |   vsco.co      |     register      |          ✘          |
 |   vrbo      |   vrbo.com     |     register      |          ✘          |
 | wattpad     |   wattpad.com  |     register      |          ✔          |
 | wordpress   | wordpress.com  |       login       |          ✘          |

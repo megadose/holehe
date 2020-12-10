@@ -26,7 +26,7 @@ from holehe.localuseragent import ua
 
 DEBUG = False
 
-__version__ = "1.57.10.1"
+__version__ = "1.57.10.2"
 if not DEBUG:
     checkVersion = httpx.get("https://pypi.org/pypi/holehe/json")
 if not DEBUG and checkVersion.json()["info"]["version"] != __version__:
