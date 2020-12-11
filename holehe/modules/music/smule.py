@@ -15,8 +15,8 @@ async def smule(email, client, out):
         'TE': 'Trailers',
     }
 
-    r = await client.get('https://www.smule.com/user/check_email', headers=headers)
     try:
+        r = await client.get('https://www.smule.com/user/check_email', headers=headers)
         csrf_token = (
             r.text.split(
                 'authenticity_token" name="csrf-param" />\n<meta content="')
