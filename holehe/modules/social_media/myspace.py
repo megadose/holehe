@@ -13,8 +13,7 @@ async def myspace(email, client, out):
         'Connection': 'keep-alive',
         'Referer': 'https://myspace.com/signup/email',
     }
-
-    r = await client.get("https://myspace.com/signup/email", headers=headers, timeout=3)
+    r = await client.get("https://myspace.com/signup/email", headers=headers)
 
     headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
     try:
@@ -27,13 +26,14 @@ async def myspace(email, client, out):
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
+        return()
     headers['X-Requested-With'] = 'XMLHttpRequest'
 
     data = {
         'email': email
     }
 
-    response = await client.post('https://myspace.com/ajax/account/validateemail', headers=headers, data=data, timeout=3)
+    response = await client.post('https://myspace.com/ajax/account/validateemail', headers=headers, data=data)
     try:
         if "This email address was already used to create an account." in response.text:
             out.append({"name": name,

@@ -28,8 +28,16 @@ async def caringbridge(email, client, out):
         'password_placeholder': '',
         'submit-btn': 'Continue'
     }
-
-    response = await client.post('https://www.caringbridge.org/signin', headers=headers, cookies=cookies, data=data, timeout=2)
+    try:
+        response = await client.post('https://www.caringbridge.org/signin', headers=headers, cookies=cookies, data=data, timeout=3)
+    except :
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
+        return()
     if "Welcome Back," in response.text:
         out.append({"name": name,
                     "rateLimit": False,

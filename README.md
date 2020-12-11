@@ -160,7 +160,7 @@ from holehe.modules.shopping.ebay import ebay
 async def main():
     email = "test@gmail.com"
     out = []
-    client = httpx.AsyncClient(timeout=10)
+    client = httpx.AsyncClient()
 
     await ebay(email, client, out)
 
