@@ -26,7 +26,7 @@ from holehe.localuseragent import ua
 
 DEBUG = False
 
-__version__ = "1.57.10.4.1"
+__version__ = "1.57.10.4.2"
 if not DEBUG:
     checkVersion = httpx.get("https://pypi.org/pypi/holehe/json")
 if not DEBUG and checkVersion.json()["info"]["version"] != __version__:
@@ -87,7 +87,6 @@ async def maincore():
     print('Twitter : @palenath')
     print('Github : https://github.com/megadose/holehe')
     print('For BTC Donations : 1FHDM49QfZX6pJmhjLE5tB2K6CaTLMZpXZ\n')
-
     start_time = time.time()
 
     email = ask_email()

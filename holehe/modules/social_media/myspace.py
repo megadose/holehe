@@ -13,8 +13,16 @@ async def myspace(email, client, out):
         'Connection': 'keep-alive',
         'Referer': 'https://myspace.com/signup/email',
     }
-    r = await client.get("https://myspace.com/signup/email", headers=headers)
-
+    try:
+        r = await client.get("https://myspace.com/signup/email", headers=headers)
+    except :
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
+        return()
     headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
     try:
         headers['Hash'] = r.text.split('<input name="csrf" type="hidden" value="')[
@@ -33,8 +41,8 @@ async def myspace(email, client, out):
         'email': email
     }
 
-    response = await client.post('https://myspace.com/ajax/account/validateemail', headers=headers, data=data)
     try:
+        response = await client.post('https://myspace.com/ajax/account/validateemail', headers=headers, data=data)
         if "This email address was already used to create an account." in response.text:
             out.append({"name": name,
                         "rateLimit": False,
