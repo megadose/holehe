@@ -14,8 +14,16 @@ async def crevado(email, client, out):
         'Upgrade-Insecure-Requests': '1',
         'TE': 'Trailers',
     }
-
-    req = await client.get("https://crevado.com")
+    try:
+        req = await client.get("https://crevado.com")
+    except :
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
+        return()
     token = req.text.split(
         '<meta name="csrf-token" content="')[1].split('"')[0]
 
