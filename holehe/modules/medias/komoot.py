@@ -22,7 +22,7 @@ async def komoot(email, client, out):
             out.append({"name": name,
                         "rateLimit": False,
                         "exists": True,
-                        s"emailrecovery": None,
+                        "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
         else:
