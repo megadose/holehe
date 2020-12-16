@@ -14,20 +14,17 @@ async def rocketreach(email, client, out):
         'Connection': 'keep-alive',
         'TE': 'Trailers',
     }
-    params = (
-        ('email_address', email),
-    )
-
     try:
-        r = await client.get('https://rocketreach.co/v1/validateEmail', headers=headers, params=params)
-        if r.json()["found"]=="true":
+        r = await client.get('https://rocketreach.co/v1/validateEmail?email_address='+email, headers=headers, params=params)
+        print(r.text)
+        if r.json()["found"]==True:
             out.append({"name": name,
                         "rateLimit": False,
                         "exists": True,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
-        elif r.json()["found"]=="false":
+        elif r.json()["found"]==False:
             out.append({"name": name,
                         "rateLimit": False,
                         "exists": False,
