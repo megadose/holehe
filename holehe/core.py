@@ -26,7 +26,7 @@ from holehe.localuseragent import ua
 
 DEBUG = False
 
-__version__ = "1.57.10.4.13"
+__version__ = "1.57.10.4.14"
 checkVersion = httpx.get("https://pypi.org/pypi/holehe/json")
 
 if not DEBUG and checkVersion.json()["info"]["version"] != __version__:
@@ -54,28 +54,7 @@ def import_submodules(package, recursive=True):
     """Get all the holehe submodules"""
     if isinstance(package, str):
         package = importlib.import_module(package)
-    results = {}        if r.json()["found"]==True:
-            out.append({"name": name,
-                        "rateLimit": False,
-                        "exists": True,
-                        "emailrecovery": None,
-                        "phoneNumber": None,
-                        "others": None})
-        elif r.json()["found"]==False:
-            out.append({"name": name,
-                        "rateLimit": False,
-                        "exists": False,
-                        "emailrecovery": None,
-                        "phoneNumber": None,
-                        "others": None})
-        else:
-            out.append({"name": name,
-                        "rateLimit": True,
-                        "exists": False,
-                        "emailrecovery": None,
-                        "phoneNumber": None,
-                        "others": None})
-
+    results = {}
     for loader, name, is_pkg in pkgutil.walk_packages(package.__path__):
         full_name = package.__name__ + '.' + name
         results[full_name] = importlib.import_module(full_name)
