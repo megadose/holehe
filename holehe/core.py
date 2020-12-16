@@ -26,7 +26,7 @@ from holehe.localuseragent import ua
 
 DEBUG = False
 
-__version__ = "1.57.10.4.6"
+__version__ = "1.57.10.4.7"
 checkVersion = httpx.get("https://pypi.org/pypi/holehe/json")
 
 if not DEBUG and checkVersion.json()["info"]["version"] != __version__:
@@ -92,7 +92,7 @@ async def maincore():
     email = ask_email()
     checkTimeout = httpx.get("https://gravatar.com")
     timeoutValue=int(checkTimeout.elapsed.total_seconds()*6)+5
-    print(timeoutValue)
+    #print(timeoutValue)
     client = httpx.AsyncClient(timeout=timeoutValue)
     out = []
     async with trio.open_nursery() as nursery:
