@@ -14,11 +14,11 @@ async def atlassian(email, client, out):
         'DNT': '1',
         'Connection': 'keep-alive',
     }
-    r = await client.get("https://id.atlassian.com/login", headers=headers)
     try:
+        r = await client.get("https://id.atlassian.com/login", headers=headers)
         data = {'csrfToken': r.text.split('{&quot;csrfToken&quot;:&quot;')[
             1].split('&quot')[0], 'username': email}
-    except BaseException:
+    except :
         out.append({"name": name,
                     "rateLimit": True,
                     "exists": False,

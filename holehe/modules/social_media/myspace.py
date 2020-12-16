@@ -14,7 +14,7 @@ async def myspace(email, client, out):
         'Referer': 'https://myspace.com/signup/email',
     }
     try:
-        r = await client.get("https://myspace.com/signup/email", headers=headers)
+        r = await client.get("https://myspace.com/signup/email", headers=headers,timeout=2)
     except :
         out.append({"name": name,
                     "rateLimit": True,

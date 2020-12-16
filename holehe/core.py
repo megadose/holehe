@@ -26,9 +26,9 @@ from holehe.localuseragent import ua
 
 DEBUG = False
 
-__version__ = "1.57.10.4.5"
-if not DEBUG:
-    checkVersion = httpx.get("https://pypi.org/pypi/holehe/json")
+__version__ = "1.57.10.4.6"
+checkVersion = httpx.get("https://pypi.org/pypi/holehe/json")
+
 if not DEBUG and checkVersion.json()["info"]["version"] != __version__:
     if os.name != 'nt':
         p = Popen(["pip3",
@@ -86,15 +86,17 @@ async def maincore():
 
     print('Twitter : @palenath')
     print('Github : https://github.com/megadose/holehe')
-    print('For BTC Donations : 1FHDM49QfZX6pJmhjLE5tB2K6CaTLMZpXZ\n')
+    print('For BTC Donations : 1FHDM49QfZX6pJmhjLE5tB2K6CaTLMZpXZ')
     start_time = time.time()
 
     email = ask_email()
-
-    client = httpx.AsyncClient(timeout=5)
+    checkTimeout = httpx.get("https://gravatar.com")
+    timeoutValue=int(checkTimeout.elapsed.total_seconds()*6)+5
+    print(timeoutValue)
+    client = httpx.AsyncClient(timeout=timeoutValue)
     out = []
     async with trio.open_nursery() as nursery:
-        for website in tqdm(websites):
+        for website in websites:
             nursery.start_soon(website, email, client, out)
     out = sorted(out, key=lambda i: i['name'])  # We sort by modules names
     await client.aclose()
@@ -104,9 +106,9 @@ async def maincore():
                                                    "magenta") + "," + colored(" [x] Rate limit",
                                                                               "red")
     print("\033[H\033[J")
-    print("*" * 25)
-    print(email)
-    print("*" * 25)
+    print("*" * (len(email)+6))
+    print("   "+email)
+    print("*" * (len(email)+6))
     for results in out:
         if results["rateLimit"]:
             websiteprint = colored("[x] " + results["name"], "red")

@@ -20,11 +20,8 @@ async def coroflot(email, client, out):
     data = {
         'email': email
     }
-    response = await client.post(
-        'https://www.coroflot.com/home/signup_email_check',
-        headers=headers,
-        data=data)
     try:
+        response = await client.post('https://www.coroflot.com/home/signup_email_check',headers=headers,data=data)
         if response.json()["data"] == -2:
             out.append({"name": name,
                         "rateLimit": False,
@@ -39,7 +36,7 @@ async def coroflot(email, client, out):
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
-    except BaseException:
+    except:
         out.append({"name": name,
                     "rateLimit": True,
                     "exists": False,

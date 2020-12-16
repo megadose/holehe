@@ -39,6 +39,7 @@ async def samsung(email, client, out):
         cookies=cookies,
         data=data)
     data = response.json()
+    print(data)
     if response.status_code == 200:
         if "rtnCd" in data.keys():
             out.append({"name": name,

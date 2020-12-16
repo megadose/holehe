@@ -17,13 +17,20 @@ async def vrbo(email, client, out):
     }
 
     data = '{"emailAddress":"' + email + '"}'
-
-    response = await client.post(
-        'https://www.vrbo.com/auth/aam/v3/status',
-        headers=headers,
-        data=data)
-    response = response.json()
-
+    try:
+        response = await client.post(
+            'https://www.vrbo.com/auth/aam/v3/status',
+            headers=headers,
+            data=data)
+        response = response.json()
+    except :
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
+        return()
     if "authType" in response.keys():
         if response["authType"][0] == "LOGIN_UMS":
             out.append({"name": name,
