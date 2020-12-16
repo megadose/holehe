@@ -93,6 +93,7 @@ holehe test@gmail.com
 | instagram   | instagram.com  |     register      |          ✔          |
 |  issuu      |   issuu.com    |     register      |          ✘          |
 |  koditv     |forum.kodi.tv   |     register      |          ✘          |
+|   komoot    | komoot.com     |     register      |          ✔          |
 |  laposte    |    laposte.fr  |     register      |          ✘          |
 |  lastfm     |    last.fm     |     register      |          ✘          |
 | lastpass    | lastpass.com   |     register      |          ✘          |
@@ -117,6 +118,7 @@ holehe test@gmail.com
 |  rambler    |   rambler.ru   |     register      |          ✘          |
 |   redtube   |   redtube.com  |     register      |          ✘          |
 |   replit    |     repl.it    |     register      |          ✔          |
+|  rocketreach|  rocketreach.co|     register      |          ✘          |
 |  samsung    |  samsung.com   |     register      |          ✘          |
 |  seoclerks  |  seoclerks.com |     register      |          ✘          |
 |  sevencups  |   7cups.com    |     register      |          ✔          |
