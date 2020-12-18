@@ -31,12 +31,11 @@ async def instagram(email, client, out):
         'first_name': '',
         'opt_into_one_tap': 'false'
     }
-
+    headers["x-csrftoken"] = token
     check = await client.post(
         "https://www.instagram.com/accounts/web_create_ajax/attempt/",
         data=data,
-        headers={
-            "x-csrftoken": token})
+        headers=headers)
     check = check.json()
     if check["status"] != "fail":
         if 'email' in check["errors"].keys():
