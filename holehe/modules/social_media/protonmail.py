@@ -5,7 +5,7 @@ from holehe.localuseragent import *
 async def protonmail(email, client, out):
     #credit https://github.com/pixelbubble/ProtOSINT
     name = "protonmail"
-    response = await client.post('https://api.protonmail.ch/pks/lookup?op=index&search='+email, headers=headers, data=data)
+    response = await client.post('https://api.protonmail.ch/pks/lookup?op=index&search='+email)
     if "info:1:0" in response.text :
         out.append({"name": name,
                     "rateLimit": False,
