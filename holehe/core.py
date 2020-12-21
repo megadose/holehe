@@ -25,7 +25,7 @@ from holehe.localuseragent import ua
 
 DEBUG = False
 
-__version__ = "1.58.2.2"
+__version__ = "1.58.2.3"
 checkVersion = httpx.get("https://pypi.org/pypi/holehe/json")
 
 if not DEBUG and checkVersion.json()["info"]["version"] != __version__:
@@ -40,7 +40,48 @@ if not DEBUG and checkVersion.json()["info"]["version"] != __version__:
         p = Popen(["pip",
                    "install",
                    "--upgrade",
-                   "git+git://github.com/megadose/holehe@master"],
+                   "git+git            out.append({"name": name,
+                        "rateLimit": True,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
+            return None
+            headers['X-Requested-With'] = 'XMLHttpRequest'
+
+            params = {
+                'action': 'email_availability',
+            }
+
+            data = {
+                'email': email,
+                'my_post_key': r.text.split('var my_post_key = "')[1].split('"')[0]
+            }
+
+            response = await client.post('https://cracked.to/xmlhttp.php', headers=headers, params=params, data=data)
+            if "Your request was blocked" not in response.text and response.status_code == 200:
+                if "email address that is already in use by another member." in response.text:
+                    out.append({"name": name,
+                                "rateLimit": False,
+                                "exists": True,
+                                "emailrecovery": None,
+                                "phoneNumber": None,
+                                "others": None})
+                else:
+                    out.append({"name": name,
+                                "rateLimit": False,
+                                "exists": False,
+                                "emailrecovery": None,
+                                "phoneNumber": None,
+                                "others": None})
+            else:
+                out.append({"name": name,
+                            "rateLimit": True,
+                            "exists": False,
+                            "emailrecovery": None,
+                            "phoneNumber": None,
+                            "others": None})
+://github.com/megadose/holehe@master"],
                   stdout=PIPE,
                   stderr=PIPE)
     (output, err) = p.communicate()
@@ -121,7 +162,7 @@ async def maincore():
                 toprint += " / " + results["phoneNumber"]
             if results["others"] is not None and "FullName" in str(results["others"].keys()) :
                 toprint += " / FullName " + results["others"]["FullName"]
-            if results["othersorthers"] is not None and "Date, time of the creation" in str(results["others"].keys()):
+            if results["others"] is not None and "Date, time of the creation" in str(results["others"].keys()):
                 toprint += " / Date, time of the creation " + results["others"]["Date, time of the creation"]
 
             websiteprint = colored("[+] " + results["name"] + toprint, "green")

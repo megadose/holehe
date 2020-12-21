@@ -18,14 +18,6 @@ async def cracked_to(email, client, out):
     try:
         r = await client.get("https://cracked.to/member.php", headers=headers, timeout=1)
         if "Your request was blocked" in r.text or r.status_code != 200:
-            out.append({"name": name,
-                        "rateLimit": True,
-                        "exists": False,
-                        "emailrecovery": None,
-                        "phoneNumber": None,
-                        "others": None})
-            return None
-    except BaseException:
         out.append({"name": name,
                     "rateLimit": True,
                     "exists": False,
@@ -33,38 +25,46 @@ async def cracked_to(email, client, out):
                     "phoneNumber": None,
                     "others": None})
         return None
+        headers['X-Requested-With'] = 'XMLHttpRequest'
 
-    headers['X-Requested-With'] = 'XMLHttpRequest'
+        params = {
+            'action': 'email_availability',
+        }
 
-    params = {
-        'action': 'email_availability',
-    }
+        data = {
+            'email': email,
+            'my_post_key': r.text.split('var my_post_key = "')[1].split('"')[0]
+        }
 
-    data = {
-        'email': email,
-        'my_post_key': r.text.split('var my_post_key = "')[1].split('"')[0]
-    }
-
-    response = await client.post('https://cracked.to/xmlhttp.php', headers=headers, params=params, data=data)
-    if "Your request was blocked" not in response.text and response.status_code == 200:
-        if "email address that is already in use by another member." in response.text:
-            out.append({"name": name,
-                        "rateLimit": False,
-                        "exists": True,
-                        "emailrecovery": None,
-                        "phoneNumber": None,
-                        "others": None})
+        response = await client.post('https://cracked.to/xmlhttp.php', headers=headers, params=params, data=data)
+        if "Your request was blocked" not in response.text and response.status_code == 200:
+            if "email address that is already in use by another member." in response.text:
+                out.append({"name": name,
+                            "rateLimit": False,
+                            "exists": True,
+                            "emailrecovery": None,
+                            "phoneNumber": None,
+                            "others": None})
+            else:
+                out.append({"name": name,
+                            "rateLimit": False,
+                            "exists": False,
+                            "emailrecovery": None,
+                            "phoneNumber": None,
+                            "others": None})
         else:
             out.append({"name": name,
-                        "rateLimit": False,
+                        "rateLimit": True,
                         "exists": False,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
-    else:
+
+    except:
         out.append({"name": name,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
+        return None
