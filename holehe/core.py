@@ -25,7 +25,7 @@ from holehe.localuseragent import ua
 
 DEBUG = False
 
-__version__ = "1.58.2.1"
+__version__ = "1.58.2.2"
 checkVersion = httpx.get("https://pypi.org/pypi/holehe/json")
 
 if not DEBUG and checkVersion.json()["info"]["version"] != __version__:
@@ -119,9 +119,9 @@ async def maincore():
                 toprint += " " + results["emailrecovery"]
             if results["phoneNumber"] is not None:
                 toprint += " / " + results["phoneNumber"]
-            if results["orthers"] is not None and "FullName" in str(results["others"].keys()) :
+            if results["others"] is not None and "FullName" in str(results["others"].keys()) :
                 toprint += " / FullName " + results["others"]["FullName"]
-            if results["orthers"] is not None and "Date, time of the creation" in str(results["others"].keys()):
+            if results["othersorthers"] is not None and "Date, time of the creation" in str(results["others"].keys()):
                 toprint += " / Date, time of the creation " + results["others"]["Date, time of the creation"]
 
             websiteprint = colored("[+] " + results["name"] + toprint, "green")
