@@ -14,7 +14,7 @@ from subprocess import Popen, PIPE
 import os
 import time
 import json
-
+from datetime import datetime
 try:
     import cookielib
 except BaseException:
@@ -25,7 +25,7 @@ from holehe.localuseragent import ua
 
 DEBUG = False
 
-__version__ = "1.58.1.8"
+__version__ = "1.58.1.9"
 checkVersion = httpx.get("https://pypi.org/pypi/holehe/json")
 
 if not DEBUG and checkVersion.json()["info"]["version"] != __version__:
