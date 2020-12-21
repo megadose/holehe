@@ -26,7 +26,7 @@ async def flickr(email, client, out):
         return None
 
     data = json.loads(response.text)
-    if data['state_code'] == '5':
+    if 'state_code' in str(data.keys()) and data['state_code'] == '5':
         out.append({"name": name,
                     "rateLimit": False,
                     "exists": True,

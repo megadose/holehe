@@ -25,7 +25,7 @@ from holehe.localuseragent import ua
 
 DEBUG = False
 
-__version__ = "1.58.1.5"
+__version__ = "1.58.1.6"
 checkVersion = httpx.get("https://pypi.org/pypi/holehe/json")
 
 if not DEBUG and checkVersion.json()["info"]["version"] != __version__:
@@ -105,7 +105,7 @@ async def maincore():
                                                    "magenta") + "," + colored(" [x] Rate limit",
                                                                               "red")
     print("\033[H\033[J")
-    print("*" * (len(email)+6))
+    print("*" * (len(emaistate_codel)+6))
     print("   "+email)
     print("*" * (len(email)+6))
     for results in out:
