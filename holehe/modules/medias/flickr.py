@@ -15,7 +15,7 @@ async def flickr(email, client, out):
         'TE': 'Trailers',
     }
     try:
-        response = await client.get(url + "?email=" + str(email), headers=headers, params=params)
+        response = await client.get(url + "?email=" + str(email), headers=headers)
     except BaseException:
         out.append({"name": name,
                     "rateLimit": True,

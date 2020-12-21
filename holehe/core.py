@@ -3,7 +3,6 @@ import random
 import importlib
 import pkgutil
 import string
-from tqdm import tqdm
 from termcolor import colored
 from bs4 import BeautifulSoup
 import hashlib
@@ -26,7 +25,7 @@ from holehe.localuseragent import ua
 
 DEBUG = False
 
-__version__ = "1.58.1"
+__version__ = "1.58.1.2"
 checkVersion = httpx.get("https://pypi.org/pypi/holehe/json")
 
 if not DEBUG and checkVersion.json()["info"]["version"] != __version__:

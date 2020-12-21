@@ -1,0 +1,36 @@
+from holehe.core import *
+from holehe.localuseragent import *
+
+
+async def protonmail(email, client, out):
+    #credit https://github.com/pixelbubble/ProtOSINT
+    name = "protonmail"
+    response = await client.post('https://api.protonmail.ch/pks/lookup?op=index&search='+email, headers=headers, data=data)
+    if "info:1:0" in response.text :
+        out.append({"name": name,
+                    "rateLimit": False,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
+    elif "info:1:1" in response.text:
+		regexPattern1 = "2048:(.*)::"
+		regexPattern2 = "4096:(.*)::"
+		try:
+			timestamp = int(re.search(regexPattern1, response.text).group(1))
+		except:
+			timestamp = int(re.search(regexPattern2, response.text).group(1))
+		dtObject = datetime.fromtimestamp(timestamp)
+        out.append({"name": name,
+                    "rateLimit": False,
+                    "exists": True,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": "Date, time of the creation :"+str(dtObject)})
+    else:
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
