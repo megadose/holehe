@@ -184,11 +184,11 @@ The result of the modules is in this form : `` {name:"example","rateLimit":False
 - exists : know an account is associated with the mail
 - emailrecovery : it's a partial mail that can potentially be extracted from the mail entered on the module.
 - phoneNumber : it's a partial phone number that can potentially be extracted from the mail entered on the module.
-- others : is used for all information other for the moment it is only useful for facebook ``{"FullName":full_name,"profilePicture":profile_picture}`` FullName has a lot of false positives, and profilePicture is the url of the profile picture associated with the account.
+- others : is used for all information other
 
 ## Thank you to :
 
-- [ navlys ](https://twitter.com/navlys_/)
+- [navlys](https://twitter.com/navlys_/)
 - [Chris](https://twitter.com/chris_kirsch)
 - [socialscan](https://pypi.org/project/socialscan/)
 - [UhOh365](https://github.com/Raikia/UhOh365)
