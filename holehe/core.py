@@ -25,28 +25,7 @@ from holehe.localuseragent import ua
 
 DEBUG = False
 
-__version__ = "1.58.2.9"
-checkVersion = httpx.get("https://pypi.org/pypi/holehe/json")
-
-if not DEBUG and checkVersion.json()["info"]["version"] != __version__:
-    if os.name != 'nt':
-        p = Popen(["pip3",
-                   "install",
-                   "--upgrade",
-                   "git+git://github.com/megadose/holehe@master"],
-                  stdout=PIPE,
-                  stderr=PIPE)
-    else:
-        p = Popen(["pip",
-                   "install",
-                   "--upgrade",
-                   "git+git://github.com/megadose/holehe@master"],
-                  stdout=PIPE,
-                  stderr=PIPE)
-    (output, err) = p.communicate()
-    p_status = p.wait()
-    print("Holehe has just been updated, you can restart it. ")
-    exit()
+__version__ = "1.58.3"
 
 
 def import_submodules(package, recursive=True):
@@ -80,6 +59,28 @@ def ask_email():
 
 
 async def maincore():
+    checkVersion = httpx.get("https://pypi.org/pypi/holehe/json")
+
+    if not DEBUG and checkVersion.json()["info"]["version"] != __version__:
+        if os.name != 'nt':
+            p = Popen(["pip3",
+                       "install",
+                       "--upgrade",
+                       "git+git://github.com/megadose/holehe@master"],
+                      stdout=PIPE,
+                      stderr=PIPE)
+        else:
+            p = Popen(["pip",
+                       "install",
+                       "--upgrade",
+                       "git+git://github.com/megadose/holehe@master"],
+                      stdout=PIPE,
+                      stderr=PIPE)
+        (output, err) = p.communicate()
+        p_status = p.wait()
+        print("Holehe has just been updated, you can restart it. ")
+        exit()
+
     modules = import_submodules("holehe.modules")
     websites = get_functions(modules)
 
