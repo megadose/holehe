@@ -3,7 +3,8 @@
 ### Holehe [does not alert the target email](https://github.com/megadose/holehe/issues/12)
 holehe allows you to check if the mail is used on different sites like twitter, instagram and will retrieve information on sites with the forgotten password function.
 
-[![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
+[![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)![PyPI](https://img.shields.io/pypi/v/holehe?style=flat-square) ![PyPI - Downloads](https://img.shields.io/pypi/dw/holehe?style=flat-square)
+
 ![](https://files.catbox.moe/5we2ya.png)
 
 
@@ -95,6 +96,7 @@ holehe test@gmail.com
 |  koditv     |forum.kodi.tv   |     register      |          ✘          |
 |   komoot    | komoot.com     |     register      |          ✔          |
 |  laposte    |    laposte.fr  |     register      |          ✘          |
+|  laredoute  | laredoute.com  |     register      |          ✘          |
 |  lastfm     |    last.fm     |     register      |          ✘          |
 | lastpass    | lastpass.com   |     register      |          ✘          |
 |   mail.ru   |    mail.ru     | password recovery |          ✘          |
