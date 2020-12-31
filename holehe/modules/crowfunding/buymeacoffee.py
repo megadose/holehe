@@ -20,7 +20,7 @@ async def buymeacoffee(email, client, out):
     }
     r = await client.get("https://www.buymeacoffee.com/", headers=headers)
     if r.status_code == 200:
-        soup = BeautifulSoup(req.content, features="html.parser")
+        soup = BeautifulSoup(r.content, features="html.parser")
         csrf_token = soup.find(attrs={'name': 'bmc_csrf_token'}).get("value")
     else:
         out.append({"name": name,
