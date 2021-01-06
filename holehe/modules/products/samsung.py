@@ -27,7 +27,7 @@ async def samsung(email, client, out):
     }
 
     params = {
-        'v': '1337',
+        'v': random.randrange(1000,9999),
     }
 
     data = '{"emailID":"' + email + '"}'
@@ -41,7 +41,7 @@ async def samsung(email, client, out):
     data = response.json()
     #print(data)
     if response.status_code == 200:
-        if "rtnCd" in data.keys():
+        if "rtnCd" in data.keys() and "INAPPROPRIATE_CHARACTERS" not in response.text:
             out.append({"name": name,
                         "rateLimit": False,
                         "exists": True,
