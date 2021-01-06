@@ -31,6 +31,13 @@ async def voxmedia(email, client, out):
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
+        elif rep["message"]=="You cannot use this email address.":
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
         else:
             out.append({"name": name,
                         "rateLimit": False,
