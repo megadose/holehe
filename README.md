@@ -94,7 +94,6 @@ holehe test@gmail.com
 |  koditv     |forum.kodi.tv   |     register      |          ✘          |
 |   komoot    | komoot.com     |     register      |          ✔          |
 |  laposte    |    laposte.fr  |     register      |          ✘          |
-|  laredoute  | laredoute.com  |     register      |          ✘          |
 |  lastfm     |    last.fm     |     register      |          ✘          |
 | lastpass    | lastpass.com   |     register      |          ✘          |
 |   mail.ru   |    mail.ru     | password recovery |          ✘          |
@@ -143,6 +142,7 @@ holehe test@gmail.com
 |  voxmedia   | voxmedia.com   |     register      |          ✘          |
 |   vsco      |   vsco.co      |     register      |          ✘          |
 |   vrbo      |   vrbo.com     |     register      |          ✘          |
+|  vozzn      |   voz.vn       |     register      |          ✘          |
 | wattpad     |   wattpad.com  |     register      |          ✔          |
 | wordpress   | wordpress.com  |       login       |          ✘          |
 |   xing      |   xing.com     |     register      |          ✘          |
