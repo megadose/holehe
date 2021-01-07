@@ -142,7 +142,6 @@ holehe test@gmail.com
 |  voxmedia   | voxmedia.com   |     register      |          ✘          |
 |   vsco      |   vsco.co      |     register      |          ✘          |
 |   vrbo      |   vrbo.com     |     register      |          ✘          |
-|  vozzn      |   voz.vn       |     register      |          ✘          |
 | wattpad     |   wattpad.com  |     register      |          ✔          |
 | wordpress   | wordpress.com  |       login       |          ✘          |
 |   xing      |   xing.com     |     register      |          ✘          |
