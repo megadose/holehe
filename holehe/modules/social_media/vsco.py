@@ -10,7 +10,6 @@ async def vsco(email, client, out):
 
     try:
         r = await client.get(f'https://api.vsco.co/2.0/users/email?email={email}', headers=headers)
-        if r.status_code ==200:
         resp=r.json()
         if resp["email_status"]=="has_account":
             out.append({"name": name,
