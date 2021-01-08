@@ -12,8 +12,16 @@ async def xing(email, client, out):
         'Connection': 'keep-alive',
         'Upgrade-Insecure-Requests': '1',
     }
-
-    response = await client.get("https://www.xing.com/start/signup?registration=1", headers=headers)
+    try:
+        response = await client.get("https://www.xing.com/start/signup?registration=1", headers=headers)
+    except :
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
+        return()
     headers['x-csrf-token'] = response.cookies["xing_csrf_token"]
 
     data = {

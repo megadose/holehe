@@ -16,31 +16,39 @@ async def adobe(email, client, out):
     }
 
     data = '{"username":"' + email + '","accountType":"individual"}'
-    r = await client.post(
-        'https://auth.services.adobe.com/signin/v1/authenticationstate',
-        headers=headers,
-        data=data)
-    r = r.json()
-    if "errorCode" in str(r.keys()):
+    try:
+        r = await client.post(
+            'https://auth.services.adobe.com/signin/v1/authenticationstate',
+            headers=headers,
+            data=data)
+        r = r.json()
+        if "errorCode" in str(r.keys()):
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
+            return None
+        headers['X-IMS-Authentication-State'] = r['id']
+        params = {
+            'purpose': 'passwordRecovery',
+        }
+        response = await client.get(
+            'https://auth.services.adobe.com/signin/v2/challenges',
+            headers=headers,
+            params=params)
+        response=response.json()
         out.append({"name": name,
                     "rateLimit": False,
+                    "exists": True,
+                    "emailrecovery": response['secondaryEmail'],
+                    "phoneNumber": response['securityPhoneNumber'],
+                    "others": None})
+    except:
+        out.append({"name": name,
+                    "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
-        return None
-    headers['X-IMS-Authentication-State'] = r['id']
-    params = {
-        'purpose': 'passwordRecovery',
-    }
-    response = await client.get(
-        'https://auth.services.adobe.com/signin/v2/challenges',
-        headers=headers,
-        params=params)
-    response=response.json()
-    out.append({"name": name,
-                "rateLimit": False,
-                "exists": True,
-                "emailrecovery": response['secondaryEmail'],
-                "phoneNumber": response['securityPhoneNumber'],
-                "others": None})

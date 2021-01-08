@@ -101,7 +101,7 @@ holehe test@gmail.com
 |  myspace    |  myspace.com   |     register      |          ✘          |
 | ndemiccreations|forum.ndemiccreations.com|register|         ✘          |
 | nattyornot  |nattyornotforum.nattyornot.com|register|       ✘          |
-| nextpvr     |forums.nextpvr.com   |    register  |         ✘          |
+| nextpvr     |forums.nextpvr.com   |    register  |          ✘          |
 | naturabuy   |  naturabuy.fr  |     register      |          ✘          |
 |   nike      |     nike.com   |     register      |          ✘          |
 |odampublishing|forum.odampublishing.com| register |          ✘          |
@@ -109,6 +109,7 @@ holehe test@gmail.com
 | office365   | office365.com  |       other       |          ✘          |
 |onlinesequencer|onlinesequencer.net|register      |          ✘          |
 | parler      | parler.com     |      login        |          ✘          |
+| patreon     | patreon.com    |      login        |          ✔          |
 | pinterest   | pinterest.com  |     register      |          ✘          |
 |   plurk     |    plurk.com   |     register      |          ✘          |
 |  pornhub    |   pornhub.com  |     register      |          ✘          |

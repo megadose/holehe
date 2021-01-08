@@ -19,12 +19,19 @@ async def mail_ru(email, client, out):
     }
 
     data = 'email={email}&htmlencoded=false'.replace('@', '%40')
-
-    response = await client.post(
-        'https://account.mail.ru/api/v1/user/password/restore',
-        headers=headers,
-        data=data)
-
+    try:
+        response = await client.post(
+            'https://account.mail.ru/api/v1/user/password/restore',
+            headers=headers,
+            data=data)
+    except:
+        out.append({"name": name,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
+        return(0)
     if response.status_code == 200:
         try:
             reqd = response.json()
