@@ -25,7 +25,7 @@ from holehe.localuseragent import ua
 
 DEBUG = False
 
-__version__ = "1.58.3.9"
+__version__ = "1.58.4"
 
 
 def import_submodules(package, recursive=True):
@@ -66,14 +66,14 @@ async def maincore():
             p = Popen(["pip3",
                        "install",
                        "--upgrade",
-                       "git+git://github.com/megadose/holehe@master"],
+                       "holehe"],
                       stdout=PIPE,
                       stderr=PIPE)
         else:
             p = Popen(["pip",
                        "install",
                        "--upgrade",
-                       "git+git://github.com/megadose/holehe@master"],
+                       "holehe"],
                       stdout=PIPE,
                       stderr=PIPE)
         (output, err) = p.communicate()
