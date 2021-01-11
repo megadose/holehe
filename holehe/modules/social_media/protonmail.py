@@ -15,12 +15,16 @@ async def protonmail(email, client, out):
                         "phoneNumber": None,
                         "others": None})
         elif "info:1:1" in response.text:
-            regexPattern1 = "2048:(.*)::"
-            regexPattern2 = "4096:(.*)::"
+            regexPattern1 = "2048:(.*)::"#RSA 2048-bit (Older but faster)
+            regexPattern2 = "4096:(.*)::"#RSA 4096-bit (Secure but slow)
+            regexPattern3 = "22::(.*)::" #X25519 (Modern, fastest, secure)
             try:
                 timestamp = int(re.search(regexPattern1, response.text).group(1))
             except:
-                timestamp = int(re.search(regexPattern2, response.text).group(1))
+                try:
+                    timestamp = int(re.search(regexPattern2, response.text).group(1))
+                except :
+                    timestamp = int(re.search(regexPattern3, response.text).group(1))
             dtObject = datetime.fromtimestamp(timestamp)
             out.append({"name": name,
                         "rateLimit": False,
