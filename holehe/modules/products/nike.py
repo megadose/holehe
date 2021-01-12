@@ -29,30 +29,37 @@ async def nike(email, client, out):
     }
 
     data = '{"emailAddress":"' + email + '"}'
-
-    response = await client.post(
-        'https://unite.nike.com/account/email/v1',
-        headers=headers,
-        params=params,
-        data=data)
-    if response.status_code == 409:
-        out.append({"name": name,
-                    "rateLimit": False,
-                    "exists": True,
-                    "emailrecovery": None,
-                    "phoneNumber": None,
-                    "others": None})
-    elif response.status_code == 204:
-        out.append({"name": name,
-                    "rateLimit": False,
-                    "exists": False,
-                    "emailrecovery": None,
-                    "phoneNumber": None,
-                    "others": None})
-    else:
-        out.append({"name": name,
-                    "rateLimit": True,
-                    "exists": False,
-                    "emailrecovery": None,
-                    "phoneNumber": None,
-                    "others": None})
+    try:
+        response = await client.post(
+            'https://unite.nike.com/account/email/v1',
+            headers=headers,
+            params=params,
+            data=data)
+        if response.status_code == 409:
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": True,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
+        elif response.status_code == 204:
+            out.append({"name": name,
+                        "rateLimit": False,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
+        else:
+            out.append({"name": name,
+                        "rateLimit": True,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
+    except :
+            out.append({"name": name,
+                        "rateLimit": True,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
