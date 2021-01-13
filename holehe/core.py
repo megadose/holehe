@@ -25,7 +25,7 @@ from holehe.localuseragent import ua
 
 DEBUG = False
 
-__version__ = "1.58.4.2"
+__version__ = "1.58.4.3"
 
 
 def import_submodules(package, recursive=True):
