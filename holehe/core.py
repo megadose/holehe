@@ -26,7 +26,7 @@ from holehe.localuseragent import ua
 
 DEBUG = False
 
-__version__ = "1.58.4.4"
+__version__ = "1.58.4.6"
 
 
 def import_submodules(package, recursive=True):
@@ -60,10 +60,6 @@ def ask_email():
 
 
 async def maincore():
-    parser= ArgumentParser(description=f"holehe v{__version__}")
-    parser.add_argument("--only-used", default=False,
-                    help="Displays only the sites used by the target email address.")
-    args = parser.parse_args()
 
     checkVersion = httpx.get("https://pypi.org/pypi/holehe/json")
 
@@ -86,6 +82,11 @@ async def maincore():
         p_status = p.wait()
         print("Holehe has just been updated, you can restart it. ")
         exit()
+
+    parser= ArgumentParser(description=f"holehe v{__version__}")
+    parser.add_argument("--only-used", default=False, required=False,
+                    help="Displays only the sites used by the target email address.")
+    args = parser.parse_args()
 
     modules = import_submodules("holehe.modules")
     websites = get_functions(modules)
