@@ -15,7 +15,6 @@ import os
 import time
 import json
 from datetime import datetime
-from argparse import ArgumentParser
 try:
     import cookielib
 except BaseException:
@@ -26,7 +25,7 @@ from holehe.localuseragent import ua
 
 DEBUG = False
 
-__version__ = "1.58.4.6"
+__version__ = "1.58.4.8"
 
 
 def import_submodules(package, recursive=True):
@@ -60,7 +59,6 @@ def ask_email():
 
 
 async def maincore():
-
     checkVersion = httpx.get("https://pypi.org/pypi/holehe/json")
 
     if not DEBUG and checkVersion.json()["info"]["version"] != __version__:
@@ -82,11 +80,6 @@ async def maincore():
         p_status = p.wait()
         print("Holehe has just been updated, you can restart it. ")
         exit()
-
-    parser= ArgumentParser(description=f"holehe v{__version__}")
-    parser.add_argument("--only-used", default=False, required=False,
-                    help="Displays only the sites used by the target email address.")
-    args = parser.parse_args()
 
     modules = import_submodules("holehe.modules")
     websites = get_functions(modules)
@@ -117,9 +110,9 @@ async def maincore():
     print("   "+email)
     print("*" * (len(email)+6))
     for results in out:
-        if results["rateLimit"] and args.used == False:
+        if results["rateLimit"]:
             websiteprint = colored("[x] " + results["name"], "red")
-        elif results["exists"] == False and args.used == False:
+        elif results["exists"] == False:
             websiteprint = colored("[-] " + results["name"], "magenta")
         else:
             toprint = ""
