@@ -27,7 +27,7 @@ except BaseException:
 
 DEBUG = False
 
-__version__ = "1.58.5.3"
+__version__ = "1.58.5.4"
 
 
 def import_submodules(package, recursive=True):
@@ -174,10 +174,12 @@ async def maincore():
     parser.add_argument("--debug", default=False, required=False,action="store_true",dest="debug",
                     help="Debug")
 
+    check_update()
     args = parser.parse_args()
     credit()
     email=args.email[0]
     check_if_email(email)
+
 
     # Import Modules
     modules = import_submodules("holehe.modules")
