@@ -3,7 +3,10 @@ from holehe.localuseragent import *
 
 
 async def buymeacoffee(email, client, out):
-    name = "buymeacoffe"
+    name = "buymeacoffee"
+    domain = "buymeacoffee.com"
+    method= "register"
+    frequent_rate_limit=True
 
     def get_random_string(length):
         letters = string.ascii_lowercase
@@ -23,7 +26,7 @@ async def buymeacoffee(email, client, out):
         soup = BeautifulSoup(r.content, features="html.parser")
         csrf_token = soup.find(attrs={'name': 'bmc_csrf_token'}).get("value")
     else:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,
@@ -48,28 +51,28 @@ async def buymeacoffee(email, client, out):
     if r.status_code == 200:
         data = r.json()
         if data["status"] == "SUCCESS":
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": False,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
         elif data["status"] == "FAIL" and "email" in str(data):
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": True,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
         else:
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": True,
                         "exists": False,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
     else:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,

@@ -4,6 +4,10 @@ from holehe.localuseragent import *
 
 async def crevado(email, client, out):
     name = "crevado"
+    domain = "crevado.com"
+    method = "register"
+    frequent_rate_limit=True
+
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -17,7 +21,7 @@ async def crevado(email, client, out):
     try:
         req = await client.get("https://crevado.com")
     except :
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,
@@ -47,28 +51,28 @@ async def crevado(email, client, out):
             errorEMail = response.text.split(
                 'showFormErrors({"account_email":{"error_message":"')[1].split('"')[0]
             if errorEMail == "has already been taken":
-                out.append({"name": name,
+                out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                             "rateLimit": False,
                             "exists": True,
                             "emailrecovery": None,
                             "phoneNumber": None,
                             "others": None})
             else:
-                out.append({"name": name,
+                out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                             "rateLimit": False,
                             "exists": False,
                             "emailrecovery": None,
                             "phoneNumber": None,
                             "others": None})
         else:
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": False,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
     except BaseException:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,

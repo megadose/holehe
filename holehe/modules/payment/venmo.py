@@ -4,6 +4,10 @@ from holehe.localuseragent import *
 
 async def venmo(email, client, out):
     name = "venmo"
+    domain = "venmo.com"
+    method= "register"
+    frequent_rate_limit=True
+
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': 'application/json',
@@ -19,7 +23,7 @@ async def venmo(email, client, out):
     try:
         headers["device-id"] = s.cookies["v_id"]
     except BaseException:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,
@@ -33,21 +37,21 @@ async def venmo(email, client, out):
     response = await client.post('https://venmo.com/api/v5/users', headers=headers, data=data)
     if "Not acceptable" not in response.text:
         if "That email is already registered in our system." in response.text:
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": True,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
         else:
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": False,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
     else:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,

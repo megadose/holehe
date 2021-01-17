@@ -27,7 +27,7 @@ except BaseException:
 
 DEBUG = False
 
-__version__ = "1.58.5.5"
+__version__ = "1.58.5.6"
 
 
 def import_submodules(package, recursive=True):
@@ -102,10 +102,10 @@ def print_result(data,args,email,start_time,websites):
 
     for results in data:
         if results["rateLimit"] and args.onlyused == False:
-            websiteprint = print_color("[x] " + results["name"], "red",args)
+            websiteprint = print_color("[x] " + results["domain"], "red",args)
             print(websiteprint)
         elif results["exists"] == False and args.onlyused == False:
-            websiteprint = print_color("[-] " + results["name"], "magenta",args)
+            websiteprint = print_color("[-] " + results["domain"], "magenta",args)
             print(websiteprint)
         elif results["exists"] == True:
             toprint = ""
@@ -118,13 +118,12 @@ def print_result(data,args,email,start_time,websites):
             if results["others"] is not None and "Date, time of the creation" in str(results["others"].keys()):
                 toprint += " / Date, time of the creation " + results["others"]["Date, time of the creation"]
 
-            websiteprint = print_color("[+] " + results["name"] + toprint, "green",args)
+            websiteprint = print_color("[+] " + results["domain"] + toprint, "green",args)
             print(websiteprint)
 
     print("\n" + description)
     print(str(len(websites)) + " websites checked in " +
           str(round(time.time() - start_time, 2)) + " seconds")
-    print("\n")
 
 
 def get_timeout():
@@ -146,19 +145,7 @@ def export_csv(data,args,email):
         exit("All results have been exported to "+name_file)
 
 async def launch_module(module,email, client, out, args):
-    try:
-        await module(email,client,out)
-    except Exception as err:
-        out.append({"name": str(module).split(' ')[1].split(' ')[0],
-                    "rateLimit": True,
-                    "exists": False,
-                    "emailrecovery": None,
-                    "phoneNumber": None,
-                    "others": None})
-        if args.debug==True:
-            print(type(err))  # the exception instance
-            print(err.args)  # arguments stored in .args
-            print(err)  # __str__ allows args to be printed directly,
+    await module(email, client, out)
 
 async def maincore():
     parser= ArgumentParser(description=f"holehe v{__version__}")
@@ -171,8 +158,6 @@ async def maincore():
                     help="Don't color terminal output")
     parser.add_argument("-C","--csv", default=False, required=False,action="store_true",dest="csvoutput",
                     help="Create a CSV with the results")
-    parser.add_argument("--debug", default=False, required=False,action="store_true",dest="debug",
-                    help="Debug")
 
     check_update()
     args = parser.parse_args()

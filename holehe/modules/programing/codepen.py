@@ -4,6 +4,10 @@ from holehe.localuseragent import *
 
 async def codepen(email, client, out):
     name = "codepen"
+    domain = "codepen.io"
+    method = "register"
+    frequent_rate_limit=False
+
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': '*/*',
@@ -24,7 +28,7 @@ async def codepen(email, client, out):
         token = soup.find(attrs={"name": "csrf-token"}).get("content")
         headers["X-CSRF-Token"] = token
     except BaseException:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,
@@ -43,14 +47,14 @@ async def codepen(email, client, out):
         headers=headers,
         data=data)
     if "That Email is already taken." in response.text:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": True,
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
     else:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": False,
                     "emailrecovery": None,

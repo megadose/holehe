@@ -4,6 +4,10 @@ from holehe.localuseragent import *
 
 async def plurk(email, client, out):
     name = "plurk"
+    domain = "plurk.com"
+    method = "register"
+    frequent_rate_limit=False
+
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': '*/*',
@@ -21,21 +25,21 @@ async def plurk(email, client, out):
 
     response = await client.post('https://www.plurk.com/Users/isEmailFound', headers=headers, data=data)
     if response.text == "True":
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": True,
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
     elif response.text == "False":
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": False,
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
     else:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,

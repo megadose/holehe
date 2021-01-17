@@ -4,6 +4,9 @@ from holehe.localuseragent import *
 
 async def patreon(email, client, out):
     name = "patreon"
+    domain = "patreon.com"
+    method = "login"
+    frequent_rate_limit=True
 
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
@@ -25,21 +28,21 @@ async def patreon(email, client, out):
     try:
         response = await client.post('https://www.patreon.com/api/email/available', headers=headers, params=params, data=data)
         if response.json()["data"]["is_available"] == True :
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": False,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
         else:
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": True,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
     except :
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": True,
                         "exists": False,
                         "emailrecovery": None,

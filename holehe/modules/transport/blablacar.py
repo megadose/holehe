@@ -4,6 +4,10 @@ from holehe.localuseragent import *
 
 async def blablacar(email, client, out):
     name = "blablacar"
+    domain = "blablacar.com"
+    method = "register"
+    frequent_rate_limit=True
+
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': 'application/json',
@@ -26,7 +30,7 @@ async def blablacar(email, client, out):
         appToken = appToken.text.split(',"appToken":"')[1].split('"')[0]
 
     except BaseException:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,
@@ -40,7 +44,7 @@ async def blablacar(email, client, out):
     try:
         headers["Authorization"] = 'Bearer ' + appToken
     except BaseException:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,
@@ -55,14 +59,14 @@ async def blablacar(email, client, out):
         cookies=cookies)
     data = response.json()
     if "url" in data.keys():
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
     elif "exists" in data.keys():
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": data["exists"],
                     "emailrecovery": None,

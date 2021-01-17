@@ -3,8 +3,11 @@ from holehe.localuseragent import *
 
 
 async def tumblr(email, client, out):
-
     name = "tumblr"
+    domain = "tumblr.com"
+    method = "register"
+    frequent_rate_limit=False
+
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -30,14 +33,14 @@ async def tumblr(email, client, out):
         'tracking_url': '/login', 'tracking_version': 'modal', }
     response = await client.post('https://www.tumblr.com/svc/account/register', data=data, headers=headers)
     if response.text == '{"redirect":false,"redirect_method":"GET","errors":[],"signup_success":false,"next_view":"signup_magiclink"}':
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": True,
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
     else:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": False,
                     "emailrecovery": None,

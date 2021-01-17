@@ -4,14 +4,15 @@ from holehe.localuseragent import *
 
 async def envato(email, client, out):
     name = "envato"
+    domain = "envato.com"
+    method = "register"
+    frequent_rate_limit=False
 
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': 'application/json',
         'Accept-Language': 'en,en-US;q=0.5',
-        'Referer': 'https://themeforest.net/',
         'Content-type': 'application/x-www-form-urlencoded',
-        'Origin': 'https://themeforest.net',
         'DNT': '1',
         'Connection': 'keep-alive',
         'TE': 'Trailers',
@@ -25,21 +26,21 @@ async def envato(email, client, out):
         headers=headers,
         data=data)
     if 'Email is already in use' in req.text:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": True,
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
     elif "Page designed by Kotulsky" in req.text:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
     else:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": False,
                     "emailrecovery": None,

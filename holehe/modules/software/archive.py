@@ -4,6 +4,10 @@ from holehe.localuseragent import *
 
 async def archive(email, client, out):
     name = "archive"
+    domain = "archive.org"
+    method = "register"
+    frequent_rate_limit=False
+
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': '*/*',
@@ -21,14 +25,14 @@ async def archive(email, client, out):
 
     response = await client.post('https://archive.org/account/signup', headers=headers, data=data)
     if "is already taken." in response.text:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": True,
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
     else:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": False,
                     "emailrecovery": None,

@@ -4,6 +4,10 @@ from holehe.localuseragent import *
 
 async def fetlife(email, client, out):
     name = "fetlife"
+    domain = "fetlife.com"
+    method = "register"
+    frequent_rate_limit=False
+
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -15,7 +19,7 @@ async def fetlife(email, client, out):
     try:
         req = await client.get("https://fetlife.com/signup_step_profile", headers=headers)
     except BaseException:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,
@@ -64,7 +68,7 @@ async def fetlife(email, client, out):
 
     email_is_present = len(email_error_tag) > 0
 
-    out.append({"name": name,
+    out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                 "rateLimit": False,
                 "exists": email_is_present,
                 "emailrecovery": None,

@@ -4,6 +4,10 @@ from holehe.localuseragent import *
 
 async def anydo(email, client, out):
     name = "anydo"
+    domain = "any.do"
+    method= "login"
+    frequent_rate_limit=True
+
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': '*/*',
@@ -22,21 +26,21 @@ async def anydo(email, client, out):
     response = await client.post('https://sm-prod2.any.do/check_email', headers=headers, data=data)
     if response.status_code == 200:
         if response.json()["user_exists"]:
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": True,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
         else:
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": False,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
     else:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,

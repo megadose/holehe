@@ -3,8 +3,11 @@ from holehe.localuseragent import *
 
 
 async def quora(email, client, out):
-
     name = "quora"
+    domain = "quora.com"
+    method= "register"
+    frequent_rate_limit=False
+
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': 'application/json, text/javascript, */*; q=0.01',
@@ -20,7 +23,12 @@ async def quora(email, client, out):
         revision = r.text.split('revision": "')[1].split('"')[0]
         formkey = r.text.split('formkey": "')[1].split('"')[0]
     except BaseException:
-        print("error")
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
 
     data = {
         'json': '{"args":[],"kwargs":{"value":"' + str(email) + '"}}',
@@ -32,8 +40,23 @@ async def quora(email, client, out):
     response = await client.post('https://fr.quora.com/webnode2/server_call_POST', headers=headers, data=data)
     try:
         if 'Un compte a' in response.text:
-            return(({"rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None}))
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
+                        "rateLimit": False,
+                        "exists": True,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
         else:
-            return(({"rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None}))
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
+                        "rateLimit": False,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
     except BaseException:
-        return(({"rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None}))
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})

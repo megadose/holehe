@@ -4,6 +4,9 @@ from holehe.localuseragent import *
 
 async def deliveroo(email, client, out):
     name = "deliveroo"
+    domain = "deliveroo.com"
+    method = "register"
+    frequent_rate_limit=True
 
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
@@ -25,21 +28,21 @@ async def deliveroo(email, client, out):
     if req.status_code == 200:
         data = json.loads(req.text)
         if data["registered"]:
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": True,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
         else:
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": False,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
     else:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,

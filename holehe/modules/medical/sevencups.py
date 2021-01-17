@@ -4,12 +4,16 @@ from holehe.localuseragent import *
 
 async def sevencups(email, client, out):
     name = "sevencups"
+    domain = "7cups.com"
+    method= "register"
+    frequent_rate_limit=True
+
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]), 'DNT': '1',
         'Connection': 'keep-alive', 'Accept': 'application/json, text/javascript, */*; q=0.01',
         'Host': 'www.7cups.com', 'X-Requested-With': 'XMLHttpRequest',
         'Origin': 'https://www.7cups.com',
-        'Accept-Encoding': 'gzip, name=""late, br',
+        'Accept-Encoding': 'gzip, late, br',
         'Referer': 'https://www.7cups.com/listener/CreateAccount.php', 'TE': 'Trailers',
         'Content-Type': 'multipart/form-data; boundary=---------------------------'
 
@@ -23,21 +27,21 @@ async def sevencups(email, client, out):
         headers=headers)
     if response.status_code == 200:
         if "Account already exists with this email address" in response.text:
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": True,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
         else:
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": False,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
     else:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,

@@ -4,10 +4,14 @@ from holehe.localuseragent import *
 
 async def gravatar(email, client, out):
     name = "gravatar"
+    domain = "gravatar.com"
+    method="other"
+    frequent_rate_limit=False
+
     hashed_name = hashlib.md5(email.encode()).hexdigest()
     r = await client.get('https://gravatar.com/{hashed_name}.json')
     if r.status_code != 200:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": False,
                     "emailrecovery": None,
@@ -22,7 +26,7 @@ async def gravatar(email, client, out):
                 'FullName': name,
             }
 
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": True,
                         "emailrecovery": None,
@@ -30,7 +34,7 @@ async def gravatar(email, client, out):
                         "others": others})
             return None
         except BaseException:
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": True,
                         "exists": False,
                         "emailrecovery": None,

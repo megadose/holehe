@@ -4,6 +4,10 @@ from holehe.localuseragent import ua
 
 async def seoclerks(email, client, out):
     name = "seoclerks"
+    domain = "seoclerks.com"
+    method= "register"
+    frequent_rate_limit=False
+
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': '*/*',
@@ -21,7 +25,7 @@ async def seoclerks(email, client, out):
         if "__cr" in r.text:
             cr = r.text.split('__cr" value="')[1].split('"')[0]
     except BaseException:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,
@@ -47,14 +51,14 @@ async def seoclerks(email, client, out):
     response = await client.post('https://www.seoclerks.com/signup/check', headers=headers, data=data)
     if 'The email address you entered is already taken.' in response.json()[
             'message']:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": True,
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
     else:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": False,
                     "emailrecovery": None,

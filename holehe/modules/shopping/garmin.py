@@ -4,6 +4,9 @@ from holehe.localuseragent import *
 
 async def garmin(email, client, out):
     name = "garmin"
+    domain = "garmin.com"
+    method = "register"
+    frequent_rate_limit=True
 
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
@@ -56,7 +59,7 @@ async def garmin(email, client, out):
     try:
         req = await client.get('https://sso.garmin.com/sso/createNewAccount', headers=headers, params=params)
     except BaseException:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,
@@ -66,7 +69,7 @@ async def garmin(email, client, out):
     try:
         token = req.text.split('"token": "')[1].split('"')[0]
     except BaseException:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,
@@ -87,21 +90,21 @@ async def garmin(email, client, out):
     }
     req = await client.post('https://sso.garmin.com/sso/validateNewAccount', headers=headers, params=params, data=data)
     if req.text == "false":
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": True,
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
     elif req.text == "true":
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": False,
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
     else:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,

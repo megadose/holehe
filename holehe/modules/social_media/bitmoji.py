@@ -4,6 +4,10 @@ from holehe.localuseragent import *
 
 async def bitmoji(email, client, out):
     name = "bitmoji"
+    domain = "bitmoji.com"
+    method = "login"
+    frequent_rate_limit=False
+
     try:
         req = await client.get("https://accounts.snapchat.com")
         xsrf = req.text.split('data-xsrf="')[1].split('"')[0]
@@ -14,7 +18,7 @@ async def bitmoji(email, client, out):
             "User-Agent": random.choice(ua["browsers"]["firefox"]),
             "Accept": "*/*",
             "X-XSRF-TOKEN": xsrf,
-            "Accept-Encoding": "gzip, name=""late",
+            "Accept-Encoding": "gzip, late",
             "Content-Type": "application/json",
             "Connection": "close",
             "Cookie": "xsrf_token=" + xsrf + "; web_client_id=" + webClientId
@@ -24,21 +28,21 @@ async def bitmoji(email, client, out):
         response = await client.post(url, data=data, headers=headers)
         if response.status_code != 204:
             data = response.json()
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": data["hasBitmoji"],
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
             return None
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": False,
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
     except:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,

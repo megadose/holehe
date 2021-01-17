@@ -4,6 +4,10 @@ from holehe.localuseragent import *
 
 async def instagram(email, client, out):
     name = "instagram"
+    domain = "instagram.com"
+    method = "register"
+    frequent_rate_limit=True
+
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': 'application/json, text/plain, */*',
@@ -17,7 +21,7 @@ async def instagram(email, client, out):
         freq = await client.get("https://www.instagram.com/accounts/emailsignup/", headers=headers)
         token = freq.text.split('{"config":{"csrf_token":"')[1].split('"')[0]
     except:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,
@@ -40,28 +44,28 @@ async def instagram(email, client, out):
     if check["status"] != "fail":
         if 'email' in check["errors"].keys():
             if check["errors"]["email"][0]["code"] == "email_is_taken":
-                out.append({"name": name,
+                out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                             "rateLimit": False,
                             "exists": True,
                             "emailrecovery": None,
                             "phoneNumber": None,
                             "others": None})
             elif "email_sharing_limit" in str(check["errors"]):
-                out.append({"name": name,
+                out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                             "rateLimit": False,
                             "exists": True,
                             "emailrecovery": None,
                             "phoneNumber": None,
                             "others": None})
         else:
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": False,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
     else:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,

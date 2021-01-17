@@ -4,6 +4,10 @@ from holehe.localuseragent import *
 
 async def odnoklassniki(email, client, out):
     name = "odnoklassniki"
+    domain = "ok.ru"
+    method = "password recovery"
+    frequent_rate_limit=False
+
     # credits: https://github.com/shllwrld/ok_checker/
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
@@ -47,7 +51,7 @@ async def odnoklassniki(email, client, out):
                     profile_info = None
                     profile_registred = None
             else:
-                out.append({"name": name,
+                out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                             "rateLimit": False,
                             "exists": False,
                             "emailrecovery": None,
@@ -60,7 +64,7 @@ async def odnoklassniki(email, client, out):
                 'FullName': '; '.join([masked_name, profile_info, profile_registred]),
             }
 
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": True,
                         "emailrecovery": masked_email,
@@ -69,7 +73,7 @@ async def odnoklassniki(email, client, out):
             return None
 
         if root_soup.find('div', {'data-l': 'registrationContainer,home_rest'}):
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": False,
                         "emailrecovery": None,
@@ -77,7 +81,7 @@ async def odnoklassniki(email, client, out):
                         "others": None})
             return None
     except :
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,

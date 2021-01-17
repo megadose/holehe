@@ -4,6 +4,10 @@ from holehe.localuseragent import *
 
 async def caringbridge(email, client, out):
     name = "caringbridge"
+    domain = "caringbridge.org"
+    method= "register"
+    frequent_rate_limit=False
+
     cookies = {
         'lang': 'en_US',
         'showSurvey': 'true',
@@ -31,7 +35,7 @@ async def caringbridge(email, client, out):
     try:
         response = await client.post('https://www.caringbridge.org/signin', headers=headers, cookies=cookies, data=data, timeout=3)
     except :
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,
@@ -39,14 +43,14 @@ async def caringbridge(email, client, out):
                     "others": None})
         return()
     if "Welcome Back," in response.text:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": True,
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
     else:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": False,
                     "emailrecovery": None,

@@ -4,11 +4,15 @@ from holehe.localuseragent import *
 
 async def aboutme(email, client, out):
     name = "aboutme"
+    domain = "about.me"
+    method= "register"
+    frequent_rate_limit=False
+
     try:
         reqToken = await client.get("https://about.me/signup", headers={'User-Agent': random.choice(
             ua["browsers"]["firefox"])})
     except BaseException:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,
@@ -32,21 +36,21 @@ async def aboutme(email, client, out):
 
     response = await client.post('https://about.me/n/signup', headers=headers, data=data)
     if response.status_code == 409:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": True,
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
     elif response.status_code == 200:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": False,
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
     else:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,

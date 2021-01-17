@@ -4,6 +4,9 @@ from holehe.localuseragent import *
 
 async def sporcle(email, client, out):
     name = "sporcle"
+    domain = "sporcle.com"
+    method= "register"
+    frequent_rate_limit=False
 
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
@@ -28,14 +31,14 @@ async def sporcle(email, client, out):
 
     response = await client.post('https://www.sporcle.com/auth/ajax/verify.php', headers=headers, data=data)
     if "account already exists with this email" in response.text:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": True,
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
     else:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": False,
                     "emailrecovery": None,

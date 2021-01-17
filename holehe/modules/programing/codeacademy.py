@@ -3,7 +3,11 @@ from holehe.localuseragent import *
 
 
 async def codeacademy(email, client, out):
-    name = "codeacademy"
+    name = "codecademy"
+    domain = "codecademy.com"
+    method = "register"
+    frequent_rate_limit=True
+
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': 'application/json',
@@ -23,7 +27,7 @@ async def codeacademy(email, client, out):
         headers["X-CSRF-Token"] = soup.find(
             attrs={"name": "csrf-token"}).get("content")
     except BaseException:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,
@@ -38,14 +42,14 @@ async def codeacademy(email, client, out):
         headers=headers,
         data=data)
     if 'is already taken' in response.text:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": True,
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
     else:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": False,
                     "emailrecovery": None,

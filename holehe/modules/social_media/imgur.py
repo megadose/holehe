@@ -4,6 +4,9 @@ from holehe.localuseragent import *
 
 async def imgur(email, client, out):
     name = "imgur"
+    domain = "imgur.com"
+    method = "register"
+    frequent_rate_limit=True
 
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
@@ -27,21 +30,21 @@ async def imgur(email, client, out):
     response = await client.post('https://imgur.com/signin/ajax_email_available', headers=headers, data=data)
     if response.status_code == 200:
         if response.json()["data"]["available"] or "Invalid email domain" in response.text :
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": False,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
         else:
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": True,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
     else:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,

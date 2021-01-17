@@ -4,6 +4,9 @@ from holehe.localuseragent import *
 
 async def armurerieauxerre(email, client, out):
     name = "armurerieauxerre"
+    domain = "armurerie-auxerre.com"
+    method = "register"
+    frequent_rate_limit=False
 
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
@@ -23,14 +26,14 @@ async def armurerieauxerre(email, client, out):
 
     req = await client.post('https://www.armurerie-auxerre.com/customer/Email/email/', headers=headers, data=data)
     if req.text == "exist":
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": True,
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
     else:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": False,
                     "emailrecovery": None,

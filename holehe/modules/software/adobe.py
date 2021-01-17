@@ -4,6 +4,10 @@ from holehe.localuseragent import *
 
 async def adobe(email, client, out):
     name = "adobe"
+    domain = "adobe.com"
+    method = "password recovery"
+    frequent_rate_limit=False
+
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': 'application/json, text/plain, */*',
@@ -23,7 +27,7 @@ async def adobe(email, client, out):
             data=data)
         r = r.json()
         if "errorCode" in str(r.keys()):
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": False,
                         "emailrecovery": None,
@@ -39,14 +43,14 @@ async def adobe(email, client, out):
             headers=headers,
             params=params)
         response=response.json()
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": True,
                     "emailrecovery": response['secondaryEmail'],
                     "phoneNumber": response['securityPhoneNumber'],
                     "others": None})
     except:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,

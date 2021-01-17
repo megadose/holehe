@@ -4,6 +4,10 @@ from holehe.localuseragent import *
 
 async def mail_ru(email, client, out):
     name = "mail_ru"
+    domain = "mail.ru"
+    method= "password recovery"
+    frequent_rate_limit=False
+
     headers = {
         'authority': 'account.mail.ru',
         'accept': 'application/json, text/javascript, */*; q=0.01',
@@ -25,7 +29,7 @@ async def mail_ru(email, client, out):
             headers=headers,
             data=data)
     except:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,
@@ -38,7 +42,7 @@ async def mail_ru(email, client, out):
             if reqd['status'] == 200:
                 phones = ', '.join(reqd['body'].get('phones', [])) or None
                 emails = ', '.join(reqd['body'].get('emails', [])) or None
-                out.append({"name": name,
+                out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                             "rateLimit": False,
                             "exists": True,
                             "emailrecovery": emails,
@@ -46,21 +50,21 @@ async def mail_ru(email, client, out):
                             "others": None})
             else:
                 # email not exists or some problem
-                out.append({"name": name,
+                out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                             "rateLimit": False,
                             "exists": False,
                             "emailrecovery": None,
                             "phoneNumber": None,
                             "others": None})
         except BaseException:
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": True,
                         "exists": False,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
     else:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,

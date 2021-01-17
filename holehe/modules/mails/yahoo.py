@@ -4,6 +4,10 @@ from holehe.localuseragent import *
 
 async def yahoo(email, client, out):
     name = "yahoo"
+    domain = "yahoo.com"
+    method= "login"
+    frequent_rate_limit=True
+
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Accept': '*/*',
@@ -50,14 +54,14 @@ async def yahoo(email, client, out):
         response = response.json()
         if "error" in response.keys():
             if not response["error"]:
-                out.append({"name": name,
+                out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                             "rateLimit": False,
                             "exists": True,
                             "emailrecovery": None,
                             "phoneNumber": None,
                             "others": None})
             else:
-                out.append({"name": name,
+                out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                             "rateLimit": True,
                             "exists": False,
                             "emailrecovery": None,
@@ -65,28 +69,28 @@ async def yahoo(email, client, out):
                             "others": None})
         elif "render" in response.keys():
             if response["render"]["error"] == "messages.ERROR_INVALID_USERNAME":
-                out.append({"name": name,
+                out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                             "rateLimit": False,
                             "exists": False,
                             "emailrecovery": None,
                             "phoneNumber": None,
                             "others": None})
             else:
-                out.append({"name": name,
+                out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                             "rateLimit": True,
                             "exists": False,
                             "emailrecovery": None,
                             "phoneNumber": None,
                             "others": None})
         else:
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": True,
                         "exists": False,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
     except BaseException:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,

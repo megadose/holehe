@@ -4,6 +4,10 @@ from holehe.localuseragent import *
 
 async def tunefind(email, client, out):
     name = "tunefind"
+    domain = "tunefind.com"
+    method= "register"
+    frequent_rate_limit=True
+
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
         'Referer': 'https://www.tunefind.com/',
@@ -16,7 +20,7 @@ async def tunefind(email, client, out):
     try:
         crsf_token = r.text.split('"csrf-token" content="')[1].split('"')[0]
     except BaseException:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,
@@ -29,21 +33,21 @@ async def tunefind(email, client, out):
     if "email" in response.json()["errors"].keys():
         if "Someone is already registered with that email address" in str(
                 response.json()["errors"]["email"]):
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": True,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
         else:
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": False,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
     else:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": False,
                     "emailrecovery": None,

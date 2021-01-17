@@ -4,6 +4,10 @@ from holehe.localuseragent import *
 
 async def laposte(email, client, out):
     name = "laposte"
+    domain = "laposte.fr"
+    method= "register"
+    frequent_rate_limit=False
+
     headers = {
         'Origin': 'https://www.laposte.fr',
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
@@ -21,14 +25,14 @@ async def laposte(email, client, out):
         response = await client.post('https://www.laposte.fr/authentification', headers=headers, data=data)
         post_soup = BeautifulSoup(response.content, 'html.parser')
         l = post_soup.find_all('span', id="wrongEmail")
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": l != [],
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
     except :
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": True,
                     "emailrecovery": None,

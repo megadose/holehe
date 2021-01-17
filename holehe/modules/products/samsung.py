@@ -4,6 +4,10 @@ from holehe.localuseragent import *
 
 async def samsung(email, client, out):
     name = "samsung"
+    domain = "samsung.com"
+    method = "register"
+    frequent_rate_limit=False
+
     req = await client.get(
         "https://account.samsung.com/accounts/v1/Samsung_com_FR/signUp")
     token = req.text.split("sJSESSIONID")[1].split('"')[1].split('"')[0]
@@ -42,21 +46,21 @@ async def samsung(email, client, out):
     #print(data)
     if response.status_code == 200:
         if "rtnCd" in data.keys() and "INAPPROPRIATE_CHARACTERS" not in response.text:
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": True,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
         else:
-            out.append({"name": name,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": False,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
     else:
-        out.append({"name": name,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,
