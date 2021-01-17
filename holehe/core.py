@@ -27,7 +27,7 @@ except BaseException:
 
 DEBUG = False
 
-__version__ = "1.58.5.1"
+__version__ = "1.58.5.2"
 
 
 def import_submodules(package, recursive=True):
@@ -177,6 +177,7 @@ async def maincore():
     args = parser.parse_args()
     credit()
     email=args.email[0]
+    check_if_email(email)
 
     # Import Modules
     modules = import_submodules("holehe.modules")
@@ -197,9 +198,10 @@ async def maincore():
     out = sorted(out, key=lambda i: i['name'])
     # Close the client
     await client.aclose()
-    export_csv(out,args,email)
     # Print the result
     print_result(out,args,email,start_time,websites)
+    # Export results
+    export_csv(out,args,email)
 
 def main():
     trio.run(maincore)
