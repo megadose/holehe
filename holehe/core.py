@@ -21,11 +21,11 @@ except BaseException:
     import http.cookiejar as cookielib
 
 from holehe.localuseragent import ua
-
+from argparse import ArgumentParser
 
 DEBUG = False
 
-__version__ = "1.58.4.8"
+__version__ = "1.58.4.9"
 
 
 def import_submodules(package, recursive=True):
@@ -52,10 +52,6 @@ def get_functions(modules):
     return websites
 
 
-def ask_email():
-    if len(sys.argv) < 2 or len(sys.argv[1]) < 5:
-        exit("[-] Please enter a target email ! \nExample : holehe email@example.com")
-    return sys.argv[1]
 
 
 async def maincore():
@@ -81,6 +77,18 @@ async def maincore():
         print("Holehe has just been updated, you can restart it. ")
         exit()
 
+
+    parser= ArgumentParser(description=f"holehe v{__version__}")
+    parser.add_argument("email",
+                    nargs='+', metavar='EMAIL',
+                    help="Target Email")
+    parser.add_argument("--only-used", default=False, required=False,action="store_true",dest="onlyused",
+                    help="Displays only the sites used by the target email address.")
+    args = parser.parse_args()
+    email=args.email[0]
+    if len(email) < 5:
+        exit("[-] Please enter a target email ! \nExample : holehe email@example.com")
+
     modules = import_submodules("holehe.modules")
     websites = get_functions(modules)
 
@@ -89,7 +97,6 @@ async def maincore():
     print('For BTC Donations : 1FHDM49QfZX6pJmhjLE5tB2K6CaTLMZpXZ')
     start_time = time.time()
 
-    email = ask_email()
     checkTimeout = httpx.get("https://gravatar.com")
     timeoutValue=int(checkTimeout.elapsed.total_seconds()*6)+5
     #print(timeoutValue)
@@ -110,11 +117,13 @@ async def maincore():
     print("   "+email)
     print("*" * (len(email)+6))
     for results in out:
-        if results["rateLimit"]:
+        if results["rateLimit"] and args.onlyused == False:
             websiteprint = colored("[x] " + results["name"], "red")
-        elif results["exists"] == False:
+            print(websiteprint)
+        elif results["exists"] == False and args.onlyused == False:
             websiteprint = colored("[-] " + results["name"], "magenta")
-        else:
+            print(websiteprint)
+        elif results["exists"] == True:
             toprint = ""
             if results["emailrecovery"] is not None:
                 toprint += " " + results["emailrecovery"]
@@ -126,7 +135,7 @@ async def maincore():
                 toprint += " / Date, time of the creation " + results["others"]["Date, time of the creation"]
 
             websiteprint = colored("[+] " + results["name"] + toprint, "green")
-        print(websiteprint)
+            print(websiteprint)
 
     print("\n" + description)
     print(str(len(websites)) + " websites checked in " +
