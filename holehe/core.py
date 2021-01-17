@@ -27,7 +27,7 @@ except BaseException:
 
 DEBUG = False
 
-__version__ = "1.58.5.4"
+__version__ = "1.58.5.5"
 
 
 def import_submodules(package, recursive=True):
@@ -194,7 +194,7 @@ async def maincore():
     out = []
     async with trio.open_nursery() as nursery:
         for website in websites:
-            nursery.start_soon(launch_module, website, email, client, out)
+            nursery.start_soon(launch_module, website, email, client, out ,args)
 
     # Sort by modules names
     out = sorted(out, key=lambda i: i['name'])
