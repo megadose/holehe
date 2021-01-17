@@ -1,31 +1,33 @@
 import time
-import random
 import importlib
 import pkgutil
-import string
 from termcolor import colored
-from bs4 import BeautifulSoup
-import hashlib
-import re
-import sys
 import httpx
 import trio
 from subprocess import Popen, PIPE
 import os
-import time
-import json
+from argparse import ArgumentParser
+import csv
 from datetime import datetime
+
+from bs4 import BeautifulSoup
+import hashlib
+import re
+import sys
+import string
+import random
+import json
+from holehe.localuseragent import ua
+
 try:
     import cookielib
 except BaseException:
     import http.cookiejar as cookielib
 
-from holehe.localuseragent import ua
-from argparse import ArgumentParser
 
 DEBUG = False
 
-__version__ = "1.58.4.9"
+__version__ = "1.58.5.1"
 
 
 def import_submodules(package, recursive=True):
@@ -51,13 +53,10 @@ def get_functions(modules):
             websites.append(modu.__dict__[site])
     return websites
 
-
-
-
-async def maincore():
-    checkVersion = httpx.get("https://pypi.org/pypi/holehe/json")
-
-    if not DEBUG and checkVersion.json()["info"]["version"] != __version__:
+def check_update():
+    """Check and update holehe if not the last version"""
+    check_version = httpx.get("https://pypi.org/pypi/holehe/json")
+    if check_version.json()["info"]["version"] != __version__:
         if os.name != 'nt':
             p = Popen(["pip3",
                        "install",
@@ -74,54 +73,39 @@ async def maincore():
                       stderr=PIPE)
         (output, err) = p.communicate()
         p_status = p.wait()
-        print("Holehe has just been updated, you can restart it. ")
+        print("Holehe has just been updated, you can restart it.")
         exit()
 
-
-    parser= ArgumentParser(description=f"holehe v{__version__}")
-    parser.add_argument("email",
-                    nargs='+', metavar='EMAIL',
-                    help="Target Email")
-    parser.add_argument("--only-used", default=False, required=False,action="store_true",dest="onlyused",
-                    help="Displays only the sites used by the target email address.")
-    args = parser.parse_args()
-    email=args.email[0]
-    if len(email) < 5:
-        exit("[-] Please enter a target email ! \nExample : holehe email@example.com")
-
-    modules = import_submodules("holehe.modules")
-    websites = get_functions(modules)
-
+def credit():
+    """Print Credit"""
     print('Twitter : @palenath')
     print('Github : https://github.com/megadose/holehe')
     print('For BTC Donations : 1FHDM49QfZX6pJmhjLE5tB2K6CaTLMZpXZ')
-    start_time = time.time()
 
-    checkTimeout = httpx.get("https://gravatar.com")
-    timeoutValue=int(checkTimeout.elapsed.total_seconds()*6)+5
-    #print(timeoutValue)
-    client = httpx.AsyncClient(timeout=timeoutValue)
-    out = []
-    async with trio.open_nursery() as nursery:
-        for website in websites:
-            nursery.start_soon(website, email, client, out)
-    out = sorted(out, key=lambda i: i['name'])  # We sort by modules names
-    await client.aclose()
+def check_if_email(email):
+    """Check if len < 5"""
+    if len(email) < 5:
+        exit("[-] Please enter a target email ! \nExample : holehe email@example.com")
 
-    description = colored("[+] Email used",
-                          "green") + "," + colored(" [-] Email not used",
-                                                   "magenta") + "," + colored(" [x] Rate limit",
-                                                                              "red")
+def print_result(data,args,email,start_time,websites):
+    def print_color(text,color,args):
+        if args.nocolor == False:
+            return(colored(text,color))
+        else:
+            return(text)
+
+    description = print_color("[+] Email used","green",args) + "," + print_color(" [-] Email not used", "magenta",args) + "," + print_color(" [x] Rate limit","red",args)
     print("\033[H\033[J")
-    print("*" * (len(email)+6))
-    print("   "+email)
-    print("*" * (len(email)+6))
-    for results in out:
+    print("*" * (len(email) + 6))
+    print("   " + email)
+    print("*" * (len(email) + 6))
+
+    for results in data:
         if results["rateLimit"] and args.onlyused == False:
-            websiteprint = colored("[x] " + results["name"], "red")
+            websiteprint = print_color("[x] " + results["name"], "red",args)
             print(websiteprint)
         elif results["exists"] == False and args.onlyused == False:
-            websiteprint = colored("[-] " + results["name"], "magenta")
+            websiteprint = print_color("[-] " + results["name"], "magenta",args)
             print(websiteprint)
         elif results["exists"] == True:
             toprint = ""
@@ -129,22 +113,93 @@ async def maincore():
                 toprint += " " + results["emailrecovery"]
             if results["phoneNumber"] is not None:
                 toprint += " / " + results["phoneNumber"]
-            if results["others"] is not None and "FullName" in str(results["others"].keys()) :
+            if results["others"] is not None and "FullName" in str(results["others"].keys()):
                 toprint += " / FullName " + results["others"]["FullName"]
             if results["others"] is not None and "Date, time of the creation" in str(results["others"].keys()):
                 toprint += " / Date, time of the creation " + results["others"]["Date, time of the creation"]
 
-            websiteprint = colored("[+] " + results["name"] + toprint, "green")
+            websiteprint = print_color("[+] " + results["name"] + toprint, "green",args)
             print(websiteprint)
 
     print("\n" + description)
     print(str(len(websites)) + " websites checked in " +
           str(round(time.time() - start_time, 2)) + " seconds")
     print("\n")
-    print('Twitter : @palenath')
-    print('Github : https://github.com/megadose/holehe')
-    print('For BTC Donations : 1FHDM49QfZX6pJmhjLE5tB2K6CaTLMZpXZ')
 
+
+def get_timeout():
+    """Get Timeout from Gravatar.com"""
+    check_timeout = httpx.get("https://gravatar.com")
+    timeout_value=int(check_timeout.elapsed.total_seconds()*6)+5
+    return(timeout_value)
+
+def export_csv(data,args,email):
+    """Export result to csv"""
+    if args.csvoutput == True:
+        now = datetime.now()
+        timestamp = datetime.timestamp(now)
+        name_file="holehe_"+str(round(timestamp))+"_"+email+"_results.csv"
+        with open(name_file, 'w', encoding='utf8', newline='') as output_file:
+            fc = csv.DictWriter(output_file,fieldnames=data[0].keys())
+            fc.writeheader()
+            fc.writerows(data)
+        exit("All results have been exported to "+name_file)
+
+async def launch_module(module,email, client, out, args):
+    try:
+        await module(email,client,out)
+    except Exception as err:
+        out.append({"name": str(module).split(' ')[1].split(' ')[0],
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
+        if args.debug==True:
+            print(type(err))  # the exception instance
+            print(err.args)  # arguments stored in .args
+            print(err)  # __str__ allows args to be printed directly,
+
+async def maincore():
+    parser= ArgumentParser(description=f"holehe v{__version__}")
+    parser.add_argument("email",
+                    nargs='+', metavar='EMAIL',
+                    help="Target Email")
+    parser.add_argument("--only-used", default=False, required=False,action="store_true",dest="onlyused",
+                    help="Displays only the sites used by the target email address.")
+    parser.add_argument("--no-color", default=False, required=False,action="store_true",dest="nocolor",
+                    help="Don't color terminal output")
+    parser.add_argument("-C","--csv", default=False, required=False,action="store_true",dest="csvoutput",
+                    help="Create a CSV with the results")
+    parser.add_argument("--debug", default=False, required=False,action="store_true",dest="debug",
+                    help="Debug")
+
+    args = parser.parse_args()
+    credit()
+    email=args.email[0]
+
+    # Import Modules
+    modules = import_submodules("holehe.modules")
+    websites = get_functions(modules)
+    # Get timeout
+    timeout=get_timeout()
+    # Start time
+    start_time = time.time()
+    # Def the async client
+    client = httpx.AsyncClient(timeout=timeout)
+    # Launching the modules
+    out = []
+    async with trio.open_nursery() as nursery:
+        for website in websites:
+            nursery.start_soon(launch_module, website, email, client, out)
+
+    # Sort by modules names
+    out = sorted(out, key=lambda i: i['name'])
+    # Close the client
+    await client.aclose()
+    export_csv(out,args,email)
+    # Print the result
+    print_result(out,args,email,start_time,websites)
 
 def main():
     trio.run(maincore)

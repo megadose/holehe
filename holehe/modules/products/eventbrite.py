@@ -16,11 +16,11 @@ async def eventbrite(email, client, out):
         'Connection': 'keep-alive',
     }
 
-    req = await client.get("https://www.eventbrite.com/signin/?referrer=%2F", headers=headers)
     try:
+        req = await client.get("https://www.eventbrite.com/signin/?referrer=%2F", headers=headers)
         csrf_token = req.cookies["csrftoken"]
 
-    except BaseException:
+    except:
         out.append({"name": name,
                     "rateLimit": True,
                     "exists": False,
