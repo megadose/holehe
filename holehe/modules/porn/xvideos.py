@@ -30,7 +30,7 @@ async def xvideos(email, client, out):
                     "others": None})
         return()
     try:
-        if response.json()['result'] == False:
+        if response.json()['result'] == False and "This email is already in use or its owner has excluded it from our website" in response.text:
             out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": True,
