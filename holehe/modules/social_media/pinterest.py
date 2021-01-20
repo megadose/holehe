@@ -13,7 +13,7 @@ async def pinterest(email, client, out):
         params={
             "source_url": "/",
             "data": '{"options": {"email": "' + email + '"}, "context": {}}'})
-    if 'source_field' in req.json()["resource_response"]["data"]):
+    if 'source_field' in str(req.json()["resource_response"]["data"]):
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
