@@ -45,7 +45,7 @@ async def samsung(email, client, out):
     data = response.json()
     #print(data)
     if response.status_code == 200:
-        if "rtnCd" in data.keys() and "INAPPROPRIATE_CHARACTERS" not in response.text:
+        if "rtnCd" in data.keys() and "INAPPROPRIATE_CHARACTERS" not in response.text and "accounts aren't supported." not response.text:
             out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": True,
