@@ -20,25 +20,33 @@ async def freelancer(email, client, out):
     }
 
     data = '{"user":{"email":"' + email + '"}}'
-    response = await client.post('https://www.freelancer.com/api/users/0.1/users/check?compact=true&new_errors=true', data=data, headers=headers)
-    resData = response.json()
-    if response.status_code == 409 and "EMAIL_ALREADY_IN_USE" in response.text:
-        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
-                    "rateLimit": False,
-                    "exists": True,
-                    "emailrecovery": None,
-                    "phoneNumber": None,
-                    "others": None})
+    try:
+        response = await client.post('https://www.freelancer.com/api/users/0.1/users/check?compact=true&new_errors=true', data=data, headers=headers)
+        resData = response.json()
+        if response.status_code == 409 and "EMAIL_ALREADY_IN_USE" in response.text:
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
+                        "rateLimit": False,
+                        "exists": True,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
 
-    elif response.status_code == 200:
-        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
-                    "rateLimit": False,
-                    "exists": False,
-                    "emailrecovery": None,
-                    "phoneNumber": None,
-                    "others": None})
+        elif response.status_code == 200:
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
+                        "rateLimit": False,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
 
-    else:
+        else:
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
+                        "rateLimit": True,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
+    except :
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
