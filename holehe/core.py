@@ -27,7 +27,7 @@ except BaseException:
 
 DEBUG = False
 
-__version__ = "1.58.6.6"
+__version__ = "1.58.6.7"
 
 
 def import_submodules(package, recursive=True):

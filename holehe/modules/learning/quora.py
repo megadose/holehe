@@ -18,11 +18,11 @@ async def quora(email, client, out):
         'Connection': 'keep-alive',
         'TE': 'Trailers',
     }
-    r = await client.get("https://fr.quora.com", headers=headers)
     try:
+        r = await client.get("https://fr.quora.com", headers=headers)
         revision = r.text.split('revision": "')[1].split('"')[0]
         formkey = r.text.split('formkey": "')[1].split('"')[0]
-    except BaseException:
+    except:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
