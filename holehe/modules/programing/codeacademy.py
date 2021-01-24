@@ -2,7 +2,7 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
-async def codeacademy(email, client, out):
+async def codecademy(email, client, out):
     name = "codecademy"
     domain = "codecademy.com"
     method = "register"
