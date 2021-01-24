@@ -152,7 +152,7 @@ def export_csv(data,args,email):
 async def launch_module(module,email, client, out, args):
     await module(email, client, out)
 
-async def maincore():1.58.7.1
+async def maincore():
     parser= ArgumentParser(description=f"holehe v{__version__}")
     parser.add_argument("email",
                     nargs='+', metavar='EMAIL',
