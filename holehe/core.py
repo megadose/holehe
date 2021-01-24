@@ -27,7 +27,7 @@ except BaseException:
 
 DEBUG = False
 
-__version__ = "1.58.6.8"
+__version__ = "1.58.7"
 
 
 def import_submodules(package, recursive=True):
@@ -43,14 +43,19 @@ def import_submodules(package, recursive=True):
     return results
 
 
-def get_functions(modules):
+def get_functions(modules,args):
     """Transform the modules objects to functions"""
     websites = []
+
     for module in modules:
-        if len(module.split(".")) > 3:
+        if len(module.split(".")) > 3 :
             modu = modules[module]
             site = module.split(".")[-1]
-            websites.append(modu.__dict__[site])
+            if args.nopasswordrecovery==True:
+                if  "adobe" not in str(modu.__dict__[site]) and "mail_ru" not in str(modu.__dict__[site]) and "odnoklassniki" not in str(modu.__dict__[site]):
+                    websites.append(modu.__dict__[site])
+            else:
+                websites.append(modu.__dict__[site])
     return websites
 
 def check_update():
@@ -156,6 +161,8 @@ async def maincore():
                     help="Displays only the sites used by the target email address.")
     parser.add_argument("--no-color", default=False, required=False,action="store_true",dest="nocolor",
                     help="Don't color terminal output")
+    parser.add_argument("-NP","--no-password-recovery", default=False, required=False,action="store_true",dest="nopasswordrecovery",
+                    help="Don't color terminal output")
     parser.add_argument("-C","--csv", default=False, required=False,action="store_true",dest="csvoutput",
                     help="Create a CSV with the results")
 
@@ -168,7 +175,7 @@ async def maincore():
 
     # Import Modules
     modules = import_submodules("holehe.modules")
-    websites = get_functions(modules)
+    websites = get_functions(modules,args)
     # Get timeout
     timeout=get_timeout()
     # Start time
@@ -192,3 +199,5 @@ async def maincore():
 
 def main():
     trio.run(maincore)
+
+main()
