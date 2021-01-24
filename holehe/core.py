@@ -27,7 +27,7 @@ except BaseException:
 
 DEBUG = False
 
-__version__ = "1.58.7"
+__version__ = "1.58.7.1"
 
 
 def import_submodules(package, recursive=True):
@@ -152,7 +152,7 @@ def export_csv(data,args,email):
 async def launch_module(module,email, client, out, args):
     await module(email, client, out)
 
-async def maincore():
+async def maincore():1.58.7.1
     parser= ArgumentParser(description=f"holehe v{__version__}")
     parser.add_argument("email",
                     nargs='+', metavar='EMAIL',
@@ -199,5 +199,3 @@ async def maincore():
 
 def main():
     trio.run(maincore)
-
-main()
