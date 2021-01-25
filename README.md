@@ -128,7 +128,6 @@ The result of the modules is in this form : `` {name:"example","rateLimit":False
 | eventbrite          | eventbrite.com                         | login             | ✘               |
 | evernote            | evernote.com                           | login             | ✘               |
 | fanpop              | fanpop.com                             | register          | ✘               |
-| fetlife             | fetlife.com                            | register          | ✘               |
 | firefox             | firefox.com                            | register          | ✘               |
 | flickr              | flickr.com                             | login             | ✘               |
 | freelancer          | freelancer.com                         | register          | ✘               |
