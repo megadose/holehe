@@ -27,7 +27,7 @@ except BaseException:
 
 DEBUG = False
 
-__version__ = "1.58.8.1"
+__version__ = "1.58.8.2"
 
 
 def import_submodules(package, recursive=True):
@@ -43,15 +43,15 @@ def import_submodules(package, recursive=True):
     return results
 
 
-def get_functions(modules,args):
+def get_functions(modules,args=None):
     """Transform the modules objects to functions"""
     websites = []
 
     for module in modules:
-        if len(module.split(".")) > 3 :
+        if len(module.split(".")) > 3 :1.58.8.2
             modu = modules[module]
             site = module.split(".")[-1]
-            if args.nopasswordrecovery==True:
+            if args !=None and args.nopasswordrecovery==True:
                 if  "adobe" not in str(modu.__dict__[site]) and "mail_ru" not in str(modu.__dict__[site]) and "odnoklassniki" not in str(modu.__dict__[site]):
                     websites.append(modu.__dict__[site])
             else:
