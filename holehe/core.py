@@ -27,7 +27,7 @@ except BaseException:
 
 DEBUG = False
 
-__version__ = "1.58.8.2"
+__version__ = "1.58.8.3"
 
 
 def import_submodules(package, recursive=True):
@@ -48,7 +48,7 @@ def get_functions(modules,args=None):
     websites = []
 
     for module in modules:
-        if len(module.split(".")) > 3 :1.58.8.2
+        if len(module.split(".")) > 3 :
             modu = modules[module]
             site = module.split(".")[-1]
             if args !=None and args.nopasswordrecovery==True:
