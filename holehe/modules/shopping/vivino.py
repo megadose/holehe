@@ -27,7 +27,8 @@ async def vivino(email, client, out):
 
         response = await client.post('https://www.vivino.com/api/login', headers=headers, data=data)
         if response.status_code == 429:
-            out.append({"rateLimit": True,
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
+                        "rateLimit": True,
                         "exists": False,
                         "emailrecovery": None,
                         "phoneNumber": None,
@@ -49,7 +50,8 @@ async def vivino(email, client, out):
                             "others": None})
 
     except:
-        out.append({"rateLimit": True,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
+                    "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,
                     "phoneNumber": None,
