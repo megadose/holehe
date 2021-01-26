@@ -27,7 +27,7 @@ except BaseException:
 
 DEBUG = False
 
-__version__ = "1.58.8.4"
+__version__ = "1.58.9"
 
 
 def import_submodules(package, recursive=True):
@@ -131,11 +131,6 @@ def print_result(data,args,email,start_time,websites):
           str(round(time.time() - start_time, 2)) + " seconds")
 
 
-def get_timeout():
-    """Get Timeout from Gravatar.com"""
-    check_timeout = httpx.get("https://gravatar.com")
-    timeout_value=int(check_timeout.elapsed.total_seconds()*6)+5
-    return(timeout_value)
 
 def export_csv(data,args,email):
     """Export result to csv"""
@@ -149,7 +144,7 @@ def export_csv(data,args,email):
             fc.writerows(data)
         exit("All results have been exported to "+name_file)
 
-async def launch_module(module,email, client, out, args):
+async def launch_module(module,email, client, out):
     data={'aboutme': 'about.me', 'adobe': 'adobe.com', 'amazon': 'amazon.com', 'anydo': 'any.do', 'archive': 'archive.org', 'armurerieauxerre': 'armurerie-auxerre.com', 'atlassian': 'atlassian.com', 'babeshows': 'babeshows.co.uk', 'badeggsonline': 'badeggsonline.com', 'biosmods': 'bios-mods.com', 'biotechnologyforums': 'biotechnologyforums.com', 'bitmoji': 'bitmoji.com', 'blablacar': 'blablacar.com', 'blackworldforum': 'blackworldforum.com', 'blip': 'blip.fm', 'blitzortung': 'forum.blitzortung.org', 'bluegrassrivals': 'bluegrassrivals.com', 'bodybuilding': 'bodybuilding.com', 'buymeacoffee': 'buymeacoffee.com', 'cambridgemt': 'discussion.cambridge-mt.com', 'caringbridge': 'caringbridge.org', 'chinaphonearena': 'chinaphonearena.com', 'clashfarmer': 'clashfarmer.com', 'codecademy': 'codecademy.com', 'codeigniter': 'forum.codeigniter.com', 'codepen': 'codepen.io', 'coroflot': 'coroflot.com', 'cpaelites': 'cpaelites.com', 'cpahero': 'cpahero.com', 'cracked_to': 'cracked.to', 'crevado': 'crevado.com', 'deliveroo': 'deliveroo.com', 'demonforums': 'demonforums.net', 'devrant': 'devrant.com', 'diigo': 'diigo.com', 'discord': 'discord.com', 'docker': 'docker.com', 'dominosfr': 'dominos.fr', 'ebay': 'ebay.com', 'ello': 'ello.co', 'envato': 'envato.com', 'eventbrite': 'eventbrite.com', 'evernote': 'evernote.com', 'fanpop': 'fanpop.com', 'firefox': 'firefox.com', 'flickr': 'flickr.com', 'freelancer': 'freelancer.com', 'freiberg': 'drachenhort.user.stunet.tu-freiberg.de', 'garmin': 'garmin.com', 'github': 'github.com', 'google': 'google.com', 'gravatar': 'gravatar.com', 'imgur': 'imgur.com', 'instagram': 'instagram.com', 'issuu': 'issuu.com', 'koditv': 'forum.kodi.tv', 'komoot': 'komoot.com', 'laposte': 'laposte.fr', 'lastfm': 'last.fm', 'lastpass': 'lastpass.com', 'mail_ru': 'mail.ru', 'mybb': 'community.mybb.com', 'myspace': 'myspace.com', 'nattyornot': 'nattyornotforum.nattyornot.com', 'naturabuy': 'naturabuy.fr', 'ndemiccreations': 'forum.ndemiccreations.com', 'nextpvr': 'forums.nextpvr.com', 'nike': 'nike.com', 'odampublishing': 'forum.odampublishing.com', 'odnoklassniki': 'ok.ru', 'office365': 'office365.com', 'onlinesequencer': 'onlinesequencer.net', 'parler': 'parler.com', 'patreon': 'patreon.com', 'pinterest': 'pinterest.com', 'plurk': 'plurk.com', 'pornhub': 'pornhub.com', 'protonmail': 'protonmail.ch', 'quora': 'quora.com', 'raidforums': 'raidforums.com', 'rambler': 'rambler.ru', 'redtube': 'redtube.com', 'replit': 'repl.it', 'rocketreach': 'rocketreach.co', 'samsung': 'samsung.com', 'seoclerks': 'seoclerks.com', 'sevencups': '7cups.com', 'smule': 'smule.com', 'snapchat': 'snapchat.com', 'sporcle': 'sporcle.com', 'spotify': 'spotify.com', 'strava': 'strava.com', 'taringa': 'taringa.net', 'teamtreehouse': 'teamtreehouse.com', 'tellonym': 'tellonym.me', 'thecardboard': 'thecardboard.org', 'therianguide': 'forums.therian-guide.com', 'thevapingforum': 'thevapingforum.com', 'treasureclassifieds': 'forum.treasureclassifieds.com', 'tumblr': 'tumblr.com', 'tunefind': 'tunefind.com', 'twitter': 'twitter.com', 'venmo': 'venmo.com', 'vivino': 'vivino.com', 'voxmedia': 'voxmedia.com', 'vrbo': 'vrbo.com', 'vsco': 'vsco.co', 'wattpad': 'wattpad.com', 'wordpress': 'wordpress', 'xing': 'xing.com', 'xvideos': 'xvideos.com', 'yahoo': 'yahoo.com'}
     try:
         await module(email, client, out)
@@ -174,6 +169,8 @@ async def maincore():
                     help="Don't color terminal output")
     parser.add_argument("-C","--csv", default=False, required=False,action="store_true",dest="csvoutput",
                     help="Create a CSV with the results")
+    parser.add_argument("-T","--timeout", default=10, required=False,dest="timeout",
+                    help="Set max timeout value (default 10)")
 
     check_update()
     args = parser.parse_args()
@@ -185,7 +182,13 @@ async def maincore():
     modules = import_submodules("holehe.modules")
     websites = get_functions(modules,args)
     # Get timeout
-    timeout=get_timeout()
+    def get_timeout():
+        """Get Timeout from Gravatar.com"""
+        check_timeout = httpx.get("https://gravatar.com")
+        timeout_value = int(check_timeout.elapsed.total_seconds() * 6) + 5
+        return (timeout_value)
+
+    timeout=args.timeout
     # Start time
     start_time = time.time()
     # Def the async client
@@ -194,7 +197,7 @@ async def maincore():
     out = []
     async with trio.open_nursery() as nursery:
         for website in websites:
-            nursery.start_soon(launch_module, website, email, client, out ,args)
+            nursery.start_soon(launch_module, website, email, client, out)
 
     # Sort by modules names
     out = sorted(out, key=lambda i: i['name'])
