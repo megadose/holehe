@@ -8,7 +8,7 @@ setup(
     packages=find_packages(),
     author="megadose",
     author_email="megadose@protonmail.com",
-    install_requires=["termcolor","bs4","httpx","trio","argparse"],
+    install_requires=["termcolor","bs4","httpx","trio","argparse","tqdm"],
     description="holehe allows you to check if the mail is used on different sites like twitter, instagram , snapchat and will retrieve information on sites with the forgotten password function.",
     include_package_data=True,
     url='http://github.com/megadose/holehe',
