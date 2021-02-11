@@ -1,23 +1,26 @@
-import time
-import importlib
-import pkgutil
+from bs4 import BeautifulSoup
 from termcolor import colored
 import httpx
 import trio
+
 from subprocess import Popen, PIPE
 import os
 from argparse import ArgumentParser
 import csv
 from datetime import datetime
-
-from bs4 import BeautifulSoup
+import time
+import importlib
+import pkgutil
 import hashlib
 import re
 import sys
 import string
 import random
 import json
+
 from holehe.localuseragent import ua
+from holehe.instruments import TrioProgress
+
 
 try:
     import cookielib
@@ -131,7 +134,6 @@ def print_result(data,args,email,start_time,websites):
           str(round(time.time() - start_time, 2)) + " seconds")
 
 
-
 def export_csv(data,args,email):
     """Export result to csv"""
     if args.csvoutput == True:
@@ -195,9 +197,12 @@ async def maincore():
     client = httpx.AsyncClient(timeout=timeout)
     # Launching the modules
     out = []
+    instrument = TrioProgress(len(websites))
+    trio.lowlevel.add_instrument(instrument)
     async with trio.open_nursery() as nursery:
         for website in websites:
             nursery.start_soon(launch_module, website, email, client, out)
+    trio.lowlevel.remove_instrument(instrument)
     # Sort by modules names
     out = sorted(out, key=lambda i: i['name'])
     # Close the client
