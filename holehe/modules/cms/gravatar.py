@@ -20,10 +20,8 @@ async def gravatar(email, client, out):
         return None
     else:
         try:
-            data = r.json()
-            name = data['entry'][0]['name'].get('formatted')
             others = {
-                'FullName': name,
+                'profileUrl': profileUrl,
             }
 
             out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
