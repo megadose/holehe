@@ -29,6 +29,7 @@ async def quora(email, client, out):
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
+        return()
 
     data = {
         'json': '{"args":[],"kwargs":{"value":"' + str(email) + '"}}',
