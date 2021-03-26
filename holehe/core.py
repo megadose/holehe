@@ -30,7 +30,7 @@ except BaseException:
 
 DEBUG = False
 
-__version__ = "1.59.1.5"
+__version__ = "1.59.1.7"
 
 
 def import_submodules(package, recursive=True):
@@ -60,7 +60,6 @@ def get_functions(modules,args=None):
             else:
                 websites.append(modu.__dict__[site])
     return websites
-
 def check_update():
     """Check and update holehe if not the last version"""
     check_version = httpx.get("https://pypi.org/pypi/holehe/json")
@@ -209,6 +208,7 @@ async def maincore():
     await client.aclose()
     # Print the result
     print_result(out,args,email,start_time,websites)
+    credit()
     # Export results
     export_csv(out,args,email)
 
