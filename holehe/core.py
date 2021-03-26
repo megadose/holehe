@@ -30,7 +30,7 @@ except BaseException:
 
 DEBUG = False
 
-__version__ = "1.59.1.7"
+__version__ = "1.59.1.8"
 
 
 def import_submodules(package, recursive=True):
@@ -102,7 +102,6 @@ def print_result(data,args,email,start_time,websites):
             return(text)
 
     description = print_color("[+] Email used","green",args) + "," + print_color(" [-] Email not used", "magenta",args) + "," + print_color(" [x] Rate limit","red",args)
-    print("\033[H\033[J")
     print("*" * (len(email) + 6))
     print("   " + email)
     print("*" * (len(email) + 6))
