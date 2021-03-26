@@ -30,7 +30,7 @@ except BaseException:
 
 DEBUG = False
 
-__version__ = "1.59.2"
+__version__ = "1.59.2.1"
 
 
 def import_submodules(package, recursive=True):
@@ -102,7 +102,8 @@ def print_result(data,args,email,start_time,websites):
             return(text)
 
     description = print_color("[+] Email used","green",args) + "," + print_color(" [-] Email not used", "magenta",args) + "," + print_color(" [x] Rate limit","red",args)
-    print("\n")
+    if args.noclear==False:
+        print("\033[H\033[J")
     print("*" * (len(email) + 6))
     print("   " + email)
     print("*" * (len(email) + 6))
@@ -166,6 +167,8 @@ async def maincore():
                     help="Displays only the sites used by the target email address.")
     parser.add_argument("--no-color", default=False, required=False,action="store_true",dest="nocolor",
                     help="Don't color terminal output")
+    parser.add_argument("--no-clear", default=False, required=False,action="store_true",dest="noclear",
+                    help="Do not clear the terminal to display the results")
     parser.add_argument("-NP","--no-password-recovery", default=False, required=False,action="store_true",dest="nopasswordrecovery",
                     help="Don't color terminal output")
     parser.add_argument("-C","--csv", default=False, required=False,action="store_true",dest="csvoutput",
