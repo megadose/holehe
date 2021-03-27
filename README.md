@@ -6,6 +6,10 @@ holehe allows you to check if the mail is used on different sites like twitter, 
 
 ![](https://files.catbox.moe/5we2ya.png)
 
+
+<div align=center><p>aaaa</p></div>
+
+
 ![](https://github.com/megadose/gif-demo/raw/master/holehe-demo.gif)
 ## Project example : [Holehe Maltego](https://github.com/megadose/holehe-maltego)
 ## 💡 Prerequisite
@@ -75,7 +79,7 @@ The result of the modules is in this form : `` {name:"example","rateLimit":False
 - [socialscan](https://pypi.org/project/socialscan/)
 - [UhOh365](https://github.com/Raikia/UhOh365)
 - [soxoj](https://github.com/soxoj)
-- [mxrch](https://github.com/mxrch)
+- [mxrch](https://github.com/mxrch) (and for the logo)
 
 ## 📝 License
 
