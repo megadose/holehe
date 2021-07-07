@@ -40,7 +40,7 @@ holehe test@gmail.com
 import trio
 import httpx
 
-from holehe.modules.shopping.ebay import ebay
+from holehe.modules.shopping.snapchat import snapchat
 
 
 async def main():
@@ -48,7 +48,7 @@ async def main():
     out = []
     client = httpx.AsyncClient()
 
-    await ebay(email, client, out)
+    await snapchat(email, client, out)
 
     print(out)
     await client.aclose()
@@ -86,10 +86,12 @@ The result of the modules is in this form : `` {name:"example","rateLimit":False
 | aboutme             | about.me                               | register          | ✘               |
 | adobe               | adobe.com                              | password recovery | ✘               |
 | amazon              | amazon.com                             | login             | ✘               |
+| amocrm              | amocrm.com                             | register          | ✘               |
 | anydo               | any.do                                 | login             | ✔               |
 | archive             | archive.org                            | register          | ✘               |
 | armurerieauxerre    | armurerie-auxerre.com                  | register          | ✘               |
 | atlassian           | atlassian.com                          | register          | ✘               |
+| axonaut             | axonaut.com                            | register          | ✘               |
 | babeshows           | babeshows.co.uk                        | register          | ✘               |
 | badeggsonline       | badeggsonline.com                      | register          | ✘               |
 | biosmods            | bios-mods.com                          | register          | ✘               |
@@ -135,7 +137,9 @@ The result of the modules is in this form : `` {name:"example","rateLimit":False
 | github              | github.com                             | register          | ✘               |
 | google              | google.com                             | register          | ✘               |
 | gravatar            | gravatar.com                           | other             | ✘               |
+| hubspot             | hubspot.com                            | login             | ✘               |
 | imgur               | imgur.com                              | register          | ✔               |
+| insightly           | insightly.com                          | login             | ✘               |
 | instagram           | instagram.com                          | register          | ✔               |
 | issuu               | issuu.com                              | register          | ✘               |
 | koditv              | forum.kodi.tv                          | register          | ✘               |
@@ -151,6 +155,9 @@ The result of the modules is in this form : `` {name:"example","rateLimit":False
 | ndemiccreations     | forum.ndemiccreations.com              | register          | ✘               |
 | nextpvr             | forums.nextpvr.com                     | register          | ✘               |
 | nike                | nike.com                               | register          | ✘               |
+| nimble              | nimble.com                             | register          | ✘               |
+| nocrm               | nocrm.io                               | register          | ✘               |
+| nutshell            | nutshell.com                           | register          | ✘               |
 | odampublishing      | forum.odampublishing.com               | register          | ✘               |
 | odnoklassniki       | ok.ru                                  | password recovery | ✘               |
 | office365           | office365.com                          | other             | ✘               |
@@ -158,6 +165,7 @@ The result of the modules is in this form : `` {name:"example","rateLimit":False
 | parler              | parler.com                             | login             | ✘               |
 | patreon             | patreon.com                            | login             | ✔               |
 | pinterest           | pinterest.com                          | register          | ✘               |
+| pipedrive           | pipedrive.com                          | register          | ✘               |
 | plurk               | plurk.com                              | register          | ✘               |
 | pornhub             | pornhub.com                            | register          | ✘               |
 | protonmail          | protonmail.ch                          | other             | ✘               |
@@ -176,6 +184,7 @@ The result of the modules is in this form : `` {name:"example","rateLimit":False
 | spotify             | spotify.com                            | register          | ✔               |
 | strava              | strava.com                             | register          | ✘               |
 | taringa             | taringa.net                            | register          | ✔               |
+| teamleader          | teamleader.com                         | register          | ✘               |
 | teamtreehouse       | teamtreehouse.com                      | register          | ✘               |
 | tellonym            | tellonym.me                            | register          | ✘               |
 | thecardboard        | thecardboard.org                       | register          | ✘               |
@@ -195,3 +204,4 @@ The result of the modules is in this form : `` {name:"example","rateLimit":False
 | xing                | xing.com                               | register          | ✘               |
 | xvideos             | xvideos.com                            | register          | ✘               |
 | yahoo               | yahoo.com                              | login             | ✔               |
+| zoho                | zoho.com                               | login             | ✔               |

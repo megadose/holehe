@@ -5,3 +5,4 @@ __pycache__
 holehe.egg-info
 .idea
 venv
+test_module.py
