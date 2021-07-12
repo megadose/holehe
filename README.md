@@ -40,7 +40,7 @@ holehe test@gmail.com
 import trio
 import httpx
 
-from holehe.modules.shopping.snapchat import snapchat
+from holehe.modules.social_media.snapchat import snapchat
 
 
 async def main():
