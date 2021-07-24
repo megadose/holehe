@@ -60,7 +60,17 @@ trio.run(main)
 ![](https://github.com/megadose/gif-demo/raw/master/holehe-demo.gif)
 ## Module Output
 
-For each module, data is returned in a standard json with the following format : `` {name:"example","rateLimit":False,"exists":True,"emailrecovery":ex****e@gmail.com,"phoneNumber":'0************78","others":None}``
+For each module, data is returned in a standard dictionary with the following json-equivalent format : 
+```json 
+{
+  "name": "example",
+  "rateLimit": false,
+  "exists": true,
+  "emailrecovery": "ex****e@gmail.com",
+  "phoneNumber": "0************78",
+  "others": null
+}
+```
 
 - rateLitmit : Lets you know if you've been rate-limited.
 - exists : If an account exists for the email on that service. 
