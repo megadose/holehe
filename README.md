@@ -1,12 +1,15 @@
-# Holehe Educational purposes only
-![PyPI](https://img.shields.io/pypi/v/holehe) ![PyPI - Week](https://img.shields.io/pypi/dw/holehe) ![PyPI - Downloads](https://static.pepy.tech/badge/holehe) ![PyPI - License](https://img.shields.io/pypi/l/holehe)
-#### For BTC Donations : 1FHDM49QfZX6pJmhjLE5tB2K6CaTLMZpXZ
-### Holehe [does not alert the target email](https://github.com/megadose/holehe/issues/12)
-holehe allows you to check if the mail is used on different sites like twitter, instagram and will retrieve information on sites with the forgotten password function.
-
+# **Holehe OSINT - Registered Account Checking**
 ![](https://files.catbox.moe/5we2ya.png)
-![](https://github.com/megadose/gif-demo/raw/master/holehe-demo.gif)
-## Project example : [Holehe Maltego](https://github.com/megadose/holehe-maltego)
+![PyPI](https://img.shields.io/pypi/v/holehe) ![PyPI - Week](https://img.shields.io/pypi/dw/holehe) ![PyPI - Downloads](https://static.pepy.tech/badge/holehe) ![PyPI - License](https://img.shields.io/pypi/l/holehe)
+
+## **Summary** 
+
+Holehe checks if a given email is attached to a given account on sites like twitter, instagram, imgur and many others. Holehe retrieves information from these sites with the forgotten password function. **Holehe [does not alert the target email.](https://github.com/megadose/holehe/issues/12)**
+
+This repo is for educational purposes only. 
+
+For BTC Donations : 1FHDM49QfZX6pJmhjLE5tB2K6CaTLMZpXZ
+
 ## 💡 Prerequisite
 
    [Python 3](https://www.python.org/downloads/release/python-370/)
@@ -25,16 +28,15 @@ cd holehe/
 python3 setup.py install
 ```
 
-## 📚 Example
+## Quick Start
+
+Holehe can be run from the CLI and rapidly embedded within existing python applications. 
+### 📚 CLI Example
 
 ```bash
 holehe test@gmail.com
 ```
-
-
-### Rate limit, just change your IP
-
-## 📈 Example of use
+### 📈 Python Example
 
 ```python
 import trio
@@ -55,17 +57,22 @@ async def main():
 
 trio.run(main)
 ```
+![](https://github.com/megadose/gif-demo/raw/master/holehe-demo.gif)
+## Module Output
+
+For each module, data is returned in a standard json with the following format : `` {name:"example","rateLimit":False,"exists":True,"emailrecovery":ex****e@gmail.com,"phoneNumber":'0************78","others":None}``
+
+- rateLitmit : Lets you know if you've been rate-limited.
+- exists : If an account exists for the email on that service. 
+- emailrecovery : Sometimes partially obfuscated recovery emails are returned.
+- phoneNumber : Sometimes partially obfuscated recovery phone numbers are returned.
+- others : Any extra info. 
 
 
-## The output of the modules
+Rate limit? Change your IP.
 
-The result of the modules is in this form : `` {name:"example","rateLimit":False,"exists":True,"emailrecovery":ex****e@gmail.com,"phoneNumber":'0************78","others":None}``
 
-- rateLitmit : is to find out if you've been rate-limited
-- exists : know an account is associated with the mail
-- emailrecovery : it's a partial mail that can potentially be extracted from the mail entered on the module.
-- phoneNumber : it's a partial phone number that can potentially be extracted from the mail entered on the module.
-- others : is used for all information other
+## Maltego Transform : [Holehe Maltego](https://github.com/megadose/holehe-maltego)
 
 ## Thank you to :
 
