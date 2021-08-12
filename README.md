@@ -100,8 +100,8 @@ For BTC Donations : 1FHDM49QfZX6pJmhjLE5tB2K6CaTLMZpXZ
 
 Built for educational purposes only. 
 
-## Modules :
-| name                | domain                                 | method            | frequent_rate_limit |
+## Modules
+| Name                | Domain                                 | Method            | Frequent Rate Limit |
 | ------------------- | -------------------------------------- | ----------------- | ------------------- |
 | aboutme             | about.me                               | register          | ✘               |
 | adobe               | adobe.com                              | password recovery | ✘               |
