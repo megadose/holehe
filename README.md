@@ -1,19 +1,16 @@
-# **Holehe OSINT - Registered Account Checking**
+# **Holehe OSINT - Email to Registered Accounts**
 ![](https://files.catbox.moe/5we2ya.png)
 ![PyPI](https://img.shields.io/pypi/v/holehe) ![PyPI - Week](https://img.shields.io/pypi/dw/holehe) ![PyPI - Downloads](https://static.pepy.tech/badge/holehe) ![PyPI - License](https://img.shields.io/pypi/l/holehe)
 
 ## **Summary** 
 
-Holehe checks if a given email is attached to a given account on sites like twitter, instagram, imgur and many others. Holehe retrieves information from these sites with the forgotten password function. **Holehe [does not alert the target email.](https://github.com/megadose/holehe/issues/12)**
+*Efficiently finding registered accounts from emails.*
 
-This repo is for educational purposes only. 
+Holehe checks if an email is attached to an account on sites like twitter, instagram, imgur and more than 120 others. 
 
-For BTC Donations : 1FHDM49QfZX6pJmhjLE5tB2K6CaTLMZpXZ
-
-## 💡 Prerequisite
-
-   [Python 3](https://www.python.org/downloads/release/python-370/)
-
++ Retrieves information using the forgotten password function. 
++ **[Does not alert the target email.](https://github.com/megadose/holehe/issues/12)** 
++ Runs on [Python 3](https://www.python.org/downloads/release/python-370/).
 ## 🛠️ Installation
 
 ### With PyPI
@@ -93,12 +90,18 @@ Rate limit? Change your IP.
 - [soxoj](https://github.com/soxoj)
 - [mxrch](https://github.com/mxrch) (and for the logo)
 
+## Donations 
+
+For BTC Donations : 1FHDM49QfZX6pJmhjLE5tB2K6CaTLMZpXZ
+
 ## 📝 License
 
 [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.fr.html)
 
-## Modules :
-| name                | domain                                 | method            | frequent_rate_limit |
+Built for educational purposes only. 
+
+## Modules
+| Name                | Domain                                 | Method            | Frequent Rate Limit |
 | ------------------- | -------------------------------------- | ----------------- | ------------------- |
 | aboutme             | about.me                               | register          | ✘               |
 | adobe               | adobe.com                              | password recovery | ✘               |
