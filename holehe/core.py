@@ -30,7 +30,7 @@ except BaseException:
 
 DEBUG = False
 
-__version__ = "1.60"
+__version__ = "1.60.1"
 
 
 def import_submodules(package, recursive=True):
