@@ -2,14 +2,14 @@
 ![](https://files.catbox.moe/5we2ya.png)
 ![PyPI](https://img.shields.io/pypi/v/holehe) ![PyPI - Week](https://img.shields.io/pypi/dw/holehe) ![PyPI - Downloads](https://static.pepy.tech/badge/holehe) ![PyPI - License](https://img.shields.io/pypi/l/holehe)
 
-## **Summary** 
+## **Summary**
 
 *Efficiently finding registered accounts from emails.*
 
-Holehe checks if an email is attached to an account on sites like twitter, instagram, imgur and more than 120 others. 
+Holehe checks if an email is attached to an account on sites like twitter, instagram, imgur and more than 120 others.
 
-+ Retrieves information using the forgotten password function. 
-+ **[Does not alert the target email.](https://github.com/megadose/holehe/issues/12)** 
++ Retrieves information using the forgotten password function.
++ **[Does not alert the target email.](https://github.com/megadose/holehe/issues/12)**
 + Runs on [Python 3](https://www.python.org/downloads/release/python-370/).
 ## 🛠️ Installation
 
@@ -27,7 +27,7 @@ python3 setup.py install
 
 ## Quick Start
 
-Holehe can be run from the CLI and rapidly embedded within existing python applications. 
+Holehe can be run from the CLI and rapidly embedded within existing python applications.
 ### 📚 CLI Example
 
 ```bash
@@ -57,8 +57,8 @@ trio.run(main)
 ![](https://github.com/megadose/gif-demo/raw/master/holehe-demo.gif)
 ## Module Output
 
-For each module, data is returned in a standard dictionary with the following json-equivalent format : 
-```json 
+For each module, data is returned in a standard dictionary with the following json-equivalent format :
+```json
 {
   "name": "example",
   "rateLimit": false,
@@ -70,10 +70,10 @@ For each module, data is returned in a standard dictionary with the following js
 ```
 
 - rateLitmit : Lets you know if you've been rate-limited.
-- exists : If an account exists for the email on that service. 
+- exists : If an account exists for the email on that service.
 - emailrecovery : Sometimes partially obfuscated recovery emails are returned.
 - phoneNumber : Sometimes partially obfuscated recovery phone numbers are returned.
-- others : Any extra info. 
+- others : Any extra info.
 
 
 Rate limit? Change your IP.
@@ -90,7 +90,7 @@ Rate limit? Change your IP.
 - [soxoj](https://github.com/soxoj)
 - [mxrch](https://github.com/mxrch) (and for the logo)
 
-## Donations 
+## Donations
 
 For BTC Donations : 1FHDM49QfZX6pJmhjLE5tB2K6CaTLMZpXZ
 
@@ -98,7 +98,7 @@ For BTC Donations : 1FHDM49QfZX6pJmhjLE5tB2K6CaTLMZpXZ
 
 [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.fr.html)
 
-Built for educational purposes only. 
+Built for educational purposes only.
 
 ## Modules
 | Name                | Domain                                 | Method            | Frequent Rate Limit |
@@ -193,7 +193,7 @@ Built for educational purposes only.
 | raidforums          | raidforums.com                         | register          | ✔               |
 | rambler             | rambler.ru                             | register          | ✘               |
 | redtube             | redtube.com                            | register          | ✘               |
-| replit              | repl.it                                | register          | ✔               |
+| replit              | replit.com                             | register          | ✔               |
 | rocketreach         | rocketreach.co                         | register          | ✘               |
 | samsung             | samsung.com                            | register          | ✘               |
 | seoclerks           | seoclerks.com                          | register          | ✘               |
