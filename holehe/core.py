@@ -28,7 +28,8 @@ except BaseException:
     import http.cookiejar as cookielib
 
 
-DEBUG = False
+DEBUG        = False
+EMAIL_FORMAT = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
 
 __version__ = "1.60.2"
 
@@ -90,10 +91,17 @@ def credit():
     print('Github : https://github.com/megadose/holehe')
     print('For BTC Donations : 1FHDM49QfZX6pJmhjLE5tB2K6CaTLMZpXZ')
 
-def check_if_email(email):
-    """Check if len < 5"""
-    if len(email) < 5:
-        exit("[-] Please enter a target email ! \nExample : holehe email@example.com")
+def is_email(email: str) -> bool:
+    """Check if the input is a valid email address
+
+    Keyword Arguments:
+    email       -- String to be tested
+
+    Return Value:
+    Boolean     -- True if string is an email, False otherwise
+    """
+
+    return bool(re.fullmatch(EMAIL_FORMAT, email))
 
 def print_result(data,args,email,start_time,websites):
     def print_color(text,color,args):
@@ -183,7 +191,9 @@ async def maincore():
     args = parser.parse_args()
     credit()
     email=args.email[0]
-    check_if_email(email)
+
+    if not is_email(email):
+        exit("[-] Please enter a target email ! \nExample : holehe email@example.com")
 
     # Import Modules
     modules = import_submodules("holehe.modules")
