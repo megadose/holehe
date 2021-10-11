@@ -5,7 +5,7 @@ async def apple(email, client, out):
     name = "apple"
     domain = "apple.com"
     method= "password recovery"
-    frequent_rate_limit=False
+    frequent_rate_limit=True
 
     
     headers = {
