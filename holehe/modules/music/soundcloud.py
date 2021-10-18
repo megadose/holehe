@@ -1,10 +1,6 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
-#fonctionne avec torrequests
-#aucun rate limit atteint après 850 requetes consécutive, y compris en les envoyant avec torrequests
-#la réponse le rate limit est retournée si la réponse json ne corresponds pas au format de réponse de l'API (ligne 34, et ce n'est jamais arrivé)
-
 async def soundcloud(email, client, out):
     name = "soundcloud"
     domain = "soundcloud.com"
