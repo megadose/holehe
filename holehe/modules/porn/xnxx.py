@@ -1,14 +1,6 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
-#fonctionne avec torrequests
-#rate limit atteint après ~60 requêtes
-#l'API renvoi une réponse 200 en permanence y compris avec le rate limit enclenché
-# - le rate limit est handle à la ligne 61
-#lorsqu'un email est prit (ligne 37), la réponse indique que le mail est soit utilisé, ou que son propriétaire l'a exclu du site
-#   bien que je n'ai rien trouvé en ligne sur comment exclure son email de xnxx, si l'API le dit c'est peut-être envisageable,
-#   et la réponse donnerai donc un résultat d'existence pas forcément valide, mais plutôt qui atteste d'une interaction avec cet email
-
 async def xnxx(email, client, out):
     name = "xnxx"
     domain = "xnxx.com"
