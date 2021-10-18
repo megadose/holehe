@@ -64,7 +64,7 @@ For each module, data is returned in a standard dictionary with the following js
   "rateLimit": false,
   "exists": true,
   "emailrecovery": "ex****e@gmail.com",
-  "phoneNumber": "0************78",
+  "phoneNumber": "0*******78",
   "others": null
 }
 ```
@@ -89,6 +89,7 @@ Rate limit? Change your IP.
 - [UhOh365](https://github.com/Raikia/UhOh365)
 - [soxoj](https://github.com/soxoj)
 - [mxrch](https://github.com/mxrch) (and for the logo)
+- [novitae](https://github.com/novitae)
 
 ## Donations
 
@@ -200,6 +201,7 @@ Built for educational purposes only.
 | sevencups           | 7cups.com                              | register          | ✔               |
 | smule               | smule.com                              | register          | ✔               |
 | snapchat            | snapchat.com                           | login             | ✘               |
+| soundcloud          | soundcloud.com                         | register          | ✘               |
 | sporcle             | sporcle.com                            | register          | ✘               |
 | spotify             | spotify.com                            | register          | ✔               |
 | strava              | strava.com                             | register          | ✘               |
@@ -222,6 +224,7 @@ Built for educational purposes only.
 | wattpad             | wattpad.com                            | register          | ✔               |
 | wordpress           | wordpress                              | login             | ✘               |
 | xing                | xing.com                               | register          | ✘               |
+| xnxx                | xnxx.com                               | register          | ✔               |
 | xvideos             | xvideos.com                            | register          | ✘               |
 | yahoo               | yahoo.com                              | login             | ✔               |
 | zoho                | zoho.com                               | login             | ✔               |
