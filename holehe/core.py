@@ -31,7 +31,7 @@ except BaseException:
 DEBUG        = False
 EMAIL_FORMAT = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
 
-__version__ = "1.60.2"
+__version__ = "1.60.3"
 
 
 def import_submodules(package, recursive=True):
