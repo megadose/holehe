@@ -181,7 +181,7 @@ Built for educational purposes only.
 | nutshell            | nutshell.com                           | register          | ✘               |
 | odampublishing      | forum.odampublishing.com               | register          | ✘               |
 | odnoklassniki       | ok.ru                                  | password recovery | ✘               |
-| office365           | office365.com                          | other             | ✘               |
+| office365           | office365.com                          | other             | ✔               |
 | onlinesequencer     | onlinesequencer.net                    | register          | ✘               |
 | parler              | parler.com                             | login             | ✘               |
 | patreon             | patreon.com                            | login             | ✔               |
