@@ -20,6 +20,7 @@ async def gravatar(email, client, out):
         return None
     else:
         try:
+            data = r.json()
             FullName = data['entry'][0]['displayName']
 
             others = {
