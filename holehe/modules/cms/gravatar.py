@@ -4,12 +4,12 @@ from holehe.localuseragent import *
 
 async def gravatar(email, client, out):
     name = "gravatar"
-    domain = "gravatar.com"
+    domain = "en.gravatar.com"
     method="other"
     frequent_rate_limit=False
 
     hashed_name = hashlib.md5(email.encode()).hexdigest()
-    r = await client.get(f'https://gravatar.com/{hashed_name}.json')
+    r = await client.get(f'https://en.gravatar.com/{hashed_name}.json')
     if r.status_code != 200:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
@@ -20,7 +20,6 @@ async def gravatar(email, client, out):
         return None
     else:
         try:
-            data = r.json()
             FullName = data['entry'][0]['displayName']
 
             others = {
