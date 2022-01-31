@@ -181,7 +181,7 @@ async def maincore():
     parser.add_argument("--no-clear", default=False, required=False,action="store_true",dest="noclear",
                     help="Do not clear the terminal to display the results")
     parser.add_argument("-NP","--no-password-recovery", default=False, required=False,action="store_true",dest="nopasswordrecovery",
-                    help="Don't color terminal output")
+                    help="Do not try password recovery on the websites")
     parser.add_argument("-C","--csv", default=False, required=False,action="store_true",dest="csvoutput",
                     help="Create a CSV with the results")
     parser.add_argument("-T","--timeout", default=10, required=False,dest="timeout",
