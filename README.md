@@ -115,6 +115,7 @@ Built for educational purposes only.
 | axonaut             | axonaut.com                            | register          | ✘               |
 | babeshows           | babeshows.co.uk                        | register          | ✘               |
 | badeggsonline       | badeggsonline.com                      | register          | ✘               |
+| belongesports       | belong.gg                              | register          | ✘               |
 | biosmods            | bios-mods.com                          | register          | ✘               |
 | biotechnologyforums | biotechnologyforums.com                | register          | ✘               |
 | bitmoji             | bitmoji.com                            | login             | ✘               |
@@ -183,6 +184,7 @@ Built for educational purposes only.
 | odnoklassniki       | ok.ru                                  | password recovery | ✘               |
 | office365           | office365.com                          | other             | ✔               |
 | onlinesequencer     | onlinesequencer.net                    | register          | ✘               |
+| osu                 | osu.ppy.sh                             | register          | ✘               |
 | parler              | parler.com                             | login             | ✘               |
 | patreon             | patreon.com                            | login             | ✔               |
 | pinterest           | pinterest.com                          | register          | ✘               |
