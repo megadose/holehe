@@ -24,7 +24,7 @@ async def eventbrite(email, client, out):
         req = await client.get("https://www.eventbrite.com/signin/?referrer=%2F", headers=headers)
         csrf_token = req.cookies["csrftoken"]
 
-    except:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
@@ -62,7 +62,7 @@ async def eventbrite(email, client, out):
                             "emailrecovery": None,
                             "phoneNumber": None,
                             "others": None})
-        except BaseException:
+        except Exception:
             out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": True,
                         "exists": False,

@@ -28,7 +28,7 @@ async def mail_ru(email, client, out):
             'https://account.mail.ru/api/v1/user/password/restore',
             headers=headers,
             data=data)
-    except:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
@@ -56,7 +56,7 @@ async def mail_ru(email, client, out):
                             "emailrecovery": None,
                             "phoneNumber": None,
                             "others": None})
-        except BaseException:
+        except Exception:
             out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": True,
                         "exists": False,

@@ -18,7 +18,7 @@ async def diigo(email, client, out):
     }
     try:
         await client.get("https://www.diigo.com/sign-up?plan=free", headers=headers)
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
@@ -33,7 +33,7 @@ async def diigo(email, client, out):
     }
     try:
         response = await client.get('https://www.diigo.com/user_mana2/check_email', headers=headers, params=params)
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

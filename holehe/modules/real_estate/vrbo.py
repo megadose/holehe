@@ -27,7 +27,7 @@ async def vrbo(email, client, out):
             headers=headers,
             data=data)
         response = response.json()
-    except :
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

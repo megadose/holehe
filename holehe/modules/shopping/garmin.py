@@ -58,7 +58,7 @@ async def garmin(email, client, out):
 
     try:
         req = await client.get('https://sso.garmin.com/sso/createNewAccount', headers=headers, params=params)
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
@@ -68,7 +68,7 @@ async def garmin(email, client, out):
         return None
     try:
         token = req.text.split('"token": "')[1].split('"')[0]
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

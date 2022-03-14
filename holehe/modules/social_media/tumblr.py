@@ -90,8 +90,8 @@ async def tumblr(email, client, out):
 
         else: #429 {"meta":{"status":429,"msg":"Limit Exceeded"},"response":[]}
             raise Exception("xc")
-    
-    except:
+
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

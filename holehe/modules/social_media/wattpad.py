@@ -19,7 +19,7 @@ async def wattpad(email, client, out):
     try:
 
         await client.get("https://www.wattpad.com", headers=headers)
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

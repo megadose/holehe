@@ -27,7 +27,7 @@ async def codepen(email, client, out):
         soup = BeautifulSoup(req.content, features="html.parser")
         token = soup.find(attrs={"name": "csrf-token"}).get("content")
         headers["X-CSRF-Token"] = token
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

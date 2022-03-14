@@ -28,7 +28,7 @@ async def google(email, client, out):
     try:
         freq = req.text.split('quot;,null,null,null,&quot;')[
             1].split('&quot')[0]
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

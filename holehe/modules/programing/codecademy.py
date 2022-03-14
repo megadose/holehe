@@ -26,7 +26,7 @@ async def codecademy(email, client, out):
     try:
         headers["X-CSRF-Token"] = soup.find(
             attrs={"name": "csrf-token"}).get("content")
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

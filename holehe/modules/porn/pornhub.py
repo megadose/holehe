@@ -18,7 +18,7 @@ async def pornhub(email, client, out):
     }
     try:
         req = await client.get("https://www.pornhub.com/signup", headers=headers)
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
@@ -29,7 +29,7 @@ async def pornhub(email, client, out):
     soup = BeautifulSoup(req.content, features="html.parser")
     try:
         toe = soup.find(attrs={"name": "token"}).get("value")
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
@@ -67,7 +67,7 @@ async def pornhub(email, client, out):
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

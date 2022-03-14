@@ -20,7 +20,7 @@ async def instagram(email, client, out):
     try:
         freq = await client.get("https://www.instagram.com/accounts/emailsignup/", headers=headers)
         token = freq.text.split('{"config":{"csrf_token":"')[1].split('"')[0]
-    except:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

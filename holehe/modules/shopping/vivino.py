@@ -49,7 +49,7 @@ async def vivino(email, client, out):
                             "phoneNumber": None,
                             "others": None})
 
-    except:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

@@ -11,7 +11,7 @@ async def aboutme(email, client, out):
     try:
         reqToken = await client.get("https://about.me/signup", headers={'User-Agent': random.choice(
             ua["browsers"]["firefox"])})
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

@@ -24,7 +24,7 @@ async def smule(email, client, out):
             r.text.split(
                 'authenticity_token" name="csrf-param" />\n<meta content="')
             [1]).split('"')[0]
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
