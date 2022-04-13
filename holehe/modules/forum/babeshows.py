@@ -21,7 +21,7 @@ async def babeshows(email, client, out):
     }
     try:
         r = await client.get("https://www.babeshows.co.uk/member.php", headers=headers)
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
@@ -48,7 +48,7 @@ async def babeshows(email, client, out):
             'email': email,
             'my_post_key': r.text.split('var my_post_key = "')[1].split('"')[0]
         }
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
@@ -58,7 +58,7 @@ async def babeshows(email, client, out):
         return None
     try:
         response = await client.post('https://www.babeshows.co.uk/xmlhttp.php', headers=headers, params=params, data=data)
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

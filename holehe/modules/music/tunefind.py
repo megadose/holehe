@@ -19,7 +19,7 @@ async def tunefind(email, client, out):
     r = await client.get("https://www.tunefind.com/user/join", headers=headers)
     try:
         crsf_token = r.text.split('"csrf-token" content="')[1].split('"')[0]
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

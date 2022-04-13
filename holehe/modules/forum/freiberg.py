@@ -30,7 +30,7 @@ async def freiberg(email, client, out):
                         "others": None})
             return None
 
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
@@ -49,7 +49,7 @@ async def freiberg(email, client, out):
             'email': email,
             'my_post_key': r.text.split('var my_post_key = "')[1].split('"')[0]
         }
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

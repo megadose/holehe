@@ -24,10 +24,10 @@ async def protonmail(email, client, out):
             regexPattern3 = "22::(.*)::" #X25519 (Modern, fastest, secure)
             try:
                 timestamp = int(re.search(regexPattern1, response.text).group(1))
-            except:
+            except Exception:
                 try:
                     timestamp = int(re.search(regexPattern2, response.text).group(1))
-                except :
+                except Exception:
                     timestamp = int(re.search(regexPattern3, response.text).group(1))
             dtObject = datetime.fromtimestamp(timestamp)
             out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
@@ -43,7 +43,7 @@ async def protonmail(email, client, out):
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
-    except :
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

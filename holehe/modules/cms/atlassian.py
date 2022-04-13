@@ -22,7 +22,7 @@ async def atlassian(email, client, out):
         r = await client.get("https://id.atlassian.com/login", headers=headers)
         data = {'csrfToken': r.text.split('{&quot;csrfToken&quot;:&quot;')[
             1].split('&quot')[0], 'username': email}
-    except :
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

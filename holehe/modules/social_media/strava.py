@@ -21,7 +21,7 @@ async def strava(email, client, out):
     try:
         headers['X-CSRF-Token'] = r.text.split(
             '<meta name="csrf-token" content="')[1].split('"')[0]
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

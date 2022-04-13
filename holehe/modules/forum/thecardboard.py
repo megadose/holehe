@@ -21,7 +21,7 @@ async def thecardboard(email, client, out):
     }
     try:
         r = await client.get("https://thecardboard.org/board/member.php", headers=headers)
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
@@ -47,7 +47,7 @@ async def thecardboard(email, client, out):
             'email': email,
             'my_post_key': r.text.split('var my_post_key = "')[1].split('"')[0]
         }
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
@@ -57,7 +57,7 @@ async def thecardboard(email, client, out):
         return None
     try:
         response = await client.post('https://thecardboard.org/board/xmlhttp.php', headers=headers, params=params, data=data)
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

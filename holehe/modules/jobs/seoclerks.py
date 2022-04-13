@@ -24,7 +24,7 @@ async def seoclerks(email, client, out):
             token = r.text.split('token" value="')[1].split('"')[0]
         if "__cr" in r.text:
             cr = r.text.split('__cr" value="')[1].split('"')[0]
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

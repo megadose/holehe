@@ -22,7 +22,7 @@ async def venmo(email, client, out):
     await client.get("https://venmo.com/signup/email", headers=headers)
     try:
         headers["device-id"] = s.cookies["v_id"]
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

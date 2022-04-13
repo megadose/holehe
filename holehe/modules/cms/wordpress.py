@@ -31,7 +31,7 @@ async def wordpress(email, client, out):
     }
     try:
         response = await client.get('https://public-api.wordpress.com/rest/v1.1/users/' + email + '/auth-options', headers=headers, params=params, cookies=cookies)
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

@@ -11,7 +11,7 @@ async def lastfm(email, client, out):
     try:
         req = await client.get("https://www.last.fm/join")
         token = req.cookies["csrftoken"]
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
@@ -30,7 +30,7 @@ async def lastfm(email, client, out):
     try:
 
         check = await client.post("https://www.last.fm/join/partial/validate", headers=headers, data=data)
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

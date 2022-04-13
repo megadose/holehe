@@ -22,7 +22,7 @@ async def quora(email, client, out):
         r = await client.get("https://fr.quora.com", headers=headers)
         revision = r.text.split('revision": "')[1].split('"')[0]
         formkey = r.text.split('formkey": "')[1].split('"')[0]
-    except:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
@@ -54,7 +54,7 @@ async def quora(email, client, out):
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

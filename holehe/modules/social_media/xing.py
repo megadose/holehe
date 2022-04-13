@@ -18,7 +18,7 @@ async def xing(email, client, out):
     }
     try:
         response = await client.get("https://www.xing.com/start/signup?registration=1", headers=headers)
-    except :
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
@@ -57,7 +57,7 @@ async def xing(email, client, out):
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

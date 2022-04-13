@@ -6,3 +6,6 @@ holehe.egg-info
 .idea
 venv
 test_module.py
+build/
+dist/
+.python-version

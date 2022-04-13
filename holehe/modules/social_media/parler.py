@@ -32,7 +32,7 @@ async def parler(email, client, out):
         ',"password":"invalidpasswordfortest","deviceId":"' + get_random_string(16) + '"}'
     try:
         response = await client.post(url, data=data, headers=headers)
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

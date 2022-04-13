@@ -29,7 +29,7 @@ async def blablacar(email, client, out):
             headers=headers)
         appToken = appToken.text.split(',"appToken":"')[1].split('"')[0]
 
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
@@ -43,7 +43,7 @@ async def blablacar(email, client, out):
     }
     try:
         headers["Authorization"] = 'Bearer ' + appToken
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

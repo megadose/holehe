@@ -31,7 +31,7 @@ async def devrant(email, client, out):
     }
     try:
         response = await client.post('https://devrant.com/api/users', headers=headers, data=data)
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

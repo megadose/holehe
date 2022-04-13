@@ -34,7 +34,7 @@ async def caringbridge(email, client, out):
     }
     try:
         response = await client.post('https://www.caringbridge.org/signin', headers=headers, cookies=cookies, data=data, timeout=3)
-    except :
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

@@ -49,7 +49,7 @@ async def voxmedia(email, client, out):
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,

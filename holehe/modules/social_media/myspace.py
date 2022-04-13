@@ -19,7 +19,7 @@ async def myspace(email, client, out):
     }
     try:
         r = await client.get("https://myspace.com/signup/email", headers=headers,timeout=2)
-    except :
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
@@ -31,7 +31,7 @@ async def myspace(email, client, out):
     try:
         headers['Hash'] = r.text.split('<input name="csrf" type="hidden" value="')[
             1].split('"')[0]
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
@@ -61,7 +61,7 @@ async def myspace(email, client, out):
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
-    except BaseException:
+    except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
