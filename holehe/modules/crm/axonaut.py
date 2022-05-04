@@ -22,7 +22,7 @@ async def axonaut(email, client, out):
     }
 
 
-    response = await client.get('https://axonaut.com/onboarding/?email='+email, headers=headers,allow_redirects=False)
+    response = await client.get('https://axonaut.com/onboarding/?email='+email, headers=headers,follow_redirects=False)
 
     if response.status_code == 302 and "/login?email" in str(response.headers['Location']):
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
