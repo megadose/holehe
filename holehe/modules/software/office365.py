@@ -18,13 +18,13 @@ async def office365(email, client, out):
         'https://outlook.office365.com/autodiscover/autodiscover.json/v1.0/{}?Protocol=Autodiscoverv1'.format(
             get_random_string(30)+"@"+email.split('@')[1]),
         headers=headers,
-        allow_redirects=False)
+        follow_redirects=False)
     if r.status_code != 200:
         r = await client.get(
             'https://outlook.office365.com/autodiscover/autodiscover.json/v1.0/{}?Protocol=Autodiscoverv1'.format(
                 email),
             headers=headers,
-            allow_redirects=False)
+            follow_redirects=False)
         if r.status_code == 200:
             out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
