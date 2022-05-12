@@ -55,7 +55,7 @@ def get_functions(modules,args=None):
         if len(module.split(".")) > 3 :
             modu = modules[module]
             site = module.split(".")[-1]
-            if args !=None and args.nopasswordrecovery==True:
+            if args is not None and args.nopasswordrecovery==True:
                 if  "adobe" not in str(modu.__dict__[site]) and "mail_ru" not in str(modu.__dict__[site]) and "odnoklassniki" not in str(modu.__dict__[site]):
                     websites.append(modu.__dict__[site])
             else:
