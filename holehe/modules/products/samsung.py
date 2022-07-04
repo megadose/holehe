@@ -5,7 +5,7 @@ from holehe.localuseragent import *
 async def samsung(email, client, out):
     name = "samsung"
     domain = "samsung.com"
-    method = "register"
+    method = "password recovery"
     frequent_rate_limit=False
 
     req = await client.get(
@@ -46,11 +46,12 @@ async def samsung(email, client, out):
     #print(data)
     if response.status_code == 200:
         if "rtnCd" in data.keys() and "INAPPROPRIATE_CHARACTERS" not in response.text and "accounts aren't supported." not in response.text:
+            phone_number = await get_phone_number(email, client, cookies, headers)
             out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": True,
                         "emailrecovery": None,
-                        "phoneNumber": None,
+                        "phoneNumber": phone_number,
                         "others": None})
         else:
             out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
@@ -66,3 +67,36 @@ async def samsung(email, client, out):
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
+
+
+async def get_phone_number(email, client, cookies, headers):
+    phone_number_pattern = re.compile(r'(\d{4}[*]{2}\d{2}[*]{2}\d{2})')
+
+    headers['Referer'] = 'https://account.samsung.com/accounts/v1/DCGLIT/resetPassword'
+    params = {'v': random.randrange(int(1.5E12), int(2E12))}
+    data = {"signUpID": email, "signUpIDType": "003"}
+
+    response = await client.post(
+        'https://account.samsung.com/accounts/v1/DCGLIT/resetPasswordProc',
+        headers=headers,
+        params=params,
+        cookies=cookies,
+        json=data)
+    data = response.json()
+
+    phone_number = None
+    if data['rtnCd'] == 'NEXT':
+        req = await client.get('https://account.samsung.com' + data["nextURL"], headers=headers, cookies=cookies)
+        if found := re.search(phone_number_pattern, req.text):
+            phone_number = found.group()
+        elif 'btnResetPasswordWithRecovery' in req.text:
+            response = await client.post("https://account.samsung.com/accounts/v1/DCGLIT/resetPasswordWithRecoveryProc",
+                                         headers=headers, params=params, cookies=cookies)
+            if response.status_code == 200:
+                data = response.json()
+                if data['rtnCd'] == 'NEXT':
+                    req = await client.get('https://account.samsung.com' + data["nextURL"], headers=headers, cookies=cookies)
+                    if found := re.search(phone_number_pattern, req.text):
+                        phone_number = found.group()
+
+    return phone_number
