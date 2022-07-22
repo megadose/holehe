@@ -168,6 +168,7 @@ Built for educational purposes only.
 | laposte             | laposte.fr                             | register          | ✘               |
 | lastfm              | last.fm                                | register          | ✘               |
 | lastpass            | lastpass.com                           | register          | ✘               |
+| lemonde             | lemonde.fr                             | register          | ✔               | 
 | mail_ru             | mail.ru                                | password recovery | ✘               |
 | mybb                | community.mybb.com                     | register          | ✘               |
 | myspace             | myspace.com                            | register          | ✘               |
