@@ -27,7 +27,7 @@ async def blablacar(email, client, out):
         appToken = await client.get(
             "https://www.blablacar.fr/register",
             headers=headers)
-        appToken = appToken.text.split(',"appToken":"')[1].split('"')[0]
+        appToken = appToken.text.split('"appToken":"')[1].split('"')[0]
 
     except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
