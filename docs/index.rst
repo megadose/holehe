@@ -10,8 +10,9 @@ Welcome to holehe's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   autoapi/index
    summary
+   installation
+   autoapi/index
 
 
 
