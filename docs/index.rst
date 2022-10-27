@@ -12,6 +12,9 @@ Welcome to holehe's documentation!
 
    summary
    installation
+   modules
+   donations
+   license
    autoapi/index
 
 
