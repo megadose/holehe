@@ -19,7 +19,7 @@ async def instagram(email, client, out):
 
     try:
         freq = await client.get("https://www.instagram.com/accounts/emailsignup/", headers=headers)
-        token = freq.text.split('{"config":{"csrf_token":"')[1].split('"')[0]
+        token = freq.text.split('{\\"config\\":{\\"csrf_token\\":\\"')[1].split('\\"')[0]
     except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
@@ -31,13 +31,13 @@ async def instagram(email, client, out):
 
     data = {
         'email': email,
-        'username': '',
+        'username': 'not_existing_user_not_existing_user_not_existing_user',
         'first_name': '',
         'opt_into_one_tap': 'false'
     }
     headers["x-csrftoken"] = token
     check = await client.post(
-        "https://www.instagram.com/accounts/web_create_ajax/attempt/",
+        "https://www.instagram.com/api/v1/web/accounts/web_create_ajax/attempt/",
         data=data,
         headers=headers)
     check = check.json()
