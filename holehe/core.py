@@ -184,7 +184,7 @@ async def maincore():
                     help="Do not try password recovery on the websites")
     parser.add_argument("-C","--csv", default=False, required=False,action="store_true",dest="csvoutput",
                     help="Create a CSV with the results")
-    parser.add_argument("-T","--timeout", default=10, required=False,dest="timeout",
+    parser.add_argument("-T","--timeout", type=int , default=10, required=False,dest="timeout",
                     help="Set max timeout value (default 10)")
 
     check_update()
