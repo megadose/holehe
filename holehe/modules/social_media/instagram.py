@@ -1,7 +1,6 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
-
 async def instagram(email, client, out):
     name = "instagram"
     domain = "instagram.com"
@@ -31,7 +30,7 @@ async def instagram(email, client, out):
 
     data = {
         'email': email,
-        'username': 'not_existing_user_not_existing_user_not_existing_user',
+        'username': ''.join(random.choice(string.ascii_lowercase + string.digits) for i in range(random.randint(6, 30))),
         'first_name': '',
         'opt_into_one_tap': 'false'
     }
