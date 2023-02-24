@@ -17,6 +17,23 @@ async def rocketreach(email, client, out):
         'Connection': 'keep-alive',
         'TE': 'Trailers',
     }
+
+    try:
+        response = await client.get("https://rocketreach.co/signup")
+
+        token =  re.search(r'name="csrfmiddlewaretoken" value="(.*)"', response.text).group(1)
+        headers["x-csrftoken"] = token
+
+    
+    except Exception:
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
+        return()
+
     try:
         r = await client.get('https://rocketreach.co/v1/validateEmail?email_address='+email, headers=headers)
     except Exception:
