@@ -1,6 +1,7 @@
 from holehe.core import *
 from holehe.localuseragent import *
 
+
 async def instagram(email, client, out):
     name = "instagram"
     domain = "instagram.com"
