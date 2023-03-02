@@ -21,7 +21,6 @@ async def autodropship(email, client, out):
 
 	try:
 		response = await client.post("https://v2-api.autods.com/users/check-email/", headers=headers, json=data)
-		print(response.json())
 		if "UserNotFound" in response.json():
 			out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
 						"rateLimit": False,
