@@ -152,6 +152,7 @@ Built for educational purposes only.
 | fanpop              | fanpop.com                             | register          | ✘               |
 | firefox             | firefox.com                            | register          | ✘               |
 | flickr              | flickr.com                             | login             | ✘               |
+| fotka               | fotka.com                              | login             | ✔               |
 | freelancer          | freelancer.com                         | register          | ✘               |
 | freiberg            | drachenhort.user.stunet.tu-freiberg.de | register          | ✘               |
 | garmin              | garmin.com                             | register          | ✔               |
