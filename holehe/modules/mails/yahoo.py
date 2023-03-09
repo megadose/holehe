@@ -82,6 +82,13 @@ async def yahoo(email, client, out):
                             "emailrecovery": None,
                             "phoneNumber": None,
                             "others": None})
+        elif "location" in response.keys():
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
+                            "rateLimit": False,
+                            "exists": False,
+                            "emailrecovery": None,
+                            "phoneNumber": None,
+                            "others": None})
         else:
             out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": True,
