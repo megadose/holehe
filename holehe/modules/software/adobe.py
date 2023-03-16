@@ -24,12 +24,10 @@ async def adobe(email, client, out):
         r = await client.post(
             'https://auth.services.adobe.com/signin/v1/authenticationstate',
             headers=headers,
-            json=data)
-                
-        headers['X-IMS-Authentication-State-Encrypted'] = r.headers['x-ims-authentication-state-encrypted']
+            json=data)        
     
-        r = r.json()
-        if "errorCode" in str(r.keys()):
+        j = r.json()
+        if "errorCode" in str(j.keys()):
             out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": False,
@@ -37,6 +35,8 @@ async def adobe(email, client, out):
                         "phoneNumber": None,
                         "others": None})
             return None
+        
+        headers['X-IMS-Authentication-State-Encrypted'] = r.headers['x-ims-authentication-state-encrypted']
         params = {
             'purpose': 'passwordRecovery',
         }
