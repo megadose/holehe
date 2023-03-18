@@ -15,22 +15,13 @@ async def diigo(email, client, out):
         'DNT': '1',
         'Connection': 'keep-alive',
         'Referer': 'https://www.diigo.com/sign-up?plan=free',
+        'X-Requested-With': 'XMLHttpRequest'
     }
-    try:
-        await client.get("https://www.diigo.com/sign-up?plan=free", headers=headers)
-    except Exception:
-        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
-                    "rateLimit": True,
-                    "exists": False,
-                    "emailrecovery": None,
-                    "phoneNumber": None,
-                    "others": None})
-
-    headers["X-Requested-With"] = 'XMLHttpRequest'
 
     params = {
         'email': email,
     }
+    
     try:
         response = await client.get('https://www.diigo.com/user_mana2/check_email', headers=headers, params=params)
     except Exception:
@@ -63,3 +54,4 @@ async def diigo(email, client, out):
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
+
