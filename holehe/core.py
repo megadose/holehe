@@ -123,7 +123,8 @@ def print_result(data,args,email,start_time,websites):
         if results["rateLimit"] and args.onlyused == False:
             websiteprint = print_color("[x] " + results["domain"], "yellow",args)
             print(websiteprint)
-        elif "error" in results.keys() and results["error"] and args.onlyused == False: #sprawdzić co to za argi
+        elif "error" in results.keys() and results["error"] and args.onlyused == False:
+            toprint = ""
             if results["others"] is not None and "Message" in str(results["others"].keys()):
                 toprint = " Error message: " + results["others"]["errorMessage"]
             websiteprint = print_color("[!] " + results["domain"] + toprint, "red",args)
