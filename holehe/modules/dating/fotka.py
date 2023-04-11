@@ -29,12 +29,12 @@ async def fotka(email, client, out):
     location = response.headers['location']
 
     if 'error=-2' in location:
-        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit, 
                     "rateLimit": False,
                     "exists": True,
                     "emailrecovery": None,
                     "phoneNumber": None,
-                    "others": "Multiple accounts found"})
+                    "others": None}) # multiple accounts found
     elif 'error=-9' in location or 'error=-7' in location:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
