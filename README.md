@@ -142,6 +142,7 @@ Built for educational purposes only.
 | deliveroo           | deliveroo.com                          | register          | ✔               |
 | demonforums         | demonforums.net                        | register          | ✔               |
 | devrant             | devrant.com                            | register          | ✘               |
+| deezer              | deezer.com                             | register          | ✘               |
 | diigo               | diigo.com                              | register          | ✘               |
 | discord             | discord.com                            | register          | ✘               |
 | docker              | docker.com                             | register          | ✘               |
