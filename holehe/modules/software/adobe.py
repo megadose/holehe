@@ -19,14 +19,15 @@ async def adobe(email, client, out):
         'Connection': 'keep-alive',
     }
 
-    data = '{"username":"' + email + '","accountType":"individual"}'
+    data = {"username": email ,"accountType":"individual"}
     try:
         r = await client.post(
             'https://auth.services.adobe.com/signin/v1/authenticationstate',
             headers=headers,
-            data=data)
-        r = r.json()
-        if "errorCode" in str(r.keys()):
+            json=data)        
+    
+        j = r.json()
+        if "errorCode" in str(j.keys()):
             out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": False,
@@ -34,7 +35,8 @@ async def adobe(email, client, out):
                         "phoneNumber": None,
                         "others": None})
             return None
-        headers['X-IMS-Authentication-State'] = r['id']
+        
+        headers['X-IMS-Authentication-State-Encrypted'] = r.headers['x-ims-authentication-state-encrypted']
         params = {
             'purpose': 'passwordRecovery',
         }
@@ -43,12 +45,20 @@ async def adobe(email, client, out):
             headers=headers,
             params=params)
         response=response.json()
-        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
-                    "rateLimit": False,
-                    "exists": True,
-                    "emailrecovery": response['secondaryEmail'],
-                    "phoneNumber": response['securityPhoneNumber'],
-                    "others": None})
+        if 'errorCode' in response:
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
+                        "rateLimit": False,
+                        "exists": True,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
+        else:
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
+                        "rateLimit": False,
+                        "exists": True,
+                        "emailrecovery": response['secondaryEmail'],
+                        "phoneNumber": response['securityPhoneNumber'],
+                        "others": None})
     except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
