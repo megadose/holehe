@@ -30,7 +30,12 @@ async def wordpress(email, client, out):
         'locale': 'fr',
     }
     try:
-        response = await client.get('https://public-api.wordpress.com/rest/v1.1/users/' + email + '/auth-options', headers=headers, params=params, cookies=cookies)
+        response = await client.get(
+            f'https://public-api.wordpress.com/rest/v1.1/users/{email}/auth-options',
+            headers=headers,
+            params=params,
+            cookies=cookies,
+        )
     except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,

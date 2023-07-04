@@ -24,7 +24,8 @@ async def gravatar(email, client, out):
             FullName = data['entry'][0]['displayName']
 
             others = {
-                'FullName': str(FullName)+" / "+str(data['entry'][0]["profileUrl"]),
+                'FullName': f"{str(FullName)} / "
+                + str(data['entry'][0]["profileUrl"])
             }
 
             out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,

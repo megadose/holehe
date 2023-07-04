@@ -20,7 +20,10 @@ async def nimble(email, client, out):
         'Accept-Language': 'en-US;q=0.8,en;q=0.7',
     }
 
-    response = await client.get('https://www.nimble.com/lib/register.php?email='+email, headers=headers)
+    response = await client.get(
+        f'https://www.nimble.com/lib/register.php?email={email}',
+        headers=headers,
+    )
 
     if response.text=='"I thought you looked familiar! This email is already registered."':
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,

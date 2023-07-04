@@ -33,21 +33,20 @@ async def vivino(email, client, out):
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
+        elif response.json()['error'] == "The supplied email does not exist":
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
+                        "rateLimit": False,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
         else:
-            if response.json()['error'] == "The supplied email does not exist":
-                out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
-                            "rateLimit": False,
-                            "exists": False,
-                            "emailrecovery": None,
-                            "phoneNumber": None,
-                            "others": None})
-            else:
-                out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
-                            "rateLimit": False,
-                            "exists": True,
-                            "emailrecovery": None,
-                            "phoneNumber": None,
-                            "others": None})
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
+                        "rateLimit": False,
+                        "exists": True,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
 
     except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,

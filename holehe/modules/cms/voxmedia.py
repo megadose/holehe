@@ -28,14 +28,10 @@ async def voxmedia(email, client, out):
     response = await client.post('https://auth.voxmedia.com/chorus_auth/email_valid.json', headers=headers, data=data)
     try:
         rep = response.json()
-        if rep["available"]:
-            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
-                        "rateLimit": False,
-                        "exists": False,
-                        "emailrecovery": None,
-                        "phoneNumber": None,
-                        "others": None})
-        elif rep["message"]=="You cannot use this email address.":
+        if (
+            rep["available"]
+            or rep["message"] == "You cannot use this email address."
+        ):
             out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
                         "exists": False,

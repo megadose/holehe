@@ -1,6 +1,8 @@
+from string import ascii_lowercase, printable
+
 from holehe.core import *
 from holehe.localuseragent import *
-from string import ascii_lowercase, printable
+
 
 async def tumblr(email, client, out):
     name = "tumblr"

@@ -21,7 +21,10 @@ async def nocrm(email, client, out):
     }
 
 
-    response = await client.get('https://register.nocrm.io/register/check_trial_duplicate?email='+email, headers=headers)
+    response = await client.get(
+        f'https://register.nocrm.io/register/check_trial_duplicate?email={email}',
+        headers=headers,
+    )
     if '{"account":1,"url":"' in response.text:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,

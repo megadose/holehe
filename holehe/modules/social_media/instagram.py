@@ -31,9 +31,12 @@ async def instagram(email, client, out):
 
     data = {
         'email': email,
-        'username': ''.join(random.choice(string.ascii_lowercase + string.digits) for i in range(random.randint(6, 30))),
+        'username': ''.join(
+            random.choice(string.ascii_lowercase + string.digits)
+            for _ in range(random.randint(6, 30))
+        ),
         'first_name': '',
-        'opt_into_one_tap': 'false'
+        'opt_into_one_tap': 'false',
     }
     headers["x-csrftoken"] = token
     check = await client.post(
@@ -41,32 +44,32 @@ async def instagram(email, client, out):
         data=data,
         headers=headers)
     check = check.json()
-    if check["status"] != "fail":
-        if 'email' in check["errors"].keys():
-            if check["errors"]["email"][0]["code"] == "email_is_taken":
-                out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
-                            "rateLimit": False,
-                            "exists": True,
-                            "emailrecovery": None,
-                            "phoneNumber": None,
-                            "others": None})
-            elif "email_sharing_limit" in str(check["errors"]):
-                out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
-                            "rateLimit": False,
-                            "exists": True,
-                            "emailrecovery": None,
-                            "phoneNumber": None,
-                            "others": None})
-        else:
+    if check["status"] == "fail":
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
+
+    elif 'email' in check["errors"].keys():
+        if check["errors"]["email"][0]["code"] == "email_is_taken":
             out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
-                        "exists": False,
+                        "exists": True,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
+        elif "email_sharing_limit" in str(check["errors"]):
+            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
+                        "rateLimit": False,
+                        "exists": True,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
     else:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
-                    "rateLimit": True,
+                    "rateLimit": False,
                     "exists": False,
                     "emailrecovery": None,
                     "phoneNumber": None,

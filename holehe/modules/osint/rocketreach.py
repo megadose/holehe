@@ -24,7 +24,7 @@ async def rocketreach(email, client, out):
         token =  re.search(r'name="csrfmiddlewaretoken" value="(.*)"', response.text).group(1)
         headers["x-csrftoken"] = token
 
-    
+
     except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
@@ -35,7 +35,10 @@ async def rocketreach(email, client, out):
         return()
 
     try:
-        r = await client.get('https://rocketreach.co/v1/validateEmail?email_address='+email, headers=headers)
+        r = await client.get(
+            f'https://rocketreach.co/v1/validateEmail?email_address={email}',
+            headers=headers,
+        )
     except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,

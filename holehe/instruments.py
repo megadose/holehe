@@ -1,6 +1,7 @@
 import trio
 from tqdm import tqdm
 
+
 class TrioProgress(trio.abc.Instrument):
     def __init__(self, total):
         self.tqdm = tqdm(total=total)

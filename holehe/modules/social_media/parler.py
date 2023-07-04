@@ -7,6 +7,7 @@ async def parler(email, client, out):
         letters = string.ascii_lowercase
         result_str = ''.join(random.choice(letters) for i in range(length))
         return(result_str)
+
     name = "parler"
     domain = "parler.com"
     method = "login"
@@ -27,7 +28,7 @@ async def parler(email, client, out):
         'accept-language': 'es,en-US;q=0.9,en;q=0.8',
         'sec-gpc': '1',
     }
-    email = '"' + email + '"'
+    email = f'"{email}"'
     data = '{"identifier":' + email + \
         ',"password":"invalidpasswordfortest","deviceId":"' + get_random_string(16) + '"}'
     try:

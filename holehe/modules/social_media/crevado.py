@@ -40,7 +40,6 @@ async def crevado(email, client, out):
         'account[password]': '',
         'account[domain]': '',
         'account[confirm_madness]': '',
-        'account[terms_accepted]': '0',
         'account[terms_accepted]': '1',
     }
 

@@ -1,26 +1,25 @@
-from bs4 import BeautifulSoup
-from termcolor import colored
+import csv
+import hashlib
+import importlib
+import json
+import os
+import pkgutil
+import random
+import re
+import string
+import sys
+import time
+from argparse import ArgumentParser
+from datetime import datetime
+from subprocess import PIPE, Popen
+
 import httpx
 import trio
+from bs4 import BeautifulSoup
+from termcolor import colored
 
-from subprocess import Popen, PIPE
-import os
-from argparse import ArgumentParser
-import csv
-from datetime import datetime
-import time
-import importlib
-import pkgutil
-import hashlib
-import re
-import sys
-import string
-import random
-import json
-
-from holehe.localuseragent import ua
 from holehe.instruments import TrioProgress
-
+from holehe.localuseragent import ua
 
 try:
     import cookielib
@@ -40,10 +39,10 @@ def import_submodules(package, recursive=True):
         package = importlib.import_module(package)
     results = {}
     for loader, name, is_pkg in pkgutil.walk_packages(package.__path__):
-        full_name = package.__name__ + '.' + name
+        full_name = f'{package.__name__}.{name}'
         results[full_name] = importlib.import_module(full_name)
         if recursive and is_pkg:
-            results.update(import_submodules(full_name))
+            results |= import_submodules(full_name)
     return results
 
 
@@ -105,10 +104,7 @@ def is_email(email: str) -> bool:
 
 def print_result(data,args,email,start_time,websites):
     def print_color(text,color,args):
-        if args.nocolor == False:
-            return(colored(text,color))
-        else:
-            return(text)
+        return (colored(text,color)) if args.nocolor == False else text
 
     description = print_color("[+] Email used","green",args) + "," + print_color(" [-] Email not used", "magenta",args) + "," + print_color(" [x] Rate limit","yellow",args) + "," + print_color(" [!] Error","red",args)
     if args.noclear==False:
@@ -116,7 +112,7 @@ def print_result(data,args,email,start_time,websites):
     else:
         print("\n")
     print("*" * (len(email) + 6))
-    print("   " + email)
+    print(f"   {email}")
     print("*" * (len(email) + 6))
 
     for results in data:
@@ -147,8 +143,9 @@ def print_result(data,args,email,start_time,websites):
             print(websiteprint)
 
     print("\n" + description)
-    print(str(len(websites)) + " websites checked in " +
-          str(round(time.time() - start_time, 2)) + " seconds")
+    print(
+        f"{len(websites)} websites checked in {str(round(time.time() - start_time, 2))} seconds"
+    )
 
 
 def export_csv(data,args,email):
@@ -156,12 +153,12 @@ def export_csv(data,args,email):
     if args.csvoutput == True:
         now = datetime.now()
         timestamp = datetime.timestamp(now)
-        name_file="holehe_"+str(round(timestamp))+"_"+email+"_results.csv"
+        name_file = f"holehe_{str(round(timestamp))}_{email}_results.csv"
         with open(name_file, 'w', encoding='utf8', newline='') as output_file:
             fc = csv.DictWriter(output_file,fieldnames=data[0].keys())
             fc.writeheader()
             fc.writerows(data)
-        exit("All results have been exported to "+name_file)
+        exit(f"All results have been exported to {name_file}")
 
 async def launch_module(module,email, client, out):
     data={'aboutme': 'about.me', 'adobe': 'adobe.com', 'amazon': 'amazon.com', 'anydo': 'any.do', 'archive': 'archive.org', 'armurerieauxerre': 'armurerie-auxerre.com', 'atlassian': 'atlassian.com', 'babeshows': 'babeshows.co.uk', 'badeggsonline': 'badeggsonline.com', 'biosmods': 'bios-mods.com', 'biotechnologyforums': 'biotechnologyforums.com', 'bitmoji': 'bitmoji.com', 'blablacar': 'blablacar.com', 'blackworldforum': 'blackworldforum.com', 'blip': 'blip.fm', 'blitzortung': 'forum.blitzortung.org', 'bluegrassrivals': 'bluegrassrivals.com', 'bodybuilding': 'bodybuilding.com', 'buymeacoffee': 'buymeacoffee.com', 'cambridgemt': 'discussion.cambridge-mt.com', 'caringbridge': 'caringbridge.org', 'chinaphonearena': 'chinaphonearena.com', 'clashfarmer': 'clashfarmer.com', 'codecademy': 'codecademy.com', 'codeigniter': 'forum.codeigniter.com', 'codepen': 'codepen.io', 'coroflot': 'coroflot.com', 'cpaelites': 'cpaelites.com', 'cpahero': 'cpahero.com', 'cracked_to': 'cracked.to', 'crevado': 'crevado.com', 'deliveroo': 'deliveroo.com', 'demonforums': 'demonforums.net', 'devrant': 'devrant.com', 'diigo': 'diigo.com', 'discord': 'discord.com', 'docker': 'docker.com', 'dominosfr': 'dominos.fr', 'ebay': 'ebay.com', 'ello': 'ello.co', 'envato': 'envato.com', 'eventbrite': 'eventbrite.com', 'evernote': 'evernote.com', 'fanpop': 'fanpop.com', 'firefox': 'firefox.com', 'flickr': 'flickr.com', 'freelancer': 'freelancer.com', 'freiberg': 'drachenhort.user.stunet.tu-freiberg.de', 'garmin': 'garmin.com', 'github': 'github.com', 'google': 'google.com', 'gravatar': 'gravatar.com', 'imgur': 'imgur.com', 'instagram': 'instagram.com', 'issuu': 'issuu.com', 'koditv': 'forum.kodi.tv', 'komoot': 'komoot.com', 'laposte': 'laposte.fr', 'lastfm': 'last.fm', 'lastpass': 'lastpass.com', 'mail_ru': 'mail.ru', 'mybb': 'community.mybb.com', 'myspace': 'myspace.com', 'nattyornot': 'nattyornotforum.nattyornot.com', 'naturabuy': 'naturabuy.fr', 'ndemiccreations': 'forum.ndemiccreations.com', 'nextpvr': 'forums.nextpvr.com', 'nike': 'nike.com', 'odnoklassniki': 'ok.ru', 'office365': 'office365.com', 'onlinesequencer': 'onlinesequencer.net', 'parler': 'parler.com', 'patreon': 'patreon.com', 'pinterest': 'pinterest.com', 'plurk': 'plurk.com', 'pornhub': 'pornhub.com', 'protonmail': 'protonmail.ch', 'quora': 'quora.com', 'rambler': 'rambler.ru', 'redtube': 'redtube.com', 'replit': 'replit.com', 'rocketreach': 'rocketreach.co', 'samsung': 'samsung.com', 'seoclerks': 'seoclerks.com', 'sevencups': '7cups.com', 'smule': 'smule.com', 'snapchat': 'snapchat.com', 'soundcloud': 'soundcloud.com', 'sporcle': 'sporcle.com', 'spotify': 'spotify.com', 'strava': 'strava.com', 'taringa': 'taringa.net', 'teamtreehouse': 'teamtreehouse.com', 'tellonym': 'tellonym.me', 'thecardboard': 'thecardboard.org', 'therianguide': 'forums.therian-guide.com', 'thevapingforum': 'thevapingforum.com', 'tumblr': 'tumblr.com', 'tunefind': 'tunefind.com', 'twitter': 'twitter.com', 'venmo': 'venmo.com', 'vivino': 'vivino.com', 'voxmedia': 'voxmedia.com', 'vrbo': 'vrbo.com', 'vsco': 'vsco.co', 'wattpad': 'wattpad.com', 'wordpress': 'wordpress.com', 'xing': 'xing.com', 'xnxx': 'xnxx.com', 'xvideos': 'xvideos.com', 'yahoo': 'yahoo.com','hubspot': 'hubspot.com', 'pipedrive': 'pipedrive.com', 'insightly': 'insightly.com', 'nutshell': 'nutshell.com', 'zoho': 'zoho.com', 'axonaut': 'axonaut.com', 'amocrm': 'amocrm.com', 'nimble': 'nimble.com', 'nocrm': 'nocrm.io', 'teamleader': 'teamleader.eu'}

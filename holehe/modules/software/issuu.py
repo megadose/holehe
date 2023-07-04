@@ -3,7 +3,6 @@ from holehe.localuseragent import *
 
 
 async def issuu(email, client, out):
-    name = "issuu"
     domain = "issuu.com"
     method = "register"
     frequent_rate_limit=False
@@ -21,9 +20,9 @@ async def issuu(email, client, out):
     }
 
     response = await client.get(
-        'https://issuu.com/call/signup/check-email/' +
-        email,
-        headers=headers)
+        f'https://issuu.com/call/signup/check-email/{email}', headers=headers
+    )
+    name = "issuu"
     try:
         if response.json()["status"] == "unavailable":
             out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,

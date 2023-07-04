@@ -14,7 +14,10 @@ async def github(email, client, out):
     token = re.findall(token_regex, freq.text)
     data = {"value": email, "authenticity_token": token[0]}
     req = await client.post("https://github.com/signup_check/email", data=data)
-    if "Your browser did something unexpected." in req.text:
+    if (
+        "Your browser did something unexpected." in req.text
+        or req.status_code not in [422, 200]
+    ):
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
                     "exists": None,
@@ -28,17 +31,10 @@ async def github(email, client, out):
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
-    elif req.status_code == 200:
+    else:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": False,
-                    "emailrecovery": None,
-                    "phoneNumber": None,
-                    "others": None})
-    else:
-        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
-                    "rateLimit": True,
-                    "exists": None,
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})

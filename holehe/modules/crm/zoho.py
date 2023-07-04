@@ -29,7 +29,11 @@ async def zoho(email, client, out):
       'service_language': 'fr'
     }
 
-    response = await client.post('https://accounts.zoho.com/signin/v2/lookup/'+email, headers=headers, data=data)
+    response = await client.post(
+        f'https://accounts.zoho.com/signin/v2/lookup/{email}',
+        headers=headers,
+        data=data,
+    )
     if response.status_code==200 and "message" in response.json().keys() and response.json()["message"]=="User exists" and response.json()["status_code"]==201:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,

@@ -34,18 +34,18 @@ async def seoclerks(email, client, out):
         return None
 
     letters = string.ascii_lowercase
-    username = ''.join(random.choice(letters) for i in range(6))
-    password = ''.join(random.choice(letters) for i in range(6))
+    username = ''.join(random.choice(letters) for _ in range(6))
+    password = ''.join(random.choice(letters) for _ in range(6))
 
     data = {
         'token': str(token),
         '__cr': str(cr),
         'fsub': '1',
         'droplet': '',
-        'user_username': str(username),
+        'user_username': username,
         'user_email': str(email),
-        'user_password': str(password),
-        'confirm_password': str(password)
+        'user_password': password,
+        'confirm_password': password,
     }
 
     response = await client.post('https://www.seoclerks.com/signup/check', headers=headers, data=data)

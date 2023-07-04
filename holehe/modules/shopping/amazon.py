@@ -16,7 +16,7 @@ async def amazon(email, client, out):
         data = dict([(x["name"], x["value"]) for x in body.select(
             'form input') if ('name' in x.attrs and 'value' in x.attrs)])
         data["email"] = email
-        req = await client.post(f'https://www.amazon.com/ap/signin/', data=data)
+        req = await client.post('https://www.amazon.com/ap/signin/', data=data)
         body = BeautifulSoup(req.text, 'html.parser')
         if body.find("div", {"id": "auth-password-missing-alert"}):
             out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,

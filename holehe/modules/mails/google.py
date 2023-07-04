@@ -46,13 +46,12 @@ async def google(email, client, out):
         'continue': 'https://accounts.google.com/',
         'dsh': '',
         'hl': 'fr',
-        'f.req': '["' + freq + '","","","' + email + '",false]',
+        'f.req': f'["{freq}","","","{email}",false]',
         'azt': '',
         'cookiesDisabled': 'false',
         'deviceinfo': '[null,null,null,[],null,"FR",null,null,[],"GlifWebSignIn",null,[null,null,[],null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,[],null,null,null,[],[]],null,null,null,null,0,null,false]',
         'gmscoreversion': 'unined',
-        '': ''
-
+        '': '',
     }
     response = await client.post('https://accounts.google.com/_/signup/webusernameavailability', headers=headers, params=params, data=data)
     if '"gf.wuar",2' in response.text:

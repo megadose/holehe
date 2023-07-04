@@ -25,7 +25,7 @@ async def lastfm(email, client, out):
         "Accept": "*/*",
         "Referer": "https://www.last.fm/join",
         "X-Requested-With": "XMLHttpRequest",
-        "Cookie": "csrftoken=" + str(token),
+        "Cookie": f"csrftoken={str(token)}",
     }
     try:
 

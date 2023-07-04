@@ -87,8 +87,7 @@ async def get_phone_number(email, client, cookies, headers):
     phone_number = None
     if data['rtnCd'] == 'NEXT':
         req = await client.get('https://account.samsung.com' + data["nextURL"], headers=headers, cookies=cookies)
-        found = re.search(phone_number_pattern, req.text)
-        if found:
+        if found := re.search(phone_number_pattern, req.text):
             phone_number = found.group()
         elif 'btnResetPasswordWithRecovery' in req.text:
             response = await client.post("https://account.samsung.com/accounts/v1/DCGLIT/resetPasswordWithRecoveryProc",
@@ -97,8 +96,7 @@ async def get_phone_number(email, client, cookies, headers):
                 data = response.json()
                 if data['rtnCd'] == 'NEXT':
                     req = await client.get('https://account.samsung.com' + data["nextURL"], headers=headers, cookies=cookies)
-                    found = re.search(phone_number_pattern, req.text)
-                    if found:
+                    if found := re.search(phone_number_pattern, req.text):
                         phone_number = found.group()
 
     return phone_number

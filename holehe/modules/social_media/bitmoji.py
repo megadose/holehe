@@ -21,7 +21,7 @@ async def bitmoji(email, client, out):
             "Accept-Encoding": "gzip, late",
             "Content-Type": "application/json",
             "Connection": "close",
-            "Cookie": "xsrf_token=" + xsrf + "; web_client_id=" + webClientId
+            "Cookie": f"xsrf_token={xsrf}; web_client_id={webClientId}",
         }
         data = '{"email":' + email + ',"app":"BITMOJI_APP"}'
 

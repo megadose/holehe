@@ -14,11 +14,14 @@ async def office365(email, client, out):
         letters = string.digits
         result_str = ''.join(random.choice(letters) for i in range(length))
         return(result_str)
+
     r = await client.get(
         'https://outlook.office365.com/autodiscover/autodiscover.json/v1.0/{}?Protocol=Autodiscoverv1'.format(
-            get_random_string(30)+"@"+email.split('@')[1]),
+            f"{get_random_string(30)}@" + email.split('@')[1]
+        ),
         headers=headers,
-        follow_redirects=False)
+        follow_redirects=False,
+    )
     if r.status_code != 200:
         r = await client.get(
             'https://outlook.office365.com/autodiscover/autodiscover.json/v1.0/{}?Protocol=Autodiscoverv1'.format(

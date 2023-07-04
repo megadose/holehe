@@ -21,13 +21,12 @@ async def odnoklassniki(email, client, out):
     OK_LOGIN_URL = 'https://www.ok.ru/dk?st.cmd=anonymMain&st.accRecovery=on&st.error=errors.password.wrong'
     OK_RECOVER_URL = 'https://www.ok.ru/dk?st.cmd=anonymRecoveryAfterFailedLogin&st._aid=LeftColumn_Login_ForgotPassword'
     try:
-        await client.get(OK_LOGIN_URL + '&st.email=' + email, headers=headers)
+        await client.get(f'{OK_LOGIN_URL}&st.email={email}', headers=headers)
         request = await client.get(OK_RECOVER_URL, headers=headers)
         root_soup = BeautifulSoup(request.content, 'html.parser')
-        soup = root_soup.find(
-            'div', {
-                'data-l': 'registrationContainer,offer_contact_rest'})
-        if soup:
+        if soup := root_soup.find(
+            'div', {'data-l': 'registrationContainer,offer_contact_rest'}
+        ):
             account_info = soup.find(
                 'div', {'class': 'ext-registration_tx taCenter'})
             masked_email = soup.find('button', {'data-l': 't,email'})
@@ -43,8 +42,9 @@ async def odnoklassniki(email, client, out):
                     'div', {'class': 'ext-registration_username_header'})
                 if masked_name:
                     masked_name = masked_name.get_text()
-                account_info = account_info.findAll('div', {'class': 'lstp-t'})
-                if account_info:
+                if account_info := account_info.findAll(
+                    'div', {'class': 'lstp-t'}
+                ):
                     profile_info = account_info[0].get_text()
                     profile_registred = account_info[1].get_text()
                 else:

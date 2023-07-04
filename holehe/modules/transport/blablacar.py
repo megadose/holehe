@@ -3,7 +3,6 @@ from holehe.localuseragent import *
 
 
 async def blablacar(email, client, out):
-    name = "blablacar"
     domain = "blablacar.com"
     method = "register"
     frequent_rate_limit=True
@@ -23,6 +22,7 @@ async def blablacar(email, client, out):
         'Connection': 'keep-alive',
         'TE': 'Trailers',
     }
+    name = "blablacar"
     try:
         appToken = await client.get(
             "https://www.blablacar.fr/register",
@@ -42,7 +42,7 @@ async def blablacar(email, client, out):
         'datadome': '',
     }
     try:
-        headers["Authorization"] = 'Bearer ' + appToken
+        headers["Authorization"] = f'Bearer {appToken}'
     except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": True,
@@ -53,10 +53,10 @@ async def blablacar(email, client, out):
         return None
 
     response = await client.get(
-        'https://edge.blablacar.fr/auth/validation/email/' +
-        email,
+        f'https://edge.blablacar.fr/auth/validation/email/{email}',
         headers=headers,
-        cookies=cookies)
+        cookies=cookies,
+    )
     data = response.json()
     if "url" in data.keys():
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
