@@ -6,7 +6,7 @@ async def bitmoji(email, client, out):
     name = "bitmoji"
     domain = "bitmoji.com"
     method = "login"
-    frequent_rate_limit=False
+    frequent_rate_limit = False
 
     try:
         req = await client.get("https://accounts.snapchat.com")
@@ -21,30 +21,51 @@ async def bitmoji(email, client, out):
             "Accept-Encoding": "gzip, late",
             "Content-Type": "application/json",
             "Connection": "close",
-            "Cookie": "xsrf_token=" + xsrf + "; web_client_id=" + webClientId
+            "Cookie": f"xsrf_token={xsrf}; web_client_id={webClientId}",
         }
         data = '{"email":' + email + ',"app":"BITMOJI_APP"}'
 
         response = await client.post(url, data=data, headers=headers)
         if response.status_code != 204:
             data = response.json()
-            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
-                        "rateLimit": False,
-                        "exists": data["hasBitmoji"],
-                        "emailrecovery": None,
-                        "phoneNumber": None,
-                        "others": None})
-            return None
-        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
+            out.append(
+                {
+                    "name": name,
+                    "domain": domain,
+                    "method": method,
+                    "frequent_rate_limit": frequent_rate_limit,
                     "rateLimit": False,
-                    "exists": False,
+                    "exists": data["hasBitmoji"],
                     "emailrecovery": None,
                     "phoneNumber": None,
-                    "others": None})
+                    "others": None,
+                }
+            )
+            return None
+        out.append(
+            {
+                "name": name,
+                "domain": domain,
+                "method": method,
+                "frequent_rate_limit": frequent_rate_limit,
+                "rateLimit": False,
+                "exists": False,
+                "emailrecovery": None,
+                "phoneNumber": None,
+                "others": None,
+            }
+        )
     except Exception:
-        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
-                    "rateLimit": True,
-                    "exists": False,
-                    "emailrecovery": None,
-                    "phoneNumber": None,
-                    "others": None})
+        out.append(
+            {
+                "name": name,
+                "domain": domain,
+                "method": method,
+                "frequent_rate_limit": frequent_rate_limit,
+                "rateLimit": True,
+                "exists": False,
+                "emailrecovery": None,
+                "phoneNumber": None,
+                "others": None,
+            }
+        )
