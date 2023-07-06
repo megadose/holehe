@@ -105,7 +105,7 @@ Built for educational purposes only.
 
 ## Modules
 | Name                | Domain                                 | Method            | Frequent Rate Limit |
-| ------------------- | -------------------------------------- | ----------------- | ------------------- |
+|---------------------|----------------------------------------|-------------------| ------------------- |
 | aboutme             | about.me                               | register          | ✘               |
 | adobe               | adobe.com                              | password recovery | ✘               |
 | amazon              | amazon.com                             | login             | ✘               |
@@ -171,6 +171,7 @@ Built for educational purposes only.
 | lastfm              | last.fm                                | register          | ✘               |
 | lastpass            | lastpass.com                           | register          | ✘               |
 | mail_ru             | mail.ru                                | password recovery | ✘               |
+| miro                | miro.com                               | register          | ✘               |
 | mybb                | community.mybb.com                     | register          | ✘               |
 | myspace             | myspace.com                            | register          | ✘               |
 | nattyornot          | nattyornotforum.nattyornot.com         | register          | ✘               |
