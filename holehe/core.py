@@ -27,12 +27,10 @@ try:
 except Exception:
     import http.cookiejar as cookielib
 
-
 DEBUG        = False
 EMAIL_FORMAT = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
 
 __version__ = "1.61"
-
 
 def import_submodules(package, recursive=True):
     """Get all the holehe submodules"""
@@ -45,7 +43,6 @@ def import_submodules(package, recursive=True):
         if recursive and is_pkg:
             results.update(import_submodules(full_name))
     return results
-
 
 def get_functions(modules,args=None):
     """Transform the modules objects to functions"""
