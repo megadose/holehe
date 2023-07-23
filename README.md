@@ -1,6 +1,11 @@
 # **Holehe OSINT - Email to Registered Accounts**
 ![](https://files.catbox.moe/5we2ya.png)
-![PyPI](https://img.shields.io/pypi/v/holehe) ![PyPI - Week](https://img.shields.io/pypi/dw/holehe) ![PyPI - Downloads](https://static.pepy.tech/badge/holehe) ![PyPI - License](https://img.shields.io/pypi/l/holehe)
+
+<div align="center">
+
+![PyPI](https://img.shields.io/pypi/v/holehe) ![PyPI - Week](https://img.shields.io/pypi/dw/holehe)![PyPI - Downloads](https://static.pepy.tech/badge/holehe) ![PyPI - License](https://img.shields.io/pypi/l/holehe)
+ 
+</div>
 
 # [Holehe Online Version](https://osint.industries/)
 
