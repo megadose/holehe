@@ -4,7 +4,7 @@ import re
 
 
 async def miro(email, client, out):
-    name = "miro_com"
+    name = "miro"
     domain = "miro.com"
     method = "register"
     frequent_rate_limit = True
