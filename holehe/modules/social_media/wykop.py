@@ -25,10 +25,20 @@ async def wykop(email, client, out):
 
     data = f'{{"data":{{"email":"{email}"}}}}'
 
-    response = await client.post(
-        'https://wykop.pl/api/v3/users',
-        headers=headers,
-        data=data)
+    try:
+        response = await client.post(
+            'https://wykop.pl/api/v3/users',
+            headers=headers,
+            data=data)
+    except Exception:
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
+                    "rateLimit": False,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "error": True,
+                    "others": {"errorMessage": "Unexpected error while sending request."}})
+        return None
 
     body = response.json()
 
@@ -54,3 +64,12 @@ async def wykop(email, client, out):
                     "emailrecovery": None,
                     "phoneNumber": None,
                     "others": None})
+    else:
+        out.append({"name": name, "domain": domain, "method": method, "frequent_rate_limit": frequent_rate_limit,
+                        "rateLimit": False,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "error": True,
+                        "others": {"errorMessage": f"Wrong response code received: {response.status_code}"}})
+
