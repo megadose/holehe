@@ -23,7 +23,7 @@ async def fotka(email, client, out):
 
     try:
         response = await client.post(
-            'https://api.fotka.com/v25453/zaloguj/?form_login=1',
+            'https://api.fotka.com/v2/zaloguj/?form_login=1',
             headers=headers,
             data=data)
     except Exception:
