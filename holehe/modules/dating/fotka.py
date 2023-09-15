@@ -21,12 +21,26 @@ async def fotka(email, client, out):
 
     data = f'login={email}&pass={get_random_string(20)}&back_url='
 
-    response = await client.post(
-        'https://api.fotka.com/v2/zaloguj/?form_login=1',
-        headers=headers,
-        data=data)
+    try:
+        response = await client.post(
+            'https://api.fotka.com/v25453/zaloguj/?form_login=1',
+            headers=headers,
+            data=data)
+    except Exception:
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
+            "rateLimit": False,
+            "exists": False,
+            "emailrecovery": None,
+            "phoneNumber": None,
+            "error": True,
+            "others": {"errorMessage": "Unexpected error while sending request."}})
+        return None
+
 
     location = response.headers['location']
+
+    print(location)
+    aa = input()
 
     if 'error=-2' in location:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit, 
@@ -55,4 +69,5 @@ async def fotka(email, client, out):
                     "exists": False,
                     "emailrecovery": None,
                     "phoneNumber": None,
-                    "others": None})
+                    "error": True,
+                    "others": {"errorMessage": "Couldn't find response code."}})
