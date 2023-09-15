@@ -110,7 +110,7 @@ def print_result(data,args,email,start_time,websites):
         else:
             return(text)
 
-    description = print_color("[+] Email used","green",args) + "," + print_color(" [-] Email not used", "magenta",args) + "," + print_color(" [x] Rate limit","red",args)
+    description = print_color("[+] Email used","green",args) + "," + print_color(" [-] Email not used", "magenta",args) + "," + print_color(" [x] Rate limit","yellow",args) + "," + print_color(" [!] Error","red",args)
     if args.noclear==False:
         print("\033[H\033[J")
     else:
@@ -121,8 +121,14 @@ def print_result(data,args,email,start_time,websites):
 
     for results in data:
         if results["rateLimit"] and args.onlyused == False:
-            websiteprint = print_color("[x] " + results["domain"], "red",args)
+            websiteprint = print_color("[x] " + results["domain"], "yellow",args)
             print(websiteprint)
+        elif "error" in results.keys() and results["error"] and args.onlyused == False:
+            toprint = ""
+            if results["others"] is not None and "Message" in str(results["others"].keys()):
+                toprint = " Error message: " + results["others"]["errorMessage"]
+            websiteprint = print_color("[!] " + results["domain"] + toprint, "red",args)
+            print(websiteprint) 
         elif results["exists"] == False and args.onlyused == False:
             websiteprint = print_color("[-] " + results["domain"], "magenta",args)
             print(websiteprint)
@@ -164,7 +170,8 @@ async def launch_module(module,email, client, out):
     except Exception:
         name=str(module).split('<function ')[1].split(' ')[0]
         out.append({"name": name,"domain":data[name],
-                    "rateLimit": True,
+                    "rateLimit": False,
+                    "error": True,
                     "exists": False,
                     "emailrecovery": None,
                     "phoneNumber": None,
