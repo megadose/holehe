@@ -27,6 +27,13 @@ cd holehe/
 python3 setup.py install
 ```
 
+### With Docker
+
+```bash
+docker build . -t my-holehe-image
+docker run my-holehe-image holehe test@gmail.com
+```
+
 ## Quick Start
 
 Holehe can be run from the CLI and rapidly embedded within existing python applications.
