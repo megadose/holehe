@@ -38,7 +38,7 @@ async def ebay(email, client, out):
         'https://signin.ebay.com/signin/srv/identifer',
         data=data, headers=headers)
     results = json.loads(req.text)
-    if "err" in results.keys():
+    if "errorMsg" in results.keys():
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                     "rateLimit": False,
                     "exists": False,
