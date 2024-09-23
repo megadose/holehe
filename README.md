@@ -234,6 +234,7 @@ Built for educational purposes only.
 | vsco                | vsco.co                                | register          | ✘               |
 | wattpad             | wattpad.com                            | register          | ✔               |
 | wordpress           | wordpress                              | login             | ✘               |
+| wykop               | wykop.pl                               | register          | ✔               |
 | xing                | xing.com                               | register          | ✘               |
 | xnxx                | xnxx.com                               | register          | ✔               |
 | xvideos             | xvideos.com                            | register          | ✘               |
