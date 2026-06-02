@@ -21,7 +21,7 @@ async def facebook(email, client, out):
     try:
         response = await client.get("https://www.facebook.com/accounts/emailsignup/", headers=headers)
         if response.status_code == 404:
-            raise Exception("Endpoint not found")
+            raise RuntimeError("Endpoint not found")
 
         # Extract CSRF token from the response
         token = response.text.split('{"config":{"csrf_token":"')[1].split('"')[0]

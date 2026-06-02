@@ -20,7 +20,7 @@ async def tumblr(email, client, out):
             "User-Agent": usrag
         })
         if getBearer.status_code != 200:
-            raise Exception("xc")
+            raise RuntimeError("API request failed")
         
         p = BeautifulSoup(getBearer.text,"html.parser").find_all("script")
         bearer = [";".join(elem.text.split("window['___INITIAL_STATE___'] = ")[-1].split(";")[:-1]).split('{"API_TOKEN":"')[-1].split('","extraHeaders":"{}"}')[0] for elem in p if "window['___INITIAL_STATE___']" in elem.text][0]
@@ -39,7 +39,7 @@ async def tumblr(email, client, out):
             "Referer": "https://www.tumblr.com/"
         })
         if getCsrf.status_code != 200:
-            raise Exception("xc")
+            raise RuntimeError("API request failed")
         csrf = getCsrf.headers["X-Csrf"]
 
         data = json.dumps({
@@ -70,7 +70,7 @@ async def tumblr(email, client, out):
         )
 
         if post.status_code != 400:
-            raise Exception("xc")
+            raise RuntimeError("API request failed")
         error = post.json()["response"]["code"]
         if error == 2: # L'erreur 2 "User already exists" apparait en priorité sur l'erreur 1030 "Password must be at least 8 characters long"
             out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
@@ -89,7 +89,7 @@ async def tumblr(email, client, out):
                         "others": None})
 
         else: #429 {"meta":{"status":429,"msg":"Limit Exceeded"},"response":[]}
-            raise Exception("xc")
+            raise RuntimeError("API request failed")
 
     except Exception:
         out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
