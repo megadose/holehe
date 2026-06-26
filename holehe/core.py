@@ -64,8 +64,12 @@ def get_functions(modules,args=None):
 
 def check_update():
     """Check and update holehe if not the last version"""
-    check_version = httpx.get("https://pypi.org/pypi/holehe/json")
-    if check_version.json()["info"]["version"] != __version__:
+    try:
+        check_version = httpx.get("https://pypi.org/pypi/holehe/json", timeout=5)
+        latest = json.loads(check_version.text)["info"]["version"]
+    except Exception:
+        return
+    if latest != __version__:
         if os.name != 'nt':
             p = Popen(["pip3",
                        "install",
