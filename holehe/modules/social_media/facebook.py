@@ -1,10 +1,9 @@
-from holehe.localuseragent import ua
-import random
-import string
-import requests  # Adjust if using a different HTTP library
+from holehe.core import *
+from holehe.localuseragent import *
+
 
 async def facebook(email, client, out):
-    name = "Facebook"
+    name = "facebook"
     domain = "facebook.com"
     method = "register"
     frequent_rate_limit = True
@@ -19,15 +18,14 @@ async def facebook(email, client, out):
     }
 
     try:
-        response = await client.get("https://www.facebook.com/accounts/emailsignup/", headers=headers)
+        response = await client.get(
+            "https://www.facebook.com/accounts/emailsignup/", headers=headers)
         if response.status_code == 404:
             raise Exception("Endpoint not found")
-
-        # Extract CSRF token from the response
         token = response.text.split('{"config":{"csrf_token":"')[1].split('"')[0]
-    except Exception as e:
-        print(f"Error occurred while fetching CSRF token: {e}")
-        out.append({"name": name, "domain": domain, "method": method, "frequent_rate_limit": frequent_rate_limit,
+    except Exception:
+        out.append({"name": name, "domain": domain, "method": method,
+                    "frequent_rate_limit": frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,
@@ -37,7 +35,8 @@ async def facebook(email, client, out):
 
     data = {
         'email': email,
-        'username': ''.join(random.choice(string.ascii_lowercase + string.digits) for i in range(random.randint(6, 30))),
+        'username': ''.join(random.choice(string.ascii_lowercase + string.digits)
+                            for _ in range(random.randint(6, 30))),
         'first_name': '',
         'opt_into_one_tap': 'false'
     }
@@ -50,39 +49,37 @@ async def facebook(email, client, out):
             headers=headers)
         check = check.json()
 
-        if check["status"] != "fail":
-            if 'email' in check["errors"].keys():
-                if check["errors"]["email"][0]["code"] == "email_is_taken":
-                    out.append({"name": name, "domain": domain, "method": method, "frequent_rate_limit": frequent_rate_limit,
+        if check.get("status") != "fail":
+            errors = check.get("errors") or {}
+            if 'email' in errors:
+                code = errors["email"][0].get("code", "")
+                if code == "email_is_taken" or "email_sharing_limit" in str(errors):
+                    out.append({"name": name, "domain": domain, "method": method,
+                                "frequent_rate_limit": frequent_rate_limit,
                                 "rateLimit": False,
                                 "exists": True,
                                 "emailrecovery": None,
                                 "phoneNumber": None,
                                 "others": None})
-                elif "email_sharing_limit" in str(check["errors"]):
-                    out.append({"name": name, "domain": domain, "method": method, "frequent_rate_limit": frequent_rate_limit,
-                                "rateLimit": False,
-                                "exists": True,
-                                "emailrecovery": None,
-                                "phoneNumber": None,
-                                "others": None})
-            else:
-                out.append({"name": name, "domain": domain, "method": method, "frequent_rate_limit": frequent_rate_limit,
-                            "rateLimit": False,
-                            "exists": False,
-                            "emailrecovery": None,
-                            "phoneNumber": None,
-                            "others": None})
+                    return None
+            out.append({"name": name, "domain": domain, "method": method,
+                        "frequent_rate_limit": frequent_rate_limit,
+                        "rateLimit": False,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
         else:
-            out.append({"name": name, "domain": domain, "method": method, "frequent_rate_limit": frequent_rate_limit,
+            out.append({"name": name, "domain": domain, "method": method,
+                        "frequent_rate_limit": frequent_rate_limit,
                         "rateLimit": True,
                         "exists": False,
                         "emailrecovery": None,
                         "phoneNumber": None,
                         "others": None})
-    except Exception as e:
-        print(f"Error occurred during POST request: {e}")
-        out.append({"name": name, "domain": domain, "method": method, "frequent_rate_limit": frequent_rate_limit,
+    except Exception:
+        out.append({"name": name, "domain": domain, "method": method,
+                    "frequent_rate_limit": frequent_rate_limit,
                     "rateLimit": True,
                     "exists": False,
                     "emailrecovery": None,
