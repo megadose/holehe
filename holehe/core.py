@@ -163,19 +163,54 @@ def export_csv(data,args,email):
             fc.writerows(data)
         exit("All results have been exported to "+name_file)
 
-async def launch_module(module,email, client, out):
+async def launch_module(module, email, client, out, limiter=None):
     data={'aboutme': 'about.me', 'adobe': 'adobe.com', 'amazon': 'amazon.com', 'anydo': 'any.do', 'archive': 'archive.org', 'armurerieauxerre': 'armurerie-auxerre.com', 'atlassian': 'atlassian.com', 'babeshows': 'babeshows.co.uk', 'badeggsonline': 'badeggsonline.com', 'biosmods': 'bios-mods.com', 'biotechnologyforums': 'biotechnologyforums.com', 'bitmoji': 'bitmoji.com', 'blablacar': 'blablacar.com', 'blackworldforum': 'blackworldforum.com', 'blip': 'blip.fm', 'blitzortung': 'forum.blitzortung.org', 'bluegrassrivals': 'bluegrassrivals.com', 'bodybuilding': 'bodybuilding.com', 'buymeacoffee': 'buymeacoffee.com', 'cambridgemt': 'discussion.cambridge-mt.com', 'caringbridge': 'caringbridge.org', 'chinaphonearena': 'chinaphonearena.com', 'clashfarmer': 'clashfarmer.com', 'codecademy': 'codecademy.com', 'codeigniter': 'forum.codeigniter.com', 'codepen': 'codepen.io', 'coroflot': 'coroflot.com', 'cpaelites': 'cpaelites.com', 'cpahero': 'cpahero.com', 'cracked_to': 'cracked.to', 'crevado': 'crevado.com', 'deliveroo': 'deliveroo.com', 'demonforums': 'demonforums.net', 'devrant': 'devrant.com', 'diigo': 'diigo.com', 'discord': 'discord.com', 'docker': 'docker.com', 'dominosfr': 'dominos.fr', 'ebay': 'ebay.com', 'ello': 'ello.co', 'envato': 'envato.com', 'eventbrite': 'eventbrite.com', 'evernote': 'evernote.com', 'fanpop': 'fanpop.com', 'firefox': 'firefox.com', 'flickr': 'flickr.com', 'freelancer': 'freelancer.com', 'freiberg': 'drachenhort.user.stunet.tu-freiberg.de', 'garmin': 'garmin.com', 'github': 'github.com', 'google': 'google.com', 'gravatar': 'gravatar.com', 'imgur': 'imgur.com', 'instagram': 'instagram.com', 'issuu': 'issuu.com', 'koditv': 'forum.kodi.tv', 'komoot': 'komoot.com', 'laposte': 'laposte.fr', 'lastfm': 'last.fm', 'lastpass': 'lastpass.com', 'mail_ru': 'mail.ru', 'mybb': 'community.mybb.com', 'myspace': 'myspace.com', 'nattyornot': 'nattyornotforum.nattyornot.com', 'naturabuy': 'naturabuy.fr', 'ndemiccreations': 'forum.ndemiccreations.com', 'nextpvr': 'forums.nextpvr.com', 'nike': 'nike.com', 'odnoklassniki': 'ok.ru', 'office365': 'office365.com', 'onlinesequencer': 'onlinesequencer.net', 'parler': 'parler.com', 'patreon': 'patreon.com', 'pinterest': 'pinterest.com', 'plurk': 'plurk.com', 'pornhub': 'pornhub.com', 'protonmail': 'protonmail.ch', 'quora': 'quora.com', 'rambler': 'rambler.ru', 'redtube': 'redtube.com', 'replit': 'replit.com', 'rocketreach': 'rocketreach.co', 'samsung': 'samsung.com', 'seoclerks': 'seoclerks.com', 'sevencups': '7cups.com', 'smule': 'smule.com', 'snapchat': 'snapchat.com', 'soundcloud': 'soundcloud.com', 'sporcle': 'sporcle.com', 'spotify': 'spotify.com', 'strava': 'strava.com', 'taringa': 'taringa.net', 'teamtreehouse': 'teamtreehouse.com', 'tellonym': 'tellonym.me', 'thecardboard': 'thecardboard.org', 'therianguide': 'forums.therian-guide.com', 'thevapingforum': 'thevapingforum.com', 'tumblr': 'tumblr.com', 'tunefind': 'tunefind.com', 'twitter': 'twitter.com', 'venmo': 'venmo.com', 'vivino': 'vivino.com', 'voxmedia': 'voxmedia.com', 'vrbo': 'vrbo.com', 'vsco': 'vsco.co', 'wattpad': 'wattpad.com', 'wordpress': 'wordpress.com', 'xing': 'xing.com', 'xnxx': 'xnxx.com', 'xvideos': 'xvideos.com', 'yahoo': 'yahoo.com','hubspot': 'hubspot.com', 'pipedrive': 'pipedrive.com', 'insightly': 'insightly.com', 'nutshell': 'nutshell.com', 'zoho': 'zoho.com', 'axonaut': 'axonaut.com', 'amocrm': 'amocrm.com', 'nimble': 'nimble.com', 'nocrm': 'nocrm.io', 'teamleader': 'teamleader.eu'}
-    try:
-        await module(email, client, out)
-    except Exception:
-        name=str(module).split('<function ')[1].split(' ')[0]
-        out.append({"name": name,"domain":data[name],
-                    "rateLimit": False,
-                    "error": True,
-                    "exists": False,
-                    "emailrecovery": None,
-                    "phoneNumber": None,
-                    "others": None})
+    async def _run():
+        try:
+            await module(email, client, out)
+        except Exception:
+            name = str(module).split('<function ')[1].split(' ')[0]
+            out.append({"name": name, "domain": data.get(name, name),
+                        "rateLimit": False,
+                        "error": True,
+                        "exists": False,
+                        "emailrecovery": None,
+                        "phoneNumber": None,
+                        "others": None})
+    if limiter is None:
+        await _run()
+    else:
+        async with limiter:
+            await _run()
+
+async def run_websites(websites, email, client, concurrency):
+    """Run website modules concurrently; return result list."""
+    out = []
+    if not websites:
+        return out
+    limiter = trio.CapacityLimiter(max(1, concurrency))
+    instrument = TrioProgress(len(websites))
+    trio.lowlevel.add_instrument(instrument)
+    async with trio.open_nursery() as nursery:
+        for website in websites:
+            nursery.start_soon(launch_module, website, email, client, out, limiter)
+    trio.lowlevel.remove_instrument(instrument)
+    return out
+
+
+def merge_results(previous, refreshed):
+    """Replace previous entries with refreshed ones when names match."""
+    by_name = {r["name"]: r for r in previous}
+    for r in refreshed:
+        by_name[r["name"]] = r
+    return sorted(by_name.values(), key=lambda i: i["name"])
+
+
+def modules_for_names(websites, names):
+    wanted = set(names)
+    return [w for w in websites if w.__name__ in wanted]
+
+
 async def maincore():
     parser= ArgumentParser(description=f"holehe v{__version__}")
     parser.add_argument("email",
@@ -193,6 +228,12 @@ async def maincore():
                     help="Create a CSV with the results")
     parser.add_argument("-T","--timeout", type=int , default=10, required=False,dest="timeout",
                     help="Set max timeout value (default 10)")
+    parser.add_argument("--concurrency", type=int, default=10, required=False, dest="concurrency",
+                    help="Max concurrent site checks (default 10)")
+    parser.add_argument("--retries", type=int, default=2, required=False, dest="retries",
+                    help="Extra passes for rate-limited sites only (default 2)")
+    parser.add_argument("--retry-delay", type=float, default=3.0, required=False, dest="retrydelay",
+                    help="Seconds to wait before each rate-limit retry (default 3)")
 
     check_update()
     args = parser.parse_args()
@@ -209,19 +250,30 @@ async def maincore():
     timeout=args.timeout
     # Start time
     start_time = time.time()
-    # Def the async client
-    client = httpx.AsyncClient(timeout=timeout)
-    # Launching the modules
-    out = []
-    instrument = TrioProgress(len(websites))
-    trio.lowlevel.add_instrument(instrument)
-    async with trio.open_nursery() as nursery:
-        for website in websites:
-            nursery.start_soon(launch_module, website, email, client, out)
-    trio.lowlevel.remove_instrument(instrument)
-    # Sort by modules names
+    # Bound concurrency: unbounded nursery.start_soon floods sites and
+    # inflates false rate-limits / timeouts under shared httpx client.
+    limits = httpx.Limits(max_connections=args.concurrency,
+                          max_keepalive_connections=args.concurrency)
+    client = httpx.AsyncClient(timeout=timeout, limits=limits, follow_redirects=True)
+
+    out = await run_websites(websites, email, client, args.concurrency)
+
+    # Re-check only sites that reported rateLimit (often transient).
+    retries = max(0, args.retries)
+    for attempt in range(1, retries + 1):
+        limited_names = [r["name"] for r in out if r.get("rateLimit")]
+        if not limited_names:
+            break
+        retry_modules = modules_for_names(websites, limited_names)
+        print(f"[*] Retry {attempt}/{retries}: {len(retry_modules)} rate-limited site(s) "
+              f"(waiting {args.retrydelay}s)...")
+        await trio.sleep(args.retrydelay)
+        # Slightly lower concurrency on retries to ease pressure
+        retry_conc = max(1, min(args.concurrency, max(3, args.concurrency // 2)))
+        refreshed = await run_websites(retry_modules, email, client, retry_conc)
+        out = merge_results(out, refreshed)
+
     out = sorted(out, key=lambda i: i['name'])
-    # Close the client
     await client.aclose()
     # Print the result
     print_result(out,args,email,start_time,websites)
