@@ -170,7 +170,7 @@ async def launch_module(module, email, client, out, limiter=None):
             await module(email, client, out)
         except Exception:
             name = str(module).split('<function ')[1].split(' ')[0]
-            out.append({"name": name, "domain": data[name],
+            out.append({"name": name, "domain": data.get(name, name),
                         "rateLimit": False,
                         "error": True,
                         "exists": False,
@@ -182,6 +182,35 @@ async def launch_module(module, email, client, out, limiter=None):
     else:
         async with limiter:
             await _run()
+
+async def run_websites(websites, email, client, concurrency):
+    """Run website modules concurrently; return result list."""
+    out = []
+    if not websites:
+        return out
+    limiter = trio.CapacityLimiter(max(1, concurrency))
+    instrument = TrioProgress(len(websites))
+    trio.lowlevel.add_instrument(instrument)
+    async with trio.open_nursery() as nursery:
+        for website in websites:
+            nursery.start_soon(launch_module, website, email, client, out, limiter)
+    trio.lowlevel.remove_instrument(instrument)
+    return out
+
+
+def merge_results(previous, refreshed):
+    """Replace previous entries with refreshed ones when names match."""
+    by_name = {r["name"]: r for r in previous}
+    for r in refreshed:
+        by_name[r["name"]] = r
+    return sorted(by_name.values(), key=lambda i: i["name"])
+
+
+def modules_for_names(websites, names):
+    wanted = set(names)
+    return [w for w in websites if w.__name__ in wanted]
+
+
 async def maincore():
     parser= ArgumentParser(description=f"holehe v{__version__}")
     parser.add_argument("email",
@@ -201,6 +230,10 @@ async def maincore():
                     help="Set max timeout value (default 10)")
     parser.add_argument("--concurrency", type=int, default=10, required=False, dest="concurrency",
                     help="Max concurrent site checks (default 10)")
+    parser.add_argument("--retries", type=int, default=2, required=False, dest="retries",
+                    help="Extra passes for rate-limited sites only (default 2)")
+    parser.add_argument("--retry-delay", type=float, default=3.0, required=False, dest="retrydelay",
+                    help="Seconds to wait before each rate-limit retry (default 3)")
 
     check_update()
     args = parser.parse_args()
@@ -222,18 +255,25 @@ async def maincore():
     limits = httpx.Limits(max_connections=args.concurrency,
                           max_keepalive_connections=args.concurrency)
     client = httpx.AsyncClient(timeout=timeout, limits=limits, follow_redirects=True)
-    # Launching the modules
-    out = []
-    limiter = trio.CapacityLimiter(args.concurrency)
-    instrument = TrioProgress(len(websites))
-    trio.lowlevel.add_instrument(instrument)
-    async with trio.open_nursery() as nursery:
-        for website in websites:
-            nursery.start_soon(launch_module, website, email, client, out, limiter)
-    trio.lowlevel.remove_instrument(instrument)
-    # Sort by modules names
+
+    out = await run_websites(websites, email, client, args.concurrency)
+
+    # Re-check only sites that reported rateLimit (often transient).
+    retries = max(0, args.retries)
+    for attempt in range(1, retries + 1):
+        limited_names = [r["name"] for r in out if r.get("rateLimit")]
+        if not limited_names:
+            break
+        retry_modules = modules_for_names(websites, limited_names)
+        print(f"[*] Retry {attempt}/{retries}: {len(retry_modules)} rate-limited site(s) "
+              f"(waiting {args.retrydelay}s)...")
+        await trio.sleep(args.retrydelay)
+        # Slightly lower concurrency on retries to ease pressure
+        retry_conc = max(1, min(args.concurrency, max(3, args.concurrency // 2)))
+        refreshed = await run_websites(retry_modules, email, client, retry_conc)
+        out = merge_results(out, refreshed)
+
     out = sorted(out, key=lambda i: i['name'])
-    # Close the client
     await client.aclose()
     # Print the result
     print_result(out,args,email,start_time,websites)
