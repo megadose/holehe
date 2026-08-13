@@ -57,6 +57,13 @@ async def instagram(email, client, out):
                             "emailrecovery": None,
                             "phoneNumber": None,
                             "others": None})
+            else:
+                out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
+                            "rateLimit": True,
+                            "exists": False,
+                            "emailrecovery": None,
+                            "phoneNumber": None,
+                            "others": None})
         else:
             out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
                         "rateLimit": False,
