@@ -17,12 +17,12 @@ async def mail_ru(email, client, out):
         'sec-fetch-site': 'same-origin',
         'sec-fetch-mode': 'cors',
         'sec-fetch-dest': 'empty',
-        'referer': 'https://account.mail.ru/recovery?email={email}',
+        'referer': f'https://account.mail.ru/recovery?email={email}',
         'user-agent': random.choice(ua["browsers"]["chrome"]),
         'accept-language': 'ru',
     }
 
-    data = 'email={email}&htmlencoded=false'.replace('@', '%40')
+    data = f'email={email}&htmlencoded=false'.replace('@', '%40')
     try:
         response = await client.post(
             'https://account.mail.ru/api/v1/user/password/restore',
