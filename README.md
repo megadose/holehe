@@ -83,7 +83,7 @@ For each module, data is returned in a standard dictionary with the following js
 }
 ```
 
-- rateLitmit : Lets you know if you've been rate-limited.
+- rateLimit : Lets you know if you've been rate-limited.
 - exists : If an account exists for the email on that service.
 - emailrecovery : Sometimes partially obfuscated recovery emails are returned.
 - phoneNumber : Sometimes partially obfuscated recovery phone numbers are returned.
