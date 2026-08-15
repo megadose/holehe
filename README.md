@@ -29,7 +29,7 @@ Holehe checks if an email is attached to an account on sites like twitter, insta
 ```bash
 git clone https://github.com/megadose/holehe.git
 cd holehe/
-python3 setup.py install
+pip3 install .
 ```
 
 ### With Docker
