@@ -2,6 +2,13 @@ from holehe.core import *
 from holehe.localuseragent import *
 
 
+def _marker_value(text, marker):
+    _, found, value = text.partition(marker)
+    if not found:
+        return None
+    return value.split('"')[0]
+
+
 async def snapchat(email, client, out):
     name = "snapchat"
     domain = "snapchat.com"
@@ -9,8 +16,16 @@ async def snapchat(email, client, out):
     frequent_rate_limit=False
 
     req = await client.get("https://accounts.snapchat.com")
-    xsrf = req.text.split('data-xsrf="')[1].split('"')[0]
-    webClientId = req.text.split('ata-web-client-id="')[1].split('"')[0]
+    xsrf = _marker_value(req.text, 'data-xsrf="')
+    webClientId = _marker_value(req.text, 'ata-web-client-id="')
+    if not xsrf or not webClientId:
+        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
+                    "rateLimit": True,
+                    "exists": False,
+                    "emailrecovery": None,
+                    "phoneNumber": None,
+                    "others": None})
+        return None
     url = "https://accounts.snapchat.com/accounts/merlin/login"
     headers = {
         "Host": "accounts.snapchat.com",
