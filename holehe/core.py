@@ -17,6 +17,7 @@ import sys
 import string
 import random
 import json
+from shutil import get_terminal_size
 
 from holehe.localuseragent import ua
 from holehe.instruments import TrioProgress
@@ -103,6 +104,11 @@ def is_email(email: str) -> bool:
 
     return bool(re.fullmatch(EMAIL_FORMAT, email))
 
+def clear_screen_preserving_history():
+    """Scroll the current screen into history before clearing the viewport."""
+    lines = max(get_terminal_size().lines, 1)
+    print("\n" * lines + "\033[H", end="")
+
 def print_result(data,args,email,start_time,websites):
     def print_color(text,color,args):
         if args.nocolor == False:
@@ -112,7 +118,7 @@ def print_result(data,args,email,start_time,websites):
 
     description = print_color("[+] Email used","green",args) + "," + print_color(" [-] Email not used", "magenta",args) + "," + print_color(" [x] Rate limit","yellow",args) + "," + print_color(" [!] Error","red",args)
     if args.noclear==False:
-        print("\033[H\033[J")
+        clear_screen_preserving_history()
     else:
         print("\n")
     print("*" * (len(email) + 6))
