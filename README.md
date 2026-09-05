@@ -1,51 +1,46 @@
-# **Holehe OSINT - Email to Registered Accounts**
-👋 Hi there! For any professional inquiries or collaborations, please reach out to me at:
-megadose@protonmail.com
+# **MailScope OSINT - Email to Registered Accounts**
 
-📧 Preferably, use your professional email for correspondence. Let's keep it short and sweet, and all in English!
-
-![](https://files.catbox.moe/5we2ya.png)
-![PyPI](https://img.shields.io/pypi/v/holehe) ![PyPI - Week](https://img.shields.io/pypi/dw/holehe) ![PyPI - Downloads](https://static.pepy.tech/badge/holehe) ![PyPI - License](https://img.shields.io/pypi/l/holehe)
-
-# [Holehe Online Version](https://osint.industries/)
-
-## **Summary**
-
-*Efficiently finding registered accounts from emails.*
-
-Holehe checks if an email is attached to an account on sites like twitter, instagram, imgur and more than 120 others.
+MailScope checks if an email is attached to an account across more than 120 websites (Twitter, Instagram, Imgur, and more) with intelligent rate-limit mitigation and proxy rotation.
 
 + Retrieves information using the forgotten password function.
-+ **[Does not alert the target email.](https://github.com/megadose/holehe/issues/12)**
-+ Runs on [Python 3](https://www.python.org/downloads/release/python-370/).
++ **Does not alert the target email.**
++ **Aggressive HTTP 429 Mitigation**: Low-concurrency worker ceiling (default 2 workers, `--sequential`), randomized human-like jitter pacing (0.5s–1.8s), and automatic exponential backoff retry.
++ **Proxy & IP Rotation**: Route requests through `--proxy` (HTTP/SOCKS5) or `--proxy-file` with round-robin distribution and instant rotation on connection block/429.
++ **Module Filtering & Inspection**: Filter via `--only`, `--exclude`, and list all modules via `--list-sites`.
+
 ## 🛠️ Installation
-
-### With PyPI
-
-```pip3 install holehe```
-
-### With Github
 
 ```bash
 git clone https://github.com/megadose/holehe.git
 cd holehe/
-python3 setup.py install
-```
-
-### With Docker
-
-```bash
-docker build . -t my-holehe-image
-docker run my-holehe-image holehe test@gmail.com
+pip install -e .
 ```
 
 ## Quick Start
 
-Holehe can be run from the CLI and rapidly embedded within existing python applications.
-### 📚 CLI Example
+### 📚 CLI Examples
 
 ```bash
-holehe test@gmail.com
+# Basic run
+mailscope target@example.com
+
+# Sequential execution with strict rate limit defense
+mailscope target@example.com --sequential
+
+# Single HTTP or SOCKS5 proxy
+mailscope target@example.com --proxy socks5://127.0.0.1:1080
+
+# Proxy rotation pool (rotates round-robin and on HTTP 429 / connection block)
+mailscope target@example.com --proxy-file proxies.txt
+
+# Run checks only on specific sites
+mailscope target@example.com --only twitter instagram spotify
+
+# Exclude specific sites
+mailscope target@example.com --exclude adobe samsung
+
+# List all available modules
+mailscope --list-sites
 ```
 ### 📈 Python Example
 

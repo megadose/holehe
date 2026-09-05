@@ -3,16 +3,19 @@ from setuptools import setup, find_packages
 
 
 setup(
-    name='holehe',
-    version="1.61",
+    name='mailscope',
+    version="2.0.0",
     packages=find_packages(),
     author="megadose",
     author_email="megadose@protonmail.com",
-    install_requires=["termcolor","bs4","httpx","trio","tqdm","colorama"],
-    description="holehe allows you to check if the mail is used on different sites like twitter, instagram , snapchat and will retrieve information on sites with the forgotten password function.",
+    install_requires=["termcolor", "bs4", "httpx", "trio", "tqdm", "colorama", "socksio"],
+    description="MailScope checks if an email address is associated with accounts across numerous online services with intelligent rate-limit defense and proxy rotation.",
     include_package_data=True,
-    url='http://github.com/megadose/holehe',
-    entry_points = {'console_scripts': ['holehe = holehe.core:main']},
+    url='https://github.com/megadose/holehe',
+    entry_points={'console_scripts': [
+        'mailscope = mailscope.core:main',
+        'holehe = mailscope.core:main',
+    ]},
     classifiers=[
         "Programming Language :: Python",
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
