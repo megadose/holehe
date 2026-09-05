@@ -1,12 +1,13 @@
 from holehe.core import *
 from holehe.localuseragent import *
+import random
 
 
 async def wordpress(email, client, out):
     name = "wordpress"
     domain = "wordpress.com"
-    method= "login"
-    frequent_rate_limit=False
+    method = "login"
+    frequent_rate_limit = False
 
     cookies = {
         'G_ENABLED_IDPS': 'google',
@@ -18,8 +19,8 @@ async def wordpress(email, client, out):
 
     headers = {
         'User-Agent': random.choice(ua["browsers"]["firefox"]),
-        'Accept': '*/*',
-        'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
+        'Accept': 'application/json, */*',
+        'Accept-Language': 'en-US,en;q=0.5',
         'DNT': '1',
         'Connection': 'keep-alive',
         'TE': 'Trailers',
@@ -27,45 +28,39 @@ async def wordpress(email, client, out):
 
     params = {
         'http_envelope': '1',
-        'locale': 'fr',
+        'locale': 'en',
     }
+
     try:
-        response = await client.get('https://public-api.wordpress.com/rest/v1.1/users/' + email + '/auth-options', headers=headers, params=params, cookies=cookies)
-    except Exception:
-        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
-                    "rateLimit": True,
-                    "exists": False,
-                    "emailrecovery": None,
-                    "phoneNumber": None,
-                    "others": None})
-        return None
-    info = response.json()
-    if "email_verified" in info["body"].keys():
-        if info["body"]["email_verified"]:
-            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
-                        "rateLimit": False,
-                        "exists": True,
-                        "emailrecovery": None,
-                        "phoneNumber": None,
-                        "others": None})
+        response = await client.get(
+            'https://public-api.wordpress.com/rest/v1.1/users/' + email + '/auth-options',
+            headers=headers,
+            params=params,
+            cookies=cookies
+        )
+
+        try:
+            info = response.json()
+        except Exception:
+            out.append({"name": name, "domain": domain, "method": method, "frequent_rate_limit": frequent_rate_limit,
+                        "rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            return None
+
+        body = info.get("body") if isinstance(info, dict) else {}
+
+        if isinstance(body, dict) and "email_verified" in body:
+            if body["email_verified"]:
+                out.append({"name": name, "domain": domain, "method": method, "frequent_rate_limit": frequent_rate_limit,
+                            "rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+            else:
+                out.append({"name": name, "domain": domain, "method": method, "frequent_rate_limit": frequent_rate_limit,
+                            "rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+        elif "unknown_user" in str(info) or "email_login_not_allowed" in str(info):
+            out.append({"name": name, "domain": domain, "method": method, "frequent_rate_limit": frequent_rate_limit,
+                        "rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
         else:
-            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
-                        "rateLimit": False,
-                        "exists": False,
-                        "emailrecovery": None,
-                        "phoneNumber": None,
-                        "others": None})
-    elif "unknown_user" in str(info) or "email_login_not_allowed" in str(info):
-        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
-                    "rateLimit": False,
-                    "exists": False,
-                    "emailrecovery": None,
-                    "phoneNumber": None,
-                    "others": None})
-    else:
-        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
-                    "rateLimit": True,
-                    "exists": False,
-                    "emailrecovery": None,
-                    "phoneNumber": None,
-                    "others": None})
+            out.append({"name": name, "domain": domain, "method": method, "frequent_rate_limit": frequent_rate_limit,
+                        "rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    except Exception:
+        out.append({"name": name, "domain": domain, "method": method, "frequent_rate_limit": frequent_rate_limit,
+                    "rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})

@@ -1,0 +1,24 @@
+Metadata-Version: 2.4
+Name: mailscope
+Version: 2.0.0
+Summary: MailScope checks if an email address is associated with accounts across numerous online services with intelligent rate-limit defense and proxy rotation.
+Home-page: https://github.com/megadose/holehe
+Author: megadose
+Author-email: megadose@protonmail.com
+Classifier: Programming Language :: Python
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+License-File: LICENSE.md
+Requires-Dist: termcolor
+Requires-Dist: bs4
+Requires-Dist: httpx
+Requires-Dist: trio
+Requires-Dist: tqdm
+Requires-Dist: colorama
+Requires-Dist: socksio
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: summary

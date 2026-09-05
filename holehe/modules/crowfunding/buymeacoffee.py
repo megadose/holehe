@@ -1,17 +1,20 @@
 from holehe.core import *
 from holehe.localuseragent import *
+from bs4 import BeautifulSoup
+import string
+import random
 
 
 async def buymeacoffee(email, client, out):
     name = "buymeacoffee"
     domain = "buymeacoffee.com"
-    method= "register"
-    frequent_rate_limit=True
+    method = "register"
+    frequent_rate_limit = True
 
     def get_random_string(length):
         letters = string.ascii_lowercase
-        result_str = ''.join(random.choice(letters) for i in range(length))
-        return(result_str)
+        return ''.join(random.choice(letters) for _ in range(length))
+
     headers = {
         'User-Agent': random.choice(ua["browsers"]["chrome"]),
         'Accept': 'application/json, text/javascript, */*; q=0.01',
@@ -21,60 +24,56 @@ async def buymeacoffee(email, client, out):
         'DNT': '1',
         'TE': 'Trailers',
     }
-    r = await client.get("https://www.buymeacoffee.com/", headers=headers)
-    if r.status_code == 200:
+
+    try:
+        r = await client.get("https://www.buymeacoffee.com/", headers=headers)
+        if r.status_code != 200:
+            out.append({"name": name, "domain": domain, "method": method, "frequent_rate_limit": frequent_rate_limit,
+                        "rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            return None
+
         soup = BeautifulSoup(r.content, features="html.parser")
-        csrf_token = soup.find(attrs={'name': 'bmc_csrf_token'}).get("value")
-    else:
-        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
-                    "rateLimit": True,
-                    "exists": False,
-                    "emailrecovery": None,
-                    "phoneNumber": None,
-                    "others": None})
-        return None
+        csrf_elem = soup.find(attrs={'name': 'bmc_csrf_token'}) or soup.find('input', {'name': '_token'})
+        csrf_token = csrf_elem.get("value") if csrf_elem else None
 
-    cookies = {
-        'bmccsrftoken': csrf_token,
-    }
-    data = {
-        'email': email,
-        'password': get_random_string(20),
-        'bmc_csrf_token': csrf_token
-    }
+        if not csrf_token:
+            out.append({"name": name, "domain": domain, "method": method, "frequent_rate_limit": frequent_rate_limit,
+                        "rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            return None
 
-    r = await client.post(
-        'https://www.buymeacoffee.com/auth/validate_email_and_password',
-        headers=headers,
-        cookies=cookies,
-        data=data)
-    if r.status_code == 200:
-        data = r.json()
-        if data["status"] == "SUCCESS":
-            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
-                        "rateLimit": False,
-                        "exists": False,
-                        "emailrecovery": None,
-                        "phoneNumber": None,
-                        "others": None})
-        elif data["status"] == "FAIL" and "email" in str(data):
-            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
-                        "rateLimit": False,
-                        "exists": True,
-                        "emailrecovery": None,
-                        "phoneNumber": None,
-                        "others": None})
+        cookies = {
+            'bmccsrftoken': csrf_token,
+        }
+        data = {
+            'email': email,
+            'password': get_random_string(20),
+            'bmc_csrf_token': csrf_token
+        }
+
+        r = await client.post(
+            'https://www.buymeacoffee.com/auth/validate_email_and_password',
+            headers=headers,
+            cookies=cookies,
+            data=data)
+
+        if r.status_code == 200:
+            try:
+                data_json = r.json()
+            except Exception:
+                data_json = {}
+
+            if data_json.get("status") == "SUCCESS":
+                out.append({"name": name, "domain": domain, "method": method, "frequent_rate_limit": frequent_rate_limit,
+                            "rateLimit": False, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+            elif data_json.get("status") == "FAIL" and "email" in str(data_json):
+                out.append({"name": name, "domain": domain, "method": method, "frequent_rate_limit": frequent_rate_limit,
+                            "rateLimit": False, "exists": True, "emailrecovery": None, "phoneNumber": None, "others": None})
+            else:
+                out.append({"name": name, "domain": domain, "method": method, "frequent_rate_limit": frequent_rate_limit,
+                            "rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
         else:
-            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
-                        "rateLimit": True,
-                        "exists": False,
-                        "emailrecovery": None,
-                        "phoneNumber": None,
-                        "others": None})
-    else:
-        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
-                    "rateLimit": True,
-                    "exists": False,
-                    "emailrecovery": None,
-                    "phoneNumber": None,
-                    "others": None})
+            out.append({"name": name, "domain": domain, "method": method, "frequent_rate_limit": frequent_rate_limit,
+                        "rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
+    except Exception:
+        out.append({"name": name, "domain": domain, "method": method, "frequent_rate_limit": frequent_rate_limit,
+                    "rateLimit": True, "exists": False, "emailrecovery": None, "phoneNumber": None, "others": None})
