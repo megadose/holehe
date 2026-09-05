@@ -1,6 +1,6 @@
-# **MailScope OSINT - Email to Registered Accounts**
+# **Holehe OSINT - Email to Registered Accounts**
 
-MailScope checks if an email is attached to an account across more than 120 websites (Twitter, Instagram, Imgur, and more) with intelligent rate-limit mitigation and proxy rotation.
+Holehe checks if an email is attached to an account across more than 120 websites (Twitter, Instagram, Imgur, and more) with intelligent rate-limit mitigation and proxy rotation.
 
 + Retrieves information using the forgotten password function.
 + **Does not alert the target email.**
@@ -22,25 +22,25 @@ pip install -e .
 
 ```bash
 # Basic run
-mailscope target@example.com
+holehe target@example.com
 
 # Sequential execution with strict rate limit defense
-mailscope target@example.com --sequential
+holehe target@example.com --sequential
 
 # Single HTTP or SOCKS5 proxy
-mailscope target@example.com --proxy socks5://127.0.0.1:1080
+holehe target@example.com --proxy socks5://127.0.0.1:1080
 
 # Proxy rotation pool (rotates round-robin and on HTTP 429 / connection block)
-mailscope target@example.com --proxy-file proxies.txt
+holehe target@example.com --proxy-file proxies.txt
 
 # Run checks only on specific sites
-mailscope target@example.com --only twitter instagram spotify
+holehe target@example.com --only twitter instagram spotify
 
 # Exclude specific sites
-mailscope target@example.com --exclude adobe samsung
+holehe target@example.com --exclude adobe samsung
 
 # List all available modules
-mailscope --list-sites
+holehe --list-sites
 ```
 ### 📈 Python Example
 

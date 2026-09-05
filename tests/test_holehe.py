@@ -6,18 +6,18 @@ import trio
 import httpx
 from argparse import Namespace
 
-from mailscope.defense import (
+from holehe.defense import (
     RateLimitedException,
     RequestPacer,
     parse_retry_after,
     get_backoff_delay,
 )
-from mailscope.proxy import (
+from holehe.proxy import (
     ProxyRotator,
     SiteClient,
     ClientManager,
 )
-from mailscope.core import (
+from holehe.core import (
     get_functions,
     import_submodules,
     launch_module,
@@ -193,7 +193,7 @@ class TestBackoffAndRetry(unittest.TestCase):
 class TestModuleFiltering(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.modules = import_submodules("mailscope.modules")
+        cls.modules = import_submodules("holehe.modules")
 
     def test_filter_only_single(self):
         args = Namespace(only_modules=["twitter"], exclude_modules=None, nopasswordrecovery=False)
