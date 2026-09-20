@@ -31,49 +31,22 @@ async def discord(email, client, out):
         'https://discord.com/api/v8/auth/register',
         headers=headers,
         data=data)
-    responseData = response.json()
-    try:
-        if "code" in responseData.keys():
-            try:
-                if responseData["errors"]["email"]["_errors"][0]['code'] == "EMAIL_ALREADY_REGISTERED":
-                    out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
-                                "rateLimit": False,
-                                "exists": True,
-                                "emailrecovery": None,
-                                "phoneNumber": None,
-                                "others": None})
-                else:
-                    out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
-                                "rateLimit": False,
-                                "exists": False,
-                                "emailrecovery": None,
-                                "phoneNumber": None,
-                                "others": None})
-            except Exception:
-                out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
-                            "rateLimit": True,
-                            "exists": False,
-                            "emailrecovery": None,
-                            "phoneNumber": None,
-                            "others": None})
-        elif responseData["captcha_key"][0] == "captcha-required":
-            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
-                        "rateLimit": False,
-                        "exists": False,
-                        "emailrecovery": None,
-                        "phoneNumber": None,
-                        "others": None})
-        else:
-            out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
-                        "rateLimit": True,
-                        "exists": False,
-                        "emailrecovery": None,
-                        "phoneNumber": None,
-                        "others": None})
-    except Exception:
-        out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
-                    "rateLimit": True,
-                    "exists": False,
-                    "emailrecovery": None,
-                    "phoneNumber": None,
-                    "others": None})
+    # CAPTCHA and validation failures do not prove an email is unused.
+    # Use the existing blocked-result flag unless Discord confirms registration.
+    exists = False
+    if response.status_code == 400:
+        try:
+            responseData = response.json()
+            errors = responseData["errors"]["email"]["_errors"]
+            exists = any(
+                error["code"] == "EMAIL_ALREADY_REGISTERED"
+                for error in errors)
+        except (ValueError, KeyError, TypeError):
+            pass
+
+    out.append({"name": name,"domain":domain,"method":method,"frequent_rate_limit":frequent_rate_limit,
+                "rateLimit": not exists,
+                "exists": exists,
+                "emailrecovery": None,
+                "phoneNumber": None,
+                "others": None})
