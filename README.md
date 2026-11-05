@@ -2,7 +2,7 @@
 👋 Hi there! For any professional inquiries or collaborations, please reach out to me at:
 megadose@protonmail.com
 
-📧 Preferably, use your professional email for correspondence. Let's keep it short and sweet, and all in English!
+📧 Preferably , use your professional email for correspondence. Let's keep it short and sweet, and all in English!
 
 ![](https://files.catbox.moe/5we2ya.png)
 ![PyPI](https://img.shields.io/pypi/v/holehe) ![PyPI - Week](https://img.shields.io/pypi/dw/holehe) ![PyPI - Downloads](https://static.pepy.tech/badge/holehe) ![PyPI - License](https://img.shields.io/pypi/l/holehe)
