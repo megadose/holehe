@@ -31,6 +31,14 @@ except Exception:
 DEBUG        = False
 EMAIL_FORMAT = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
 
+# Every result row is written with the same columns, whether it comes from a
+# successful module or from the exception handler in launch_module().
+RESULT_FIELDS = [
+    "name", "domain", "method", "frequent_rate_limit",
+    "rateLimit", "exists", "emailrecovery", "phoneNumber",
+    "others", "error",
+]
+
 __version__ = "1.61"
 
 
@@ -154,11 +162,13 @@ def print_result(data,args,email,start_time,websites):
 def export_csv(data,args,email):
     """Export result to csv"""
     if args.csvoutput == True:
+        if not data:
+            exit("No results to export")
         now = datetime.now()
         timestamp = datetime.timestamp(now)
         name_file="holehe_"+str(round(timestamp))+"_"+email+"_results.csv"
         with open(name_file, 'w', encoding='utf8', newline='') as output_file:
-            fc = csv.DictWriter(output_file,fieldnames=data[0].keys())
+            fc = csv.DictWriter(output_file, fieldnames=RESULT_FIELDS, extrasaction='ignore')
             fc.writeheader()
             fc.writerows(data)
         exit("All results have been exported to "+name_file)
@@ -168,8 +178,11 @@ async def launch_module(module,email, client, out):
     try:
         await module(email, client, out)
     except Exception:
-        name=str(module).split('<function ')[1].split(' ')[0]
-        out.append({"name": name,"domain":data[name],
+        name = getattr(module, "__name__", str(module))
+        out.append({"name": name,
+                    "domain": data.get(name, f"{name}.com"),
+                    "method": "None",
+                    "frequent_rate_limit": False,
                     "rateLimit": False,
                     "error": True,
                     "exists": False,
